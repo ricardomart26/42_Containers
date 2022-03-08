@@ -3,6 +3,9 @@
 
 #include <cstring>
 
+
+
+
 namespace ft 
 {
     template <class T>
@@ -29,13 +32,13 @@ namespace ft
                     ~iterator();
                     iterator &operator = (const iterator *rhs)
                     {
-
+                        
                         return ();
                     }
             }
 
         private:
-            T       _arr;
+            T       *_arr;
             size_t  _capacity;
     };
 }
@@ -49,7 +52,7 @@ ft::vector<T>::vector()
 template <class T>
 ft::vector<T>::vector(size_t n)
 {
-    _arr = new int[n];
+    _arr = new T[n];
     _capacity = n;
     for (auto i = 0; i < n; i++)
         _arr[i] = 0;
@@ -58,7 +61,7 @@ ft::vector<T>::vector(size_t n)
 template <class T>
 ft::vector<T>::vector(size_t n, const T &val)
 {
-    _arr = new int[n];
+    _arr = new T[n];
     _capacity = n;
     for (auto i = 0; i < n; i++)
         _arr[i] = val;
