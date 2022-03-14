@@ -6,3 +6,8 @@ Vector:
 
 	Iterator:
 		https://www.youtube.com/watch?v=F9eDv-YIOQ0
+
+	Type traits:
+		https://www.internalpointers.com/post/quick-primer-type-traits-modern-cpp
+
+	For initialized lists: https://www.cplusplus.com/reference/vector/vector/vector/

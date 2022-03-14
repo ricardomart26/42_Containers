@@ -12,8 +12,7 @@
 template<typename _Tp, typename _Alloc>
 struct _Vector_base
 {
-	typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
-		rebind<_Tp>::other _Tp_alloc_type;
+	typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template rebind<_Tp>::other _Tp_alloc_type;
 	typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer pointer;
 
 	struct _Vector_impl_data
@@ -23,8 +22,7 @@ struct _Vector_base
 		pointer _M_end_of_storage;
 
 		_Vector_impl_data() _GLIBCXX_NOEXCEPT
-		: _M_start(), _M_finish(), _M_end_of_storage()
-		{ }
+		: _M_start(), _M_finish(), _M_end_of_storage() { }
 
 		_Vector_impl_data(_Vector_impl_data&& __x) noexcept
 		: _M_start(__x._M_start), _M_finish(__x._M_finish),
@@ -51,8 +49,7 @@ struct _Vector_base
 		}
 	};
 
-	struct _Vector_impl
-		: public _Tp_alloc_type, public _Vector_impl_data
+	struct _Vector_impl : public _Tp_alloc_type, public _Vector_impl_data
 	{
 		_Vector_impl() _GLIBCXX_NOEXCEPT_IF(
 			is_nothrow_default_constructible<_Tp_alloc_type>::value)
@@ -87,14 +84,13 @@ struct _Vector_base
 	public:
 		typedef _Alloc allocator_type;
 
-		_Tp_alloc_type&
-		_M_get_Tp_allocator() _GLIBCXX_NOEXCEPT
+		_Tp_alloc_type& _M_get_Tp_allocator() _GLIBCXX_NOEXCEPT
 		{ return this->_M_impl; }	
-		const _Tp_alloc_type&
-		_M_get_Tp_allocator() const _GLIBCXX_NOEXCEPT
+		
+            const _Tp_alloc_type& _M_get_Tp_allocator() const _GLIBCXX_NOEXCEPT
 		{ return this->_M_impl; }	
-		allocator_type
-		get_allocator() const _GLIBCXX_NOEXCEPT
+		
+            allocator_type get_allocator() const _GLIBCXX_NOEXCEPT
 		{ return allocator_type(_M_get_Tp_allocator()); }
 
 		_Vector_base() = default;
@@ -102,13 +98,11 @@ struct _Vector_base
 		: _M_impl(__a) { }
 
 		//	 Kept for ABI compatibility.
-		_Vector_base(size_t __n)
-		: _M_impl()
+		_Vector_base(size_t __n) : _M_impl()
 		{ _M_create_storage(__n); }
 
-		_Vector_base(size_t __n, const allocator_type& __a)
-		: _M_impl(__a)
-		{ _M_create_storage(__n); }
+		_Vector_base(size_t __n, const allocator_type& __a) : _M_impl(__a)
+            { _M_create_storage(__n); }
 
 		_Vector_base(_Vector_base&&) = default;
 
@@ -1320,11 +1314,9 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 				     std::forward<_Args>(__args)...);
 	  }
 
-	~_Temporary_value()
-	{ _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
+	~_Temporary_value() { _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
 
-	value_type&
-	_M_val() { return *_M_ptr(); }
+	value_type& _M_val() { return *_M_ptr(); }
 
       private:
 	_Tp*

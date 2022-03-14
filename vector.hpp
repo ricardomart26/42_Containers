@@ -3,115 +3,234 @@
 
 #include <cstring>
 #include <memory>
+#include <iostream>
 
 namespace ft 
 {
-    template <class T>
-    class vector 
-    {
-        public:
-            vector();
-            vector(size_t n);
-            vector(size_t n, const T &val);
-            vector(const vector &obj);
-            ~vector();
-            vector operator = (const vector &rhs);
+	template <class Vec>
+	class VecIterator
+	{
+		public:
+			typedef typename Vec::value_type value_type;
+			typedef typename Vec::value_type* pointer;
+			typedef typename Vec::value_type& reference;
+			typedef typename Vec::diff_type diff_type;
+		public:
+			VecIterator(pointer ptr) : _ptr(ptr){} 
+			~VecIterator() {};
+			VecIterator& operator++()
+			{
+				_ptr++;
+				return *this;
+			}
 
-            void    reserve(size_t capacity);
-            void    push_back(const T &val);
-            void    assign(size_t n, const T &val);
-            // void    assign(size_t n, const T &val);
-            T       *begin();
-            T       *end();
-            size_t  capacity();
-            // template <class IT>
-            class iterator
-            {
-                public:
-                    iterator();
-                    ~iterator();
-                    iterator &operator = (const iterator *rhs)
-                    {
-                        
-                        return ();
-                    }
-            }
+			VecIterator operator++(int)
+			{
+				VecIterator temp = *this;
+				++(*this);
+				return temp;
+			}
 
-        private:
+			VecIterator& operator--()
+			{
+				_ptr--;
+				return *this;
+			}
 
-            T       *_arr;
-            size_t  _capacity;
-            size_t  _size;
-            
-            std::allocator<T> _alloc;
-    };
-}
+			VecIterator operator--(int)
+			{
+				VecIterator temp = *this;
+				--(*this);
+				return temp;
+			}
 
-template <class T>
-ft::vector<T>::vector()
-{
-    _capacity = 0;
-}
+			reference operator[] (int index)
+			{return *(_ptr + index);}
 
-template <class T>
-ft::vector<T>::vector(size_t n)
-{
-    _capacity = n;
-    _arr = _alloc.allocate(n);
-    for (auto i = 0; i < n; i++)
-        _alloc.construct(_arr + i, 0);
-}
+			reference operator*()
+			{ return *(_ptr);}
+			// VecIterator &operator = (const VecIterator *rhs)
+			// {
 
-template <class T>
-ft::vector<T>::vector(size_t n, const T &val)
-{
-    _arr = _alloc.allocate(n);
-    _capacity = n;
-    for (auto i = 0; i < n; i++)
-        _alloc.construct(_arr + i, val);
-}
+			// }
+			diff_type operator - (const VecIterator &rhs) const
+			{
+				return (_ptr - rhs._ptr);
+			}
+			
+			VecIterator operator + (const diff_type &rhs) const
+			{
+				// std::cout << "operator + with diff_type\n";
+				return (_ptr + rhs);
+			}
 
-template <class T>
-ft::vector<T>::vector()
-{
+			bool    operator == (const VecIterator &rhs) const
+			{return _ptr == rhs._ptr;}
 
-}
+			bool    operator != (const VecIterator &rhs) const
+			{ return _ptr != rhs._ptr;}
 
-template<class T>
-void    ft::vector<T>::reserve(size_t capacity)
-{
-    T *temp;
+		
+		private:
+			pointer _ptr;
+	};
+	
+	template <class T>
+	class vector 
+	{
+		public:
+			typedef T value_type;
+			typedef VecIterator<vector<T> > iterator;
+			typedef ptrdiff_t diff_type;
+			// typedef __gnu_cxx::iterator_traits<T>::
+			typedef const iterator const_iterator;
+		public:
 
-    temp = alloc.allocate(this->_capacity);
-    for (int i = 0; i < this->_capacity; i++)
-        temp.construct(temp + i, this->_arr[i]);
+			/**
+			 * 
+			 *  Contructors
+			 * 
+			 */ 
 
-    _alloc.deallocate(_arr, capacity);
-    _arr = _alloc.allocate(capacity);
-    for (auto i = 0; i < capacity; i++)
-        _alloc.construct(_arr + i, temp[i]);
-    temp.deallocate(temp, capacity);
-}
+			vector() {
+				std::cout << "Vector constructed\n";
+				_arr = NULL;
+				_capacity = 0;
+				_size = 0;
+			}
 
+			// vector(std::initializer_list<T> l) {
+			// 	_size = l.size();
+			// 	_capacity = _size;
+			// 	_arr = _alloc.allocate(_capacity);
+			// 	for (size_t i = 0; i < _capacity; i++)
+			// 		_alloc.construct(_arr + i, l[i]);
+			// 	std::cout << "Vector constructed\n";
+			// }
 
-template <class T>
-size_t  ft::vector<T>::capacity()
-{
-    return (_capacity);
-}
+			vector(size_t n)
+			{
+				std::cout << "Vector constructed\n";
+				_capacity = n;
+				_size = n;
+				_arr = _alloc.allocate(n);
+				for (size_t i = 0; i < n; i++)
+					_alloc.construct(_arr + i, 0);
+			}
 
-template <class T>
-T   *ft::vector<T>::begin()
-{
-    T *ptr = _arr[0];
-    return (ptr);
-}
+			vector(size_t n, const T &val)
+			{
+				std::cout << "Vector constructed\n";
+				_arr = _alloc.allocate(n);
+				_capacity = n;
+				_size = n;
+				for (size_t i = 0; i < n; i++)
+					_alloc.construct(_arr + i, val);
+			}
 
-template <class T>
-T   *ft::vector<T>::end()
-{
-    T *ptr = _arr[_capacity - 1];
-    return (ptr);
+			vector(const vector &obj) {
+				std::cout << "Vector Copy constructor\n";
+				_capacity = obj._capacity;
+				_size = obj._size;
+			}
+			
+			~vector() {
+				std::cout << "Vector deconstructed\n";
+				_destroy_arr();
+			}
+			
+			vector	&operator = (const vector &rhs) {
+				if (this == &rhs)
+					return (*this);
+				if (_capacity != 0)
+					_destroy_arr();
+				_capacity = rhs._capacity;
+				_size = rhs._size;
+				if (_alloc != rhs._alloc)
+					_alloc = rhs._alloc;
+				_arr = _alloc.allocate(_capacity);
+				for (size_t i = 0; i < _capacity; i++)
+					_alloc.construct(_arr + i, rhs._arr[i]);
+				return (*this);
+			}
+
+			/**
+			 * 
+			 * Member Functions
+			 * 
+			 */ 
+
+			void	reserve(size_t newCapacity) {
+				if (newCapacity <= _capacity)
+					return ;
+				T *temp = _alloc.allocate(newCapacity);
+				for (size_t i = 0; i < _capacity; i++)
+					_alloc.construct(temp + i, _arr[i]);
+				for (size_t i = _capacity; i < newCapacity; i++)
+					_alloc.construct(temp + i, 0);
+				_destroy_arr();
+				_arr = temp;
+				_capacity = newCapacity;
+			}
+
+			void    push_back(const T &val) {
+				// std::cout << "size: "<< _size<<" capacity: "<<_capacity<<"\n";
+				if (_capacity == 0)
+					reserve(2);
+				if (_size >= _capacity)
+					reserve(_capacity * 2);
+				_alloc.construct(_arr + _size, val);
+				_size++;
+			}
+
+			iterator  insert(const_iterator position, size_t n, const T& val)
+			{
+				// std::cout << *position << std::endl;
+				diff_type offset = position - cbegin();
+				if (_size == 0)
+					return (nullptr);
+				if (_size + n > _capacity)
+					reserve(_size + n + 1);
+				T*	temp = _alloc.allocate(_capacity);
+				_size += n;
+				size_t x = 0;
+				for (size_t i = 0; i < _size; i++)
+				{
+					if (i < (size_t)offset || x == n)
+						_alloc.construct(temp + i, *(_arr + i - x));
+					else
+					{
+						_alloc.construct(temp + i, val);
+						x++;
+					}
+				}
+				_destroy_arr();
+				_arr = temp;
+				return (begin() + offset);
+			}
+			iterator  begin(){ return (iterator(_arr));}
+			const_iterator  cbegin(){ return (const_iterator(_arr));}
+			iterator  end() { return (iterator(_arr + _size));}
+			const_iterator  cend(){ return (const_iterator(_arr + _size));}
+			size_t  capacity() {return (_capacity);};
+			size_t	size() {return (_size);}
+			void    assign(size_t n, const T &val);
+			// void    assign(size_t n, const T &val);
+
+		private:
+
+			void	_destroy_arr()
+			{
+				for (size_t i = 0; i < _capacity; i++)
+					_alloc.destroy(_arr + i);
+				_alloc.deallocate(_arr, _capacity);
+			}
+			T					*_arr;
+			size_t				_capacity;
+			size_t				_size;
+			std::allocator<T>	_alloc;
+	};
+
 }
 
 #endif
