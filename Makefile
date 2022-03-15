@@ -2,9 +2,9 @@ NAME = container
 
 CC = clang++ -Wall -Wextra -Werror -fsanitize=address -pedantic -std=c++11
 
-SRC = my_vector.cpp
+SRC = vector/my_vector.cpp
 
-SRC_TESTE = vector_test.cpp
+SRC_TESTE = vector/vector_test.cpp
 
 all: $(NAME)
 

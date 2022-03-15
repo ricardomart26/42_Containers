@@ -7,7 +7,8 @@
 
 namespace ft 
 {
-	template <class Vec>
+	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
+	// do template conseguimos usar as variaveis que declaramos na classe do vector
 	class VecIterator
 	{
 		public:
@@ -75,12 +76,14 @@ namespace ft
 			pointer _ptr;
 	};
 	
-	template <class T>
+	template <typename T>
 	class vector 
 	{
 		public:
 			typedef T value_type;
+			typedef value_type * pointer;
 			typedef VecIterator<vector<T> > iterator;
+			
 			typedef ptrdiff_t diff_type;
 			// typedef __gnu_cxx::iterator_traits<T>::
 			typedef const iterator const_iterator;
@@ -189,39 +192,43 @@ namespace ft
 				diff_type offset = position - cbegin();
 				if (_size == 0)
 					return (nullptr);
-				if (_size + n > _capacity)
-					reserve(_size + n + 1);
 				T*	temp = _alloc.allocate(_capacity);
 				_size += n;
-				size_t x = 0;
-				for (size_t i = 0; i < _size; i++)
+				if (_size > _capacity)
+					reserve(_size + 1);
+				for (size_t i = 0, x = 0; i < _size; i++)
 				{
-					if (i < (size_t)offset || x == n)
-						_alloc.construct(temp + i, *(_arr + i - x));
+					if (i < (size_t)offset || x >= n)
+						_alloc.construct(temp + i, *(_arr + i - n));
 					else
-					{
 						_alloc.construct(temp + i, val);
-						x++;
-					}
+					x++;
 				}
 				_destroy_arr();
 				_arr = temp;
 				return (begin() + offset);
 			}
+			
 			iterator  begin(){ return (iterator(_arr));}
 			const_iterator  cbegin(){ return (const_iterator(_arr));}
-			iterator  end() { return (iterator(_arr + _size));}
-			const_iterator  cend(){ return (const_iterator(_arr + _size));}
+			iterator  end() { return (iterator(_arr + _size + 1));}
+			const_iterator  cend(){ return (const_iterator(_arr + _size + 1));}
 			size_t  capacity() {return (_capacity);};
 			size_t	size() {return (_size);}
 			void    assign(size_t n, const T &val);
+			void 	clear()
+			{
+				for (size_t i = 0; i < _size; i++)
+					_alloc.destroy(_arr + i);
+				_size = 0;
+			}
 			// void    assign(size_t n, const T &val);
 
 		private:
 
 			void	_destroy_arr()
 			{
-				for (size_t i = 0; i < _capacity; i++)
+				for (size_t i = 0; i < _size; i++)
 					_alloc.destroy(_arr + i);
 				_alloc.deallocate(_arr, _capacity);
 			}
