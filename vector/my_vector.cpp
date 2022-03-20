@@ -8,16 +8,36 @@ int main()
         ft::vector<int> vec(10);
         for (int i = 0; i < 10; i++)
             vec.push_back(i);
-        ft::vector<int>::iterator it = vec.end();
+        // std::cout << vec.max_size() << std::endl;
+        
+        std::cout << "size: " << vec.size() << "\n";
+        // std::cout << "last element: " << vec[vec.size()] << "\n";
+        int i = 0;
+        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        vec.push_back(20);
+        std::cout << "last element: " << vec[vec.size() - 1] << "\n";
+        std::cout << "size: " << vec.size() << "\n";
+        i = 0;
+        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "<<<<<<<<<<<   Pop back  >>>>>>>>>>>>\n";
+        vec.pop_back();
+        i = 0;
+        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        
+        // ft::vector<int>::iterator it = vec.end();
         // it = it + 4;
         // std::cout << *it << std::endl;
         // for (; it != vec.end(); it++)
         //     std::cout << *(it) << std::endl;
         // vec.insert(it, 3, 2);
-        vec.insert(it, 3, 2);
-        // vec.insert(it + 21, 3, 2);
-        for (int i : vec)
-            std::cout << i << std::endl;
+        // vec.insert(it, 3, 2);
+        // // vec.insert(it + 21, 3, 2);
+        // for (int i : vec)
+        //     std::cout << i << std::endl;
     }
 
     #if 0

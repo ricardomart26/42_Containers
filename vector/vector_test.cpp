@@ -1,15 +1,22 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+
 int main()
 {
     {
         std::vector<int> vec(10);
         for (int i = 0; i < 10; i++)
             vec.push_back(i);
-        vec.insert(vec.begin(), 3, 10);
-        for (int i : vec)
-            std::cout << i << std::endl;
+        std::cout << vec.max_size() << std::endl;
+        vec.push_back(10);
+        std::cout << vec[vec.size() - 1];
+        // std::vector<int> vec(10);
+        // for (int i = 0; i < 10; i++)
+        //     vec.push_back(i);
+        // vec.insert(vec.begin(), 3, 10);
+        // for (int i : vec)
+        //     std::cout << i << std::endl;
     }
     // {
     //     std::vector<int> vec {1, 2, 3, 4};

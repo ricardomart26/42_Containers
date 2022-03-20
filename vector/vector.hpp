@@ -4,9 +4,18 @@
 #include <cstring>
 #include <memory>
 #include <iostream>
+#include <exception>
+#include <memory>
 
 namespace ft 
 {
+
+	class error_handling 
+		: public std::exception
+	{
+		virtual const char *what() const throw();
+	};
+
 	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
 	// do template conseguimos usar as variaveis que declaramos na classe do vector
 	class VecIterator
@@ -16,7 +25,7 @@ namespace ft
 			typedef typename Vec::value_type* pointer;
 			typedef typename Vec::value_type& reference;
 			typedef typename Vec::diff_type diff_type;
-		public:
+
 			VecIterator(pointer ptr) : _ptr(ptr){} 
 			~VecIterator() {};
 			VecIterator& operator++()
@@ -45,49 +54,36 @@ namespace ft
 				return temp;
 			}
 
-			reference operator[] (int index)
-			{return *(_ptr + index);}
+			reference operator[] (int index) {return *(_ptr + index);}
 
-			reference operator*()
-			{ return *(_ptr);}
+			reference operator*() { return *(_ptr);}
 			// VecIterator &operator = (const VecIterator *rhs)
 			// {
 
 			// }
-			diff_type operator - (const VecIterator &rhs) const
-			{
-				return (_ptr - rhs._ptr);
-			}
-			
-			VecIterator operator + (const diff_type &rhs) const
-			{
-				// std::cout << "operator + with diff_type\n";
-				return (_ptr + rhs);
-			}
-
-			bool    operator == (const VecIterator &rhs) const
-			{return _ptr == rhs._ptr;}
-
-			bool    operator != (const VecIterator &rhs) const
-			{ return _ptr != rhs._ptr;}
+			diff_type operator - (const VecIterator &rhs) const {return (_ptr - rhs._ptr);}
+			VecIterator operator + (const diff_type &rhs) const {return (_ptr + rhs);}
+			bool    operator == (const VecIterator &rhs) const {return _ptr == rhs._ptr;}
+			bool    operator != (const VecIterator &rhs) const {return _ptr != rhs._ptr;}
 
 		
 		private:
 			pointer _ptr;
 	};
 	
-	template <typename T>
+	template <typename T, typename _Allocator = std::allocator<T> >
 	class vector 
 	{
 		public:
+
+			typedef std::allocator_traits<_Allocator> alloc_traits;
 			typedef T value_type;
 			typedef value_type * pointer;
 			typedef VecIterator<vector<T> > iterator;
-			
+
 			typedef ptrdiff_t diff_type;
 			// typedef __gnu_cxx::iterator_traits<T>::
 			typedef const iterator const_iterator;
-		public:
 
 			/**
 			 * 
@@ -157,11 +153,18 @@ namespace ft
 				return (*this);
 			}
 
+			T	operator[](size_t index)
+			{
+				assert(index < _size);
+				return (_arr[index]);
+			}
 			/**
 			 * 
 			 * Member Functions
 			 * 
 			 */ 
+
+			bool empty() const {return (_size == 0);}
 
 			void	reserve(size_t newCapacity) {
 				if (newCapacity <= _capacity)
@@ -184,6 +187,14 @@ namespace ft
 					reserve(_capacity * 2);
 				_alloc.construct(_arr + _size, val);
 				_size++;
+			}
+
+			void pop_back()
+			{
+				assert(!empty()); // Verificar se funciona
+				std::cout << _arr[_size - 1] << std::endl;
+				_alloc.destroy(_arr + _size); // Ver se este e o ultimo valor
+				_size--;
 			}
 
 			iterator  insert(const_iterator position, size_t n, const T& val)
@@ -211,10 +222,11 @@ namespace ft
 			
 			iterator  begin(){ return (iterator(_arr));}
 			const_iterator  cbegin(){ return (const_iterator(_arr));}
-			iterator  end() { return (iterator(_arr + _size + 1));}
+			iterator  end() { return (iterator(_arr + _size));}
 			const_iterator  cend(){ return (const_iterator(_arr + _size + 1));}
 			size_t  capacity() {return (_capacity);};
 			size_t	size() {return (_size);}
+			size_t max_size() const {return (alloc_traits::max_size(_alloc));};
 			void    assign(size_t n, const T &val);
 			void 	clear()
 			{

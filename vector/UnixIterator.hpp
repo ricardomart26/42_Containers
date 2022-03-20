@@ -756,8 +756,7 @@ template <class _Iter1, class _Iter2>
 typename __wrap_iter<_Iter1>::difference_type   operator-(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT;
 
 template <class _Iter>
-__wrap_iter<_Iter>
-operator+(typename __wrap_iter<_Iter>::difference_type, __wrap_iter<_Iter>) _NOEXCEPT;
+__wrap_iter<_Iter>  operator+(typename __wrap_iter<_Iter>::difference_type, __wrap_iter<_Iter>) _NOEXCEPT;
 
 template <class _Ip, class _Op> _Op copy(_Ip, _Ip, _Op);
 template <class _B1, class _B2> _B2 copy_backward(_B1, _B1, _B2);
@@ -769,7 +768,7 @@ template <class _Tp>
 typename enable_if  <is_trivially_copy_assignable<_Tp>::value, _Tp*>::type  __unwrap_iter(__wrap_iter<_Tp*>);
 
 
-template <class _Iter> // pointer para a base
+template <class _Iter> // pointer para a base (T *)
 class __wrap_iter
 {
 public:
