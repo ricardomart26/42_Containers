@@ -5,7 +5,7 @@
 int main()
 {
     {
-        ft::vector<int> vec(10);
+        std::vector<int> vec(10);
         for (int i = 0; i < 10; i++)
             vec.push_back(i);
         // std::cout << vec.max_size() << std::endl;
@@ -13,22 +13,22 @@ int main()
         std::cout << "size: " << vec.size() << "\n";
         // std::cout << "last element: " << vec[vec.size()] << "\n";
         int i = 0;
-        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
         std::cout << "size: " << vec.size() << "\n";
         vec.push_back(20);
         std::cout << "last element: " << vec[vec.size() - 1] << "\n";
         std::cout << "size: " << vec.size() << "\n";
         i = 0;
-        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
         std::cout << "<<<<<<<<<<<   Pop back  >>>>>>>>>>>>\n";
         vec.pop_back();
         i = 0;
-        for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
         
-        // ft::vector<int>::iterator it = vec.end();
+        // std::vector<int>::iterator it = vec.end();
         // it = it + 4;
         // std::cout << *it << std::endl;
         // for (; it != vec.end(); it++)
@@ -42,13 +42,13 @@ int main()
 
     #if 0
     {
-        // ft::vector<int> vec = {1, 2, 3};
+        // std::vector<int> vec = {1, 2, 3};
         std::cout << vec.capacity() << std::endl;
         std::cout << vec.size() << std::endl;
         vec.push_back(20);
     }
-    ft::vector<int> vec(10, 20);
-    ft::vector<int> copy(20, 2);
+    std::vector<int> vec(10, 20);
+    std::vector<int> copy(20, 2);
     vec = copy;
     std::cout << "capacity: " << vec.capacity() << std::endl;
     std::cout << "size: "<< vec.size() << std::endl;
@@ -58,7 +58,7 @@ int main()
     // }
     vec.reserve(20);
     vec.push_back(21);
-    ft::vector<int>::Iterator it = vec.begin();
+    std::vector<int>::Iterator it = vec.begin();
     // std::cout << *it << std::endl;
     int counter = 0;
     for (;it != vec.end(); it++)
@@ -70,3 +70,4 @@ int main()
     std::cout << "size: "<< vec.size() << std::endl;
     #endif
 }
+

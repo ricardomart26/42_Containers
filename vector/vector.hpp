@@ -92,7 +92,7 @@ namespace ft
 			 */ 
 
 			vector() {
-				std::cout << "Vector constructed\n";
+				// std::cout << "Vector constructed\n";
 				_arr = NULL;
 				_capacity = 0;
 				_size = 0;
@@ -109,7 +109,7 @@ namespace ft
 
 			vector(size_t n)
 			{
-				std::cout << "Vector constructed\n";
+				// std::cout << "Vector constructed\n";
 				_capacity = n;
 				_size = n;
 				_arr = _alloc.allocate(n);
@@ -119,7 +119,7 @@ namespace ft
 
 			vector(size_t n, const T &val)
 			{
-				std::cout << "Vector constructed\n";
+				// std::cout << "Vector constructed\n";
 				_arr = _alloc.allocate(n);
 				_capacity = n;
 				_size = n;
@@ -128,13 +128,13 @@ namespace ft
 			}
 
 			vector(const vector &obj) {
-				std::cout << "Vector Copy constructor\n";
+				// std::cout << "Vector Copy constructor\n";
 				_capacity = obj._capacity;
 				_size = obj._size;
 			}
 			
 			~vector() {
-				std::cout << "Vector deconstructed\n";
+				// std::cout << "Vector deconstructed\n";
 				_destroy_arr();
 			}
 			
@@ -192,7 +192,7 @@ namespace ft
 			void pop_back()
 			{
 				assert(!empty()); // Verificar se funciona
-				std::cout << _arr[_size - 1] << std::endl;
+				// std::cout << _arr[_size - 1] << std::endl;
 				_alloc.destroy(_arr + _size); // Ver se este e o ultimo valor
 				_size--;
 			}

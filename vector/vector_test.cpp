@@ -8,6 +8,33 @@ int main()
         std::vector<int> vec(10);
         for (int i = 0; i < 10; i++)
             vec.push_back(i);
+        // std::cout << vec.max_size() << std::endl;
+        
+        std::cout << "size: " << vec.size() << "\n";
+        // std::cout << "last element: " << vec[vec.size()] << "\n";
+        int i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        vec.push_back(20);
+        std::cout << "last element: " << vec[vec.size() - 1] << "\n";
+        std::cout << "size: " << vec.size() << "\n";
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "<<<<<<<<<<<   Pop back  >>>>>>>>>>>>\n";
+        vec.pop_back();
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        
+    }
+    
+    #if 0
+    {
+        std::vector<int> vec(10);
+        for (int i = 0; i < 10; i++)
+            vec.push_back(i);
         std::cout << vec.max_size() << std::endl;
         vec.push_back(10);
         std::cout << vec[vec.size() - 1];
@@ -26,7 +53,6 @@ int main()
     //     // std::cout << vec.capacity() << std::endl;
     //     // std::cout << vec.size() << std::endl;
     // }
-    #if 0
     {
         std::vector<int> vec(10, 20);
         std::cout << "capacity: " << vec.capacity() << std::endl;

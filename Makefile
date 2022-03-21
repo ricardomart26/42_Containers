@@ -4,7 +4,7 @@ CC = clang++ -Wall -Wextra -Werror -fsanitize=address -pedantic -std=c++11
 
 SRC = vector/my_vector.cpp
 
-SRC_TESTE = vector/vector_test.cpp
+SRC_TESTE = vector/teste.cpp
 
 all: $(NAME)
 
