@@ -11,5 +11,5 @@ make re_teste && ./teste > teste.txt
 
 diff my_output.txt teste.txt > diff.txt
 
-rm my_output.txt teste.txt teste container
+# rm my_output.txt teste.txt teste container
 

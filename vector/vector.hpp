@@ -20,6 +20,7 @@ namespace ft
 	class VecIterator
 	{
 		public:
+
 			typedef typename Vec::value_type value_type;
 			typedef typename Vec::value_type* pointer;
 			typedef typename Vec::value_type& reference;
@@ -71,12 +72,12 @@ namespace ft
 			pointer _ptr;
 	};
 	
-	template <typename T, typename _Allocator = std::allocator<T> >
+	template <typename T, typename _allocator = std::allocator<T> >
 	class vector 
 	{
 		public:
 
-			typedef std::allocator_traits<_Allocator> alloc_traits;
+			typedef std::allocator_traits<_allocator> alloc_traits;
 			typedef T value_type;
 			typedef value_type * pointer;
 			typedef VecIterator<vector<T> > iterator;
@@ -109,22 +110,31 @@ namespace ft
 					_alloc.construct(_arr + i, 0);
 			}
 
-			vector(size_t n, const T &val, 
-			const _Allocator& alloc = allocator_type())
+			// vector(size_t n, const T &val)
+			// {
+			// 	// std::cout << "Vector constructed\n";
+			// 	_arr = _alloc.allocate(n);
+			// 	_capacity = n;
+			// 	_size = n;
+			// 	for (size_t i = 0; i < n; i++)
+			// 		_alloc.construct(_arr + i, val);
+			// }
+
+			vector(size_t n, const T &val, const _allocator& alloc = _allocator())
 			{
 				// std::cout << "Vector constructed\n";
-				_arr = _alloc.allocate(n);
+				_arr = alloc.allocate(n);
 				_capacity = n;
 				_size = n;
 				for (size_t i = 0; i < n; i++)
-					_alloc.construct(_arr + i, val);
+					alloc.construct(_arr + i, val);
 			}
 
-			vector(const _Allocator& alloc = allocator_type()); // Nao fiz nem percebi muito bem
+			vector(const _allocator& alloc = _allocator()); // Nao fiz nem percebi muito bem
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last,
-			const _Allocator& alloc = allocator_type()); 
+			const _allocator& alloc = _allocator()); 
 
 			vector(const vector &obj) // Nao esta acabado
 			{
@@ -163,16 +173,12 @@ namespace ft
 			iterator  end() { return (iterator(_arr + _size));}
 			const_iterator  end() const; // Nao esta feito
 			
-			reverse_iterator rbegin();
-			const_reverse_iterator rbegin() const;
+			// reverse_iterator rbegin(); // Nao fiz
+			// const_reverse_iterator rbegin() const; // Nao fiz
 
-			reverse_iterator rend();
-			const_reverse_iterator rend() const;
+			// reverse_iterator rend(); // Nao fiz
+			// const_reverse_iterator rend() const; // Nao fiz
 			
-
-			const_iterator  cbegin() noexcept { return (const_iterator(_arr));} // c++11
-			const_iterator  cend() noexcept { return (const_iterator(_arr + _size + 1));} // c++11
-
 			/**
 			 *		Capacity
 			 */
@@ -181,12 +187,39 @@ namespace ft
 			
 			size_t max_size() const {return (alloc_traits::max_size(_alloc));};
 			
-			void	resize(size_t n, T val = T()); // Nao esta feito
+			// https://www.cplusplus.com/reference/vector/vector/resize/
+			/**
+			 * @decription: Resizes the container so that it contains n elements.
+			 * @condicions: 
+			 * - If n is smaller than the current container size, the content is reduced to its first n elements, removing those beyond (and destroying them).
+			 * @questions: Sera que e preciso dealocar ou so destroir os objetos? Reduzir a capacity?
+			 * 
+			 * - If n is greater than the current container size, the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
+			 * - If n is also greater than the current container capacity, an automatic reallocation of the allocated storage space takes place.
+			 */
+			
+			void	resize(size_t n, T val = T())
+			{
+				if (n == 0)
+					_destroy_arr();
+				if (n < _size) {
+					for (size_t i = n; i < _size; i++)
+						_alloc.destroy(_arr + i);
+				} else if (n > _size && n < _capacity) {
+					for (size_t i = _size; i < n; i++)
+						_alloc.construct(_arr + i, val);
+				} else if (n > _capacity && n < max_size()) {
+					reserve(n);
+					insert(begin(), n - _size, val);
+				}
+				_size = n;
+			} 
 			
 			size_t  capacity() const {return (_capacity);};
 
 			bool empty() const {return (_size == 0);}
 
+			// Este funciona
 			void	reserve(size_t newCapacity) {
 				if (newCapacity <= _capacity)
 					return ;
@@ -200,10 +233,26 @@ namespace ft
 				_capacity = newCapacity;
 			}
 
+			// void	reserve(size_t newCapacity) {
+			// 	if (newCapacity <= _capacity)
+			// 		return ;
+			// 	for (size_t i = 0; i < _capacity; i++)
+			// 		_alloc.construct(temp + i, _arr[i]);
+			// 	for (size_t i = _capacity; i < newCapacity; i++)
+			// 		_alloc.construct(temp + i, 0);
+			// 	_destroy_arr();
+			// 	_arr = temp;
+			// 	_capacity = newCapacity;
+			// }
+
 			/**
 			 *		Element acess 
 			 */
 
+
+			/**
+			 * Secalhar vou ter que retirar a validacao (assert)
+			 */ 
 			T	&operator[](size_t index)
 			{
 				assert(index < _size);
@@ -215,20 +264,61 @@ namespace ft
 				return (_arr[index]);
 			}
 
-			T	&at(size_t n); // Nao esta feito
-			const T	&at(size_t n) const; // Nao esta feito
+			/**
+			 * @definition: Returns a reference to the element at position n in the vector.
+			 * The function automatically checks whether n is within the bounds of valid elements in the vector, 
+			 * throwing an out_of_range exception if it is not (i.e., if n is greater than, or equal to its size). 
+			 */ 
 
-			T	&front(); // Nao esta feito
-			const T	&front() const; // Nao esta feito
+			T	&at(size_t n) // Nao esta testado
+			{
+				assert(n < _size);
+				return (_arr[n]);					
+			}
+			const T	&at(size_t n) const // Nao esta testado
+			{
+				assert(n < _size);
+				return (_arr[n]);					
+			}
 
-			T	&back(); // Nao esta feito
-			const T	&back() const; // Nao esta feito
+			
+			/**
+			 * Possivelmente vou ter que tirar o assert do front e do back
+			 */ 
+
+			T	&front()  // Nao esta testado
+			{
+				assert(!empty());
+				return (_arr);
+			}
+			const T	&front() const // Nao esta testado
+			{
+				assert(!empty());
+				return (_arr);
+			}
+
+			T	&back() // Nao esta testado
+			{
+				assert(!empty());
+				return (_arr[_size - 1]);
+			}
+
+			const T	&back() const // Nao esta testado
+			{
+				assert(!empty());
+				return (_arr[_size - 1]);
+			}
 
 			/**
 			 *		Modifiers
 			 */
 
-			void	assign(size_t n, const T &val); // Nao esta feito
+			void	assign(size_t n, const T &val) // Nao esta feito
+			{
+				vector<T> newOne(n, val);
+				_destroy_arr();
+				_arr = newOne._arr;
+			}
 			// Range
 			template <class InputIterator>
 			void	assign(InputIterator first, InputIterator last); // Nao esta feito
@@ -252,13 +342,13 @@ namespace ft
 			}
 
 
-			iterator	insert(iterator position, const T val&); // Nao esta feito
+			iterator	insert(iterator position, const T &val); // Nao esta feito
 			iterator	insert(iterator position, size_t n, const T& val)
 			{
 				// std::cout << *position << std::endl;
-				diff_type offset = position - cbegin();
-				if (_size == 0)
-					return (nullptr);
+				diff_type offset = position - begin();
+				// if (_size == 0) // Isto possivelmente esta errado
+				// 	return (nullptr);
 				T*	temp = _alloc.allocate(_capacity);
 				_size += n;
 				if (_size > _capacity)
@@ -294,18 +384,18 @@ namespace ft
 			 *		Allocator
 			 */
 
-			_Allocator	get_allocator() const; // Nao esta feito
+			_allocator	get_allocator() const; // Nao esta feito
 
 			/**
 			 *	Relational operators - Non member functions overloads
 			 */
 
-			bool	operator==(const vector &lhs, const vector &rhs); // Nao esta feito
-			bool	operator!=(const vector &lhs, const vector &rhs); // Nao esta feito
-			bool	operator<(const vector &lhs, const vector &rhs); // Nao esta feito
-			bool	operator<=(const vector &lhs, const vector &rhs); // Nao esta feito
-			bool	operator>(const vector &lhs, const vector &rhs); // Nao esta feito
-			bool	operator>=(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator==(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator!=(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator<(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator<=(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator>(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator>=(const vector &lhs, const vector &rhs); // Nao esta feito
 
 			void	swap(vector &x, vector &y); // Nao esta feito
 
@@ -320,7 +410,7 @@ namespace ft
 			T			*_arr;
 			size_t		_capacity;
 			size_t		_size;
-			_Allocator	_alloc;
+			_allocator	_alloc;
 	};
 
 }

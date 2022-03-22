@@ -16,17 +16,61 @@ int main()
         for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
         std::cout << "size: " << vec.size() << "\n";
+        
+        std::cout << "<<<<<<<<<<<  Push back  >>>>>>>>>>>>\n";
         vec.push_back(20);
-        std::cout << "last element: " << vec[vec.size() - 1] << "\n";
-        std::cout << "size: " << vec.size() << "\n";
         i = 0;
         for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
-        std::cout << "<<<<<<<<<<<   Pop back  >>>>>>>>>>>>\n";
+        std::cout << "last element: " << vec[vec.size() - 1] << "\n";
+        std::cout << "size: " << vec.size() << "\n";
+        
+        std::cout << "<<<<<<<<<<<  Pop back  >>>>>>>>>>>>\n";
         vec.pop_back();
         i = 0;
         for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
+
+        std::cout << "<<<<<<<<<<<  Resize  >>>>>>>>>>>>\n";
+
+        std::cout << "size: " << vec.size() << "\n";
+        vec.resize(vec.size() - 10);
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        
+        vec.resize(vec.size() + 10);
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        
+        vec.resize(vec.size());
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        
+        vec.resize(vec.size(), 10);
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        
+        vec.resize(vec.size() + 5, 10);
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
+        
+        std::cout << "<<<<<<<<<<<  Assign  >>>>>>>>>>>>\n";
+
+        vec.assign(vec.size() + 5, 10);
+        i = 0;
+        for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+            std::cout << i++ << ": " << *it << std::endl;
+        std::cout << "size: " << vec.size() << "\n";
         
         // std::vector<int>::iterator it = vec.end();
         // it = it + 4;
