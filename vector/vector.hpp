@@ -5,7 +5,6 @@
 #include <memory>
 #include <iostream>
 #include <exception>
-#include <memory>
 
 namespace ft 
 {
@@ -63,6 +62,7 @@ namespace ft
 			// }
 			diff_type operator - (const VecIterator &rhs) const {return (_ptr - rhs._ptr);}
 			VecIterator operator + (const diff_type &rhs) const {return (_ptr + rhs);}
+			
 			bool    operator == (const VecIterator &rhs) const {return _ptr == rhs._ptr;}
 			bool    operator != (const VecIterator &rhs) const {return _ptr != rhs._ptr;}
 
@@ -98,14 +98,6 @@ namespace ft
 				_size = 0;
 			}
 
-			// vector(std::initializer_list<T> l) {
-			// 	_size = l.size();
-			// 	_capacity = _size;
-			// 	_arr = _alloc.allocate(_capacity);
-			// 	for (size_t i = 0; i < _capacity; i++)
-			// 		_alloc.construct(_arr + i, l[i]);
-			// 	std::cout << "Vector constructed\n";
-			// }
 
 			vector(size_t n)
 			{
@@ -117,7 +109,8 @@ namespace ft
 					_alloc.construct(_arr + i, 0);
 			}
 
-			vector(size_t n, const T &val)
+			vector(size_t n, const T &val, 
+			const _Allocator& alloc = allocator_type())
 			{
 				// std::cout << "Vector constructed\n";
 				_arr = _alloc.allocate(n);
@@ -127,7 +120,14 @@ namespace ft
 					_alloc.construct(_arr + i, val);
 			}
 
-			vector(const vector &obj) {
+			vector(const _Allocator& alloc = allocator_type()); // Nao fiz nem percebi muito bem
+
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last,
+			const _Allocator& alloc = allocator_type()); 
+
+			vector(const vector &obj) // Nao esta acabado
+			{
 				// std::cout << "Vector Copy constructor\n";
 				_capacity = obj._capacity;
 				_size = obj._size;
@@ -153,16 +153,37 @@ namespace ft
 				return (*this);
 			}
 
-			T	operator[](size_t index)
-			{
-				assert(index < _size);
-				return (_arr[index]);
-			}
 			/**
-			 * 
-			 * Member Functions
-			 * 
-			 */ 
+			 *		Iterators
+			 */
+
+			iterator  begin(){ return (iterator(_arr));}
+			const_iterator	begin() const; // Nao esta feito
+			
+			iterator  end() { return (iterator(_arr + _size));}
+			const_iterator  end() const; // Nao esta feito
+			
+			reverse_iterator rbegin();
+			const_reverse_iterator rbegin() const;
+
+			reverse_iterator rend();
+			const_reverse_iterator rend() const;
+			
+
+			const_iterator  cbegin() noexcept { return (const_iterator(_arr));} // c++11
+			const_iterator  cend() noexcept { return (const_iterator(_arr + _size + 1));} // c++11
+
+			/**
+			 *		Capacity
+			 */
+	
+			size_t	size() const {return (_size);}
+			
+			size_t max_size() const {return (alloc_traits::max_size(_alloc));};
+			
+			void	resize(size_t n, T val = T()); // Nao esta feito
+			
+			size_t  capacity() const {return (_capacity);};
 
 			bool empty() const {return (_size == 0);}
 
@@ -178,6 +199,39 @@ namespace ft
 				_arr = temp;
 				_capacity = newCapacity;
 			}
+
+			/**
+			 *		Element acess 
+			 */
+
+			T	&operator[](size_t index)
+			{
+				assert(index < _size);
+				return (_arr[index]);
+			}
+			const T	&operator[](size_t index) const
+			{
+				assert(index < _size);
+				return (_arr[index]);
+			}
+
+			T	&at(size_t n); // Nao esta feito
+			const T	&at(size_t n) const; // Nao esta feito
+
+			T	&front(); // Nao esta feito
+			const T	&front() const; // Nao esta feito
+
+			T	&back(); // Nao esta feito
+			const T	&back() const; // Nao esta feito
+
+			/**
+			 *		Modifiers
+			 */
+
+			void	assign(size_t n, const T &val); // Nao esta feito
+			// Range
+			template <class InputIterator>
+			void	assign(InputIterator first, InputIterator last); // Nao esta feito
 
 			void    push_back(const T &val) {
 				// std::cout << "size: "<< _size<<" capacity: "<<_capacity<<"\n";
@@ -197,7 +251,9 @@ namespace ft
 				_size--;
 			}
 
-			iterator  insert(const_iterator position, size_t n, const T& val)
+
+			iterator	insert(iterator position, const T val&); // Nao esta feito
+			iterator	insert(iterator position, size_t n, const T& val)
 			{
 				// std::cout << *position << std::endl;
 				diff_type offset = position - cbegin();
@@ -219,22 +275,39 @@ namespace ft
 				_arr = temp;
 				return (begin() + offset);
 			}
+			template <typename InputIterator>
+			void	insert(iterator position, InputIterator first, InputIterator last); // Nao esta feito
 			
-			iterator  begin(){ return (iterator(_arr));}
-			const_iterator  cbegin(){ return (const_iterator(_arr));}
-			iterator  end() { return (iterator(_arr + _size));}
-			const_iterator  cend(){ return (const_iterator(_arr + _size + 1));}
-			size_t  capacity() {return (_capacity);};
-			size_t	size() {return (_size);}
-			size_t max_size() const {return (alloc_traits::max_size(_alloc));};
-			void    assign(size_t n, const T &val);
+			iterator	erase(iterator position); // Nao esta feito
+			iterator	erase(iterator first, iterator last); // Nao esta feito
+
+			void	swap(vector& x); // Nao esta feito
+
 			void 	clear()
 			{
 				for (size_t i = 0; i < _size; i++)
 					_alloc.destroy(_arr + i);
 				_size = 0;
 			}
-			// void    assign(size_t n, const T &val);
+
+			/**
+			 *		Allocator
+			 */
+
+			_Allocator	get_allocator() const; // Nao esta feito
+
+			/**
+			 *	Relational operators - Non member functions overloads
+			 */
+
+			bool	operator==(const vector &lhs, const vector &rhs); // Nao esta feito
+			bool	operator!=(const vector &lhs, const vector &rhs); // Nao esta feito
+			bool	operator<(const vector &lhs, const vector &rhs); // Nao esta feito
+			bool	operator<=(const vector &lhs, const vector &rhs); // Nao esta feito
+			bool	operator>(const vector &lhs, const vector &rhs); // Nao esta feito
+			bool	operator>=(const vector &lhs, const vector &rhs); // Nao esta feito
+
+			void	swap(vector &x, vector &y); // Nao esta feito
 
 		private:
 
@@ -244,10 +317,10 @@ namespace ft
 					_alloc.destroy(_arr + i);
 				_alloc.deallocate(_arr, _capacity);
 			}
-			T					*_arr;
-			size_t				_capacity;
-			size_t				_size;
-			std::allocator<T>	_alloc;
+			T			*_arr;
+			size_t		_capacity;
+			size_t		_size;
+			_Allocator	_alloc;
 	};
 
 }
