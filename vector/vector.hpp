@@ -9,11 +9,11 @@
 namespace ft 
 {
 
-	class error_handling 
-		: public std::exception
-	{
-		virtual const char *what() const throw();
-	};
+	// class error_handling 
+	// 	: public std::exception
+	// {
+	// 	virtual const char *what() const throw();
+	// };
 
 	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
 	// do template conseguimos usar as variaveis que declaramos na classe do vector
@@ -27,6 +27,12 @@ namespace ft
 			typedef typename Vec::diff_type diff_type;
 
 			VecIterator(pointer ptr) : _ptr(ptr){} 
+
+			// VecIterator &operator=(const VecIterator &rhs)
+			// {
+			// 	_ptr = rhs._ptr;
+			// }
+
 			~VecIterator() {};
 			VecIterator& operator++()
 			{
@@ -66,7 +72,10 @@ namespace ft
 			
 			bool    operator == (const VecIterator &rhs) const {return _ptr == rhs._ptr;}
 			bool    operator != (const VecIterator &rhs) const {return _ptr != rhs._ptr;}
-
+			bool    operator > (const VecIterator &rhs) const {return _ptr > rhs._ptr;}
+			bool    operator >= (const VecIterator &rhs) const {return _ptr >= rhs._ptr;}
+			bool    operator < (const VecIterator &rhs) const {return _ptr < rhs._ptr;}
+			bool    operator <= (const VecIterator &rhs) const {return _ptr <= rhs._ptr;}
 		
 		private:
 			pointer _ptr;
@@ -77,6 +86,7 @@ namespace ft
 	{
 		public:
 
+			typedef _allocator allocator_type; 
 			typedef std::allocator_traits<_allocator> alloc_traits;
 			typedef T value_type;
 			typedef value_type * pointer;
@@ -92,23 +102,29 @@ namespace ft
 			 * 
 			 */ 
 
-			vector() {
-				// std::cout << "Vector constructed\n";
-				_arr = NULL;
-				_capacity = 0;
-				_size = 0;
-			}
+			// vector()
+			// : _arr(nullptr), _capacity(0), _size(0) {}
+
+			vector(const allocator_type& alloc = allocator_type())
+			:  _arr(nullptr), _capacity(0), _size(0), _alloc(alloc) {}
+
+			// vector() {
+			// 	// std::cout << "Vector constructed\n";
+			// 	_arr = NULL;
+			// 	_capacity = 0;
+			// 	_size = 0;
+			// }
 
 
-			vector(size_t n)
-			{
-				// std::cout << "Vector constructed\n";
-				_capacity = n;
-				_size = n;
-				_arr = _alloc.allocate(n);
-				for (size_t i = 0; i < n; i++)
-					_alloc.construct(_arr + i, 0);
-			}
+			// vector(size_t n)
+			// {
+			// 	// std::cout << "Vector constructed\n";
+			// 	_capacity = n;
+			// 	_size = n;
+			// 	_arr = _alloc.allocate(n);
+			// 	for (size_t i = 0; i < n; i++)
+			// 		_alloc.construct(_arr + i, 0);
+			// }
 
 			// vector(size_t n, const T &val)
 			// {
@@ -120,27 +136,44 @@ namespace ft
 			// 		_alloc.construct(_arr + i, val);
 			// }
 
-			vector(size_t n, const T &val, const _allocator& alloc = _allocator())
+			// vector(size_t n, const T &val)
+			// {
+			// 	// std::cout << "Vector constructed\n";
+			// 	_arr = _alloc.allocate(n);
+			// 	_capacity = n;
+			// 	_size = n;
+			// 	for (size_t i = 0; i < n; i++)
+			// 		_alloc.construct(_arr + i, val);
+			// }
+
+			explicit vector(size_t n, const T &val = T(), const allocator_type& alloc = allocator_type())
+			:	_capacity(n), _size(n), _alloc(alloc)
 			{
 				// std::cout << "Vector constructed\n";
-				_arr = alloc.allocate(n);
-				_capacity = n;
-				_size = n;
+				_arr = _alloc.allocate(n);
 				for (size_t i = 0; i < n; i++)
-					alloc.construct(_arr + i, val);
+					_alloc.construct(_arr + i, val);
 			}
 
-			vector(const _allocator& alloc = _allocator()); // Nao fiz nem percebi muito bem
-
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last,
-			const _allocator& alloc = _allocator()); 
+			vector(InputIterator first, InputIterator last, const _allocator& alloc = _allocator())
+			{
+				_alloc = alloc;
+				diff_type size = last - first;
+				_size = (size_t)size;
+				_capacity = _size;
+				_arr = _alloc.allocate(_capacity);
+				for (size_t i = 0; first != last; first++, i++)
+					_alloc.construct(_arr + i, *first);
+			}
 
 			vector(const vector &obj) // Nao esta acabado
+			:	_capacity(obj._capacity), _size(obj._size), _alloc(allocator_type())
 			{
 				// std::cout << "Vector Copy constructor\n";
-				_capacity = obj._capacity;
-				_size = obj._size;
+				_arr = _alloc.allocate(_capacity);
+				for (size_t i = 0; i < _size; i++)
+					_alloc.construct(_arr + i, *(obj._arr + i));
 			}
 			
 			~vector() {
@@ -157,6 +190,7 @@ namespace ft
 				_size = rhs._size;
 				if (_alloc != rhs._alloc)
 					_alloc = rhs._alloc;
+				// _arr = rhs._arr;
 				_arr = _alloc.allocate(_capacity);
 				for (size_t i = 0; i < _capacity; i++)
 					_alloc.construct(_arr + i, rhs._arr[i]);
@@ -167,7 +201,7 @@ namespace ft
 			 *		Iterators
 			 */
 
-			iterator  begin(){ return (iterator(_arr));}
+			iterator  begin() { return (iterator(_arr));}
 			const_iterator	begin() const; // Nao esta feito
 			
 			iterator  end() { return (iterator(_arr + _size));}
@@ -302,7 +336,6 @@ namespace ft
 				assert(!empty());
 				return (_arr[_size - 1]);
 			}
-
 			const T	&back() const // Nao esta testado
 			{
 				assert(!empty());
@@ -313,11 +346,11 @@ namespace ft
 			 *		Modifiers
 			 */
 
-			void	assign(size_t n, const T &val) // Nao esta feito
+			void	assign(size_t n, const T &val)
 			{
 				vector<T> newOne(n, val);
-				_destroy_arr();
-				_arr = newOne._arr;
+				*this = newOne;
+				// newOne.~vector();
 			}
 			// Range
 			template <class InputIterator>
@@ -342,35 +375,137 @@ namespace ft
 			}
 
 
-			iterator	insert(iterator position, const T &val); // Nao esta feito
-			iterator	insert(iterator position, size_t n, const T& val)
+			iterator	insert(iterator position, const T &val) 
 			{
+				// std::cout << *position << std::endl;
 				// std::cout << *position << std::endl;
 				diff_type offset = position - begin();
 				// if (_size == 0) // Isto possivelmente esta errado
 				// 	return (nullptr);
+				_size++;
+				if (_size > _capacity)
+					reserve(_size * 2);
 				T*	temp = _alloc.allocate(_capacity);
+				for (size_t i = 0, j = 0; i < _size; i++)
+				{
+					if (i != (size_t)offset)
+						_alloc.construct(temp + i, _arr[i - j]);
+					else
+						_alloc.construct(temp + i + j++, val);
+				}
+				_destroy_arr();
+				_arr = temp;
+				return (position);
+			}
+
+			iterator	insert(iterator position, size_t n, const T& val)
+			{
+				// std::cout << *position << std::endl;
+				assert(n != 0);
+				diff_type offset = position - begin();
+				// if (_size == 0) // Isto possivelmente esta errado
+				// 	return (nullptr);
 				_size += n;
 				if (_size > _capacity)
 					reserve(_size + 1);
+				T*	temp = _alloc.allocate(_capacity);
+				
+				
+				// size_t i = 0;
+				// for (; i < (size_t)offset; i++)
+				// 	_alloc.construct(temp + i, (_arr + i));
+				// for (; i < n; i++)
+				// 	_alloc.construct(temp + i, val);
+				// size_t x = i - n;
+				// for (; i < _size; i++, x++)
+				// 	_alloc.construct(temp + i, (_arr + x));
+
 				for (size_t i = 0, x = 0; i < _size; i++)
 				{
-					if (i < (size_t)offset || x >= n)
-						_alloc.construct(temp + i, *(_arr + i - n));
-					else
-						_alloc.construct(temp + i, val);
-					x++;
+					for (; i >= (size_t)offset && x >= n; x++)
+						_alloc.construct(temp + i + x, val);
+					_alloc.construct(temp + i + x, *(_arr + i));
 				}
+
+				// for (size_t i = 0, x = 0; i < _size; i++)
+				// {
+				// 	while (i < (size_t)offset || x >= n)
+				// 	{
+				// 		_alloc.construct(temp + i, *(_arr + i - n));
+				// 		i++;
+				// 		x++;
+				// 	}
+				// }
 				_destroy_arr();
 				_arr = temp;
 				return (begin() + offset);
 			}
-			template <typename InputIterator>
-			void	insert(iterator position, InputIterator first, InputIterator last); // Nao esta feito
 			
-			iterator	erase(iterator position); // Nao esta feito
-			iterator	erase(iterator first, iterator last); // Nao esta feito
+			template <typename InputIterator>
+			void	insert(iterator position, InputIterator first, InputIterator last) // Nao esta feito
+			{
+				diff_type offset = position - begin();
+				std::cout << "offset e o tamanho?" << last - first << std::endl;
+				size_t n = 0;
+				ft::vector<int>::iterator it = begin();
+				for (; it != position || it != end(); it++, n++)
 
+				std::cout << "n: " << n << "and offset: " << offset << std::endl;
+				if (it == end())
+					return; // Ver o que faz se nao encontrar a position
+
+				T* temp = _alloc.allocate(_capacity);
+				size_t oldSize = _size; // + tamanho do first ao last 
+				// Proteger se o tamanho + _size > capacity
+				for (size_t i = 0, j = 0; i < oldSize; i++)
+				{
+					if (i == n)
+					{
+						for (;first != last; first++, j++)
+							_alloc.construct(temp + j + i, *first);
+					}
+					_alloc.construct(temp + j + i, _arr + i);
+				}
+			}
+
+			/**
+			 *  @describe: Removes from the vector either a single element (position) or a range of elements ([first,last)).
+			 *	This effectively reduces the container size by the number of elements removed, which are destroyed.
+			 *	Because vectors use an array as their underlying storage, erasing elements in positions other than the vector end causes the container to 
+			 *	relocate all the elements after the segment erased to their new positions. 
+			 *	This is generally an inefficient operation compared to the one performed for the same operation by other kinds of sequence containers (such as list or forward_list).
+			 * 
+			 */
+
+			iterator	erase(iterator position) // Nao esta feito
+			{
+				for (iterator it = begin(); it != end(); it++)
+				{
+					if (it >= position)
+					{
+						iterator temp = it + 1;
+						*it = *temp;
+					}
+				}
+				_alloc.destroy(_arr + _size);
+				_size--;
+				if (_capacity > _size * 2)
+					resize(_size + 1);
+				return (position);
+			}
+	
+			// iterator	erase(iterator first, iterator last) // Nao esta feito
+			// {
+
+			// }
+
+
+			/**
+			 *	Exchanges the content of the container by the content of x, which is another vector object of the same type. Sizes may differ.
+			 *	After the call to this member function, the elements in this container are those which were in x before the call, 
+			 * 	and the elements of x are those which were in this. All iterators, references and pointers remain valid for the swapped objects.
+			 *	Notice that a non-member function exists with the same name, swap, overloading that algorithm with an optimization that behaves like this member function. 
+			 */
 			void	swap(vector& x); // Nao esta feito
 
 			void 	clear()
@@ -400,6 +535,14 @@ namespace ft
 			void	swap(vector &x, vector &y); // Nao esta feito
 
 		private:
+
+			void	swap_elem(T &elem1, T &elem2)
+			{
+				T temp;
+				temp = elem1;
+				elem1 = elem2;
+				elem2 = temp; 			
+			}
 
 			void	_destroy_arr()
 			{
