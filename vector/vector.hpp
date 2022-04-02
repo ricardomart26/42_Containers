@@ -17,6 +17,8 @@ namespace ft
 	// 	virtual const char *what() const throw();
 	// };
 
+	
+
 	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
 	// do template conseguimos usar as variaveis que declaramos na classe do vector
 	class VecIterator
