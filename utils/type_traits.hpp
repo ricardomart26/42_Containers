@@ -5,22 +5,18 @@
 
 namespace ft {
     template <bool B, typename T = void>
-    struct enable_if 
-    {
-    };
+    struct enable_if {};
 
     template <typename T>
-    struct enable_if<true, T> 
-    {
-        typedef T type;
-    };
+    struct enable_if<true, T>  { typedef T type; };
 
     template<typename T, T v>
-    struct integral_constant {
+    struct integral_constant 
+    {
         static const T					value = v;
         typedef T 						value_type;
         typedef integral_constant<T,v>	type;
-        operator value_type() const { return value; }
+        operator T() const { return value; }
     };
 
     typedef integral_constant<bool, true>		true_type;

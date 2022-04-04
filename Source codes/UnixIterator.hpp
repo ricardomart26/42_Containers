@@ -29,7 +29,7 @@
 
 
 
-template <class _Iter>
+template <class _Iter> // Este iter e um T*
 class __wrap_iter
 {
 public:
@@ -166,32 +166,13 @@ operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEX
     return !(__y < __x);
 }
 
-#ifndef _LIBCPP_CXX03_LANG
-template <class _Iter1, class _Iter2>
-inline  
-auto
-operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
--> decltype(__x.base() - __y.base())
-{
-#if _LIBCPP_DEBUG_LEVEL >= 2
-    _LIBCPP_ASSERT(__get_const_db()->__less_than_comparable(&__x, &__y),
-                   "Attempted to subtract incompatible iterators");
-#endif
-    return __x.base() - __y.base();
-}
-#else
 template <class _Iter1, class _Iter2>
 inline  
 typename __wrap_iter<_Iter1>::difference_type
 operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
 {
-#if _LIBCPP_DEBUG_LEVEL >= 2
-    _LIBCPP_ASSERT(__get_const_db()->__less_than_comparable(&__x, &__y),
-                   "Attempted to subtract incompatible iterators");
-#endif
     return __x.base() - __y.base();
 }
-#endif
 
 template <class _Iter>
 inline  
@@ -235,7 +216,6 @@ end(_Tp (&__array)[_Np])
 {
     return __array + _Np;
 }
-#endif
 
 _LIBCPP_BEGIN_NAMESPACE_STD
 template <class _Iter>

@@ -38,20 +38,20 @@ namespace ft
 			// }
 
 			~VecIterator() {};
-			VecIterator& operator++()
+			VecIterator &operator++()
 			{
 				_ptr++;
 				return *this;
 			}
 
-			VecIterator operator++(int)
+			VecIterator	operator++(int)
 			{
 				VecIterator temp = *this;
 				++(*this);
 				return temp;
 			}
 
-			VecIterator& operator--()
+			VecIterator &operator--()
 			{
 				_ptr--;
 				return *this;
@@ -357,7 +357,7 @@ namespace ft
 			}
 			// Range
 			template <class InputIterator>
-			void	assign(InputIterator first, InputIterator last) // Nao esta feito
+			void	assign(InputIterator first, InputIterator last) // Fazer enable 
 			{
 				vector<T> newOne(first, last);
 				*this = newOne;
