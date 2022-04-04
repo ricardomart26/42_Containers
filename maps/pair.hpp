@@ -10,10 +10,11 @@ namespace ft
 		 *		Constructores
 		 */
 
-		pair();
+		pair() : _first(), _second() {}
+        pair(const T1 &arg1, const T2 &arg2) : _first(arg1), _second(arg2) {}
+
 		template <class U, class V>
 		pair(const pair<U,V> &obj);
-		pair(const T1 &a, const T2 &b);
 		
 		pair	&operator=(const pair &obj);
 
@@ -28,7 +29,10 @@ namespace ft
 		bool	operator<=(const pair &lhs, const pair &rhs);
 		bool	operator>(const pair &lhs, const pair &rhs);
 		bool	operator>=(const pair &lhs, const pair &rhs);
-
+    
+		private:
+			T1 _first;
+			T2 _second;
 	};
 };
 

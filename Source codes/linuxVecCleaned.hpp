@@ -74,11 +74,6 @@ struct _Vector_base
 		: _Tp_alloc_type(std::move(__a)), _Vector_impl_data(std::move(__rv))
 		{ }
 
-#define _GLIBCXX_ASAN_ANNOTATE_REINIT
-#define _GLIBCXX_ASAN_ANNOTATE_GROW(n)
-#define _GLIBCXX_ASAN_ANNOTATE_GREW(n)
-#define _GLIBCXX_ASAN_ANNOTATE_SHRINK(n)
-#define _GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC
 	};
 
 	public:

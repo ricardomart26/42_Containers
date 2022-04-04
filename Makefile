@@ -1,6 +1,6 @@
 NAME = container
 
-CC = clang++ -Wall -Wextra -Werror -fsanitize=address -pedantic -std=c++11
+CC = clang++ -Wall -Wextra -g -Werror -pedantic -std=c++98
 
 SRC = vector/my_vector.cpp
 

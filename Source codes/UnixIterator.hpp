@@ -27,6 +27,216 @@
 #pragma GCC system_header
 #endif
 
+
+
+template <class _Iter>
+class __wrap_iter
+{
+public:
+    typedef _Iter                                                      iterator_type;
+    typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+    typedef typename iterator_traits<iterator_type>::value_type        value_type;
+    typedef typename iterator_traits<iterator_type>::difference_type   difference_type;
+    typedef typename iterator_traits<iterator_type>::pointer           pointer;
+    typedef typename iterator_traits<iterator_type>::reference         reference;
+private:
+    iterator_type __i;
+public:
+      __wrap_iter() _NOEXCEPT {}
+    template <class _Up> 
+    __wrap_iter(const __wrap_iter<_Up>& __u,
+        typename enable_if<is_convertible<_Up, iterator_type>::value>::type* = 0) _NOEXCEPT
+        : __i(__u.base()) {}
+
+    reference operator*() const _NOEXCEPT
+    {
+        return *__i;
+    }
+    
+    pointer  operator->() const _NOEXCEPT
+    {
+        return (pointer)_VSTD::addressof(*__i);
+    }
+    __wrap_iter& operator++() _NOEXCEPT
+    {
+        ++__i;
+        return *this;
+    }
+    __wrap_iter  operator++(int) _NOEXCEPT {__wrap_iter __tmp(*this); ++(*this); return __tmp;}
+
+    __wrap_iter& operator--() _NOEXCEPT
+    {
+        --__i;
+        return *this;
+    }
+    __wrap_iter  operator--(int) _NOEXCEPT {__wrap_iter __tmp(*this); --(*this); return __tmp;}
+    __wrap_iter  operator+ (difference_type __n) const _NOEXCEPT {__wrap_iter __w(*this); __w += __n; return __w;}
+    __wrap_iter& operator+=(difference_type __n) _NOEXCEPT
+    {
+        __i += __n;
+        return *this;
+    }
+    __wrap_iter  operator- (difference_type __n) const _NOEXCEPT {return *this + (-__n);}
+    __wrap_iter& operator-=(difference_type __n) _NOEXCEPT {*this += -__n; return *this;}
+     reference    operator[](difference_type __n) const _NOEXCEPT {return __i[__n];}
+
+     iterator_type base() const _NOEXCEPT {return __i;}
+
+private:
+
+     __wrap_iter(iterator_type __x) _NOEXCEPT : __i(__x) {}
+
+    template <class _Up> friend class __wrap_iter;
+    template <class _CharT, class _Traits, class _Alloc> friend class basic_string;
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+    template <class _Tp, size_t> friend class _LIBCPP_TEMPLATE_VIS span;
+
+    template <class _Iter1, class _Iter2>
+    friend bool operator==(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return __x.base() == __y.base();}
+    
+    template <class _Iter1, class _Iter2>
+    friend bool operator<(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return __x.base() < __y.base();}
+    
+    template <class _Iter1, class _Iter2>
+    friend bool operator!=(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return !(__x == __y);}
+    
+    template <class _Iter1, class _Iter2>
+    friend bool operator>(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return __y < __x;}
+    
+    template <class _Iter1, class _Iter2>
+    friend bool operator>=(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return !(__x < __y);}
+
+    template <class _Iter1, class _Iter2>
+    friend bool operator<=(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT
+    {return !(__y < __x);}
+
+    template <class _Iter1, class _Iter2>
+    friend typename __wrap_iter<_Iter1>::difference_type   operator-(const __wrap_iter<_Iter1>&, const __wrap_iter<_Iter2>&) _NOEXCEPT;
+
+
+    template <class _Iter1>
+    friend __wrap_iter<_Iter1> operator+(typename __wrap_iter<_Iter1>::difference_type, __wrap_iter<_Iter1>) _NOEXCEPT;
+
+    template <class _Ip, class _Op> friend _LIBCPP_CONSTEXPR_AFTER_CXX17 _Op copy(_Ip, _Ip, _Op);
+    template <class _B1, class _B2> friend _LIBCPP_CONSTEXPR_AFTER_CXX17 _B2 copy_backward(_B1, _B1, _B2);
+    template <class _Ip, class _Op> friend _Op move(_Ip, _Ip, _Op);
+    template <class _B1, class _B2> friend _B2 move_backward(_B1, _B1, _B2);
+
+    template <class _Tp>
+    friend typename enable_if <is_trivially_copy_assignable<_Tp>::value, _Tp*>::type
+    __unwrap_iter(__wrap_iter<_Tp*>);
+
+};
+
+
+template <class _Iter1>
+inline  
+bool
+operator!=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT
+{
+    return !(__x == __y);
+}
+
+template <class _Iter1>
+inline  
+bool
+operator>(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT
+{
+    return __y < __x;
+}
+
+template <class _Iter1>
+inline  
+bool
+operator>=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT
+{
+    return !(__x < __y);
+}
+
+template <class _Iter1>
+inline  
+bool
+operator<=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT
+{
+    return !(__y < __x);
+}
+
+#ifndef _LIBCPP_CXX03_LANG
+template <class _Iter1, class _Iter2>
+inline  
+auto
+operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
+-> decltype(__x.base() - __y.base())
+{
+#if _LIBCPP_DEBUG_LEVEL >= 2
+    _LIBCPP_ASSERT(__get_const_db()->__less_than_comparable(&__x, &__y),
+                   "Attempted to subtract incompatible iterators");
+#endif
+    return __x.base() - __y.base();
+}
+#else
+template <class _Iter1, class _Iter2>
+inline  
+typename __wrap_iter<_Iter1>::difference_type
+operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
+{
+#if _LIBCPP_DEBUG_LEVEL >= 2
+    _LIBCPP_ASSERT(__get_const_db()->__less_than_comparable(&__x, &__y),
+                   "Attempted to subtract incompatible iterators");
+#endif
+    return __x.base() - __y.base();
+}
+#endif
+
+template <class _Iter>
+inline  
+__wrap_iter<_Iter>
+operator+(typename __wrap_iter<_Iter>::difference_type __n,
+          __wrap_iter<_Iter> __x) _NOEXCEPT
+{
+    __x += __n;
+    return __x;
+}
+
+template <class _Iter>
+struct __libcpp_is_trivial_iterator
+    : public _LIBCPP_BOOL_CONSTANT(is_pointer<_Iter>::value) {};
+
+template <class _Iter>
+struct __libcpp_is_trivial_iterator<move_iterator<_Iter> >
+    : public _LIBCPP_BOOL_CONSTANT(__libcpp_is_trivial_iterator<_Iter>::value) {};
+
+template <class _Iter>
+struct __libcpp_is_trivial_iterator<reverse_iterator<_Iter> >
+    : public _LIBCPP_BOOL_CONSTANT(__libcpp_is_trivial_iterator<_Iter>::value) {};
+
+template <class _Iter>
+struct __libcpp_is_trivial_iterator<__wrap_iter<_Iter> >
+    : public _LIBCPP_BOOL_CONSTANT(__libcpp_is_trivial_iterator<_Iter>::value) {};
+
+
+template <class _Tp, size_t _Np>
+ _LIBCPP_CONSTEXPR_AFTER_CXX11
+_Tp*
+begin(_Tp (&__array)[_Np])
+{
+    return __array;
+}
+
+template <class _Tp, size_t _Np>
+ _LIBCPP_CONSTEXPR_AFTER_CXX11
+_Tp*
+end(_Tp (&__array)[_Np])
+{
+    return __array + _Np;
+}
+#endif
+
 _LIBCPP_BEGIN_NAMESPACE_STD
 template <class _Iter>
 struct _LIBCPP_TEMPLATE_VIS iterator_traits;
