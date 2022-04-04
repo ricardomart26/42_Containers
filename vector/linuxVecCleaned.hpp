@@ -211,9 +211,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 		typedef typename _Base::_Tp_alloc_type		_Tp_alloc_type;
 		typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type>	_Alloc_traits;
 
-
-		static constexpr bool
-		_S_nothrow_relocate(true_type)
+		static constexpr bool _S_nothrow_relocate(true_type)
 		{
 			return noexcept(std::__relocate_a(std::declval<pointer>(),
 						std::declval<pointer>(),
@@ -221,9 +219,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 						std::declval<_Tp_alloc_type&>()));
 		}
 
-		static constexpr bool
-		_S_nothrow_relocate(false_type)
-		{ return false; }
+		static constexpr bool _S_nothrow_relocate(false_type) { return false; }
 
 		static constexpr bool
 		_S_use_relocate()
@@ -235,15 +231,13 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 		}
 
 		static pointer
-		_S_do_relocate(pointer __first, pointer __last, pointer __result,
-				_Tp_alloc_type& __alloc, true_type) noexcept
+		_S_do_relocate(pointer __first, pointer __last, pointer __result, _Tp_alloc_type& __alloc, true_type) noexcept
 		{
 			return std::__relocate_a(__first, __last, __result, __alloc);
 		}
 
 		static pointer
-		_S_do_relocate(pointer, pointer, pointer __result,
-				_Tp_alloc_type&, false_type) noexcept
+		_S_do_relocate(pointer, pointer, pointer __result, _Tp_alloc_type&, false_type) noexcept
 		{ return __result; }
 
 		static pointer
@@ -267,14 +261,13 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       	/**
       	 *  @brief  Creates a %vector with no elements.
       	 */
-    	vector() = default;
+    	      vector() = default;
 
       	/**
       	 *  @brief  Creates a %vector with no elements.
       	 *  @param  __a  An allocator object.
       	 */
-      	explicit
-      	vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
+      	explicit vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
       	: _Base(__a) { }
 
       	/**
@@ -285,10 +278,8 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       	 *  This constructor fills the %vector with @a __n default
       	 *  constructed elements.
       	 */
-      	explicit
-      	vector(size_type __n, const allocator_type& __a = allocator_type())
-      	: _Base(_S_check_init_len(__n, __a), __a)
-      	{ _M_default_initialize(__n); }
+      	explicit vector(size_type __n, const allocator_type& __a = allocator_type())
+      	      : _Base(_S_check_init_len(__n, __a), __a) { _M_default_initialize(__n); }
 
       	/**
       	 *  @brief  Creates a %vector with copies of an exemplar element.
@@ -298,10 +289,8 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       	 *
       	 *  This constructor fills the %vector with @a __n copies of @a __value.
       	 */
-      	vector(size_type __n, const value_type& __value,
-	  	   const allocator_type& __a = allocator_type())
-      	: _Base(_S_check_init_len(__n, __a), __a)
-      	{ _M_fill_initialize(__n, __value); }
+      	vector(size_type __n, const value_type& __value, const allocator_type& __a = allocator_type())
+      	      : _Base(_S_check_init_len(__n, __a), __a) { _M_fill_initialize(__n, __value); }
 
       	/**
       	 *  @brief  %Vector copy constructor.
@@ -315,12 +304,10 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       	 *  by @a __x (unless the allocator traits dictate a different object).
       	 */
       	vector(const vector& __x)
-      	: _Base(__x.size(),
-		_Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
+      	: _Base(__x.size(), _Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
       	{
 			this->_M_impl._M_finish = std::__uninitialized_copy_a(__x.begin(), __x.end(),
-				this->_M_impl._M_start,
-				_M_get_Tp_allocator());
+				this->_M_impl._M_start, _M_get_Tp_allocator());
       	}
 
       	/**
@@ -335,20 +322,18 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 
       	/// Copy constructor with alternative allocator
       	vector(const vector& __x, const allocator_type& __a)
-      	: _Base(__x.size(), __a)
+      	      : _Base(__x.size(), __a)
       	{
-			this->_M_impl._M_finish =
-			std::__uninitialized_copy_a(__x.begin(), __x.end(),
+			this->_M_impl._M_finish = std::__uninitialized_copy_a(__x.begin(), __x.end(),
 				this->_M_impl._M_start, _M_get_Tp_allocator());
-    	}
+    	      }
 
     private:
       	vector(vector&& __rv, const allocator_type& __m, true_type) noexcept
-      	: _Base(__m, std::move(__rv))
-      	{ }
+      	      : _Base(__m, std::move(__rv)) { }
 
       	vector(vector&& __rv, const allocator_type& __m, false_type)
-      	: _Base(__m)
+      	      : _Base(__m)
       	{
 			if (__rv.get_allocator() == __m)
 	  			this->_M_impl._M_swap_data(__rv._M_impl);
@@ -360,17 +345,15 @@ class vector : protected _Vector_base<_Tp, _Alloc>
 					  this->_M_impl._M_start,
 					  _M_get_Tp_allocator());
 	    		__rv.clear();
-	  		}
+	  	}
     	}
 
     public:
       /// Move constructor with alternative allocator
-      vector(vector&& __rv, const allocator_type& __m)
-      noexcept( noexcept(
+      vector(vector&& __rv, const allocator_type& __m) noexcept( noexcept(
 	vector(std::declval<vector&&>(), std::declval<const allocator_type&>(),
 	       std::declval<typename _Alloc_traits::is_always_equal>())) )
-      : vector(std::move(__rv), __m, typename _Alloc_traits::is_always_equal{})
-      { }
+            : vector(std::move(__rv), __m, typename _Alloc_traits::is_always_equal{}) { }
 
       /**
        *  @brief  Builds a %vector from an initializer list.
@@ -383,12 +366,10 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  This will call the element type's copy constructor N times
        *  (where N is @a __l.size()) and do no memory reallocation.
        */
-      vector(initializer_list<value_type> __l,
-	     const allocator_type& __a = allocator_type())
-      : _Base(__a)
+      vector(initializer_list<value_type> __l, const allocator_type& __a = allocator_type())
+            : _Base(__a)
       {
-	_M_range_initialize(__l.begin(), __l.end(),
-			    random_access_iterator_tag());
+	      _M_range_initialize(__l.begin(), __l.end(),random_access_iterator_tag());
       }
 
       /**
@@ -407,14 +388,11 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  used, then this will do at most 2N calls to the copy
        *  constructor, and logN memory reallocations.
        */
-      template<typename _InputIterator,
-	       typename = std::_RequireInputIter<_InputIterator>>
-	vector(_InputIterator __first, _InputIterator __last,
-	       const allocator_type& __a = allocator_type())
-	: _Base(__a)
+      template<typename _InputIterator, typename = std::_RequireInputIter<_InputIterator>>
+	vector(_InputIterator __first, _InputIterator __last, const allocator_type& __a = allocator_type())
+	      : _Base(__a)
 	{
-	  _M_range_initialize(__first, __last,
-			      std::__iterator_category(__first));
+            _M_range_initialize(__first, __last, std::__iterator_category(__first));
 	}
 
       /**
@@ -423,11 +401,9 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  not touched in any way.  Managing the pointer is the user's
        *  responsibility.
        */
-      ~vector() _GLIBCXX_NOEXCEPT
+      ~vector()
       {
-	std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-		      _M_get_Tp_allocator());
-	_GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC;
+      	std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, _M_get_Tp_allocator());
       }
 
       /**
@@ -439,49 +415,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *
        *  Whether the allocator is copied depends on the allocator traits.
        */
-      vector&
-      operator=(const vector& __x);
-
-#if __cplusplus >= 201103L
-      /**
-       *  @brief  %Vector move assignment operator.
-       *  @param  __x  A %vector of identical element and allocator types.
-       *
-       *  The contents of @a __x are moved into this %vector (without copying,
-       *  if the allocators permit it).
-       *  Afterwards @a __x is a valid, but unspecified %vector.
-       *
-       *  Whether the allocator is moved depends on the allocator traits.
-       */
-      vector&
-      operator=(vector&& __x) noexcept(_Alloc_traits::_S_nothrow_move())
-      {
-	constexpr bool __move_storage =
-	  _Alloc_traits::_S_propagate_on_move_assign()
-	  || _Alloc_traits::_S_always_equal();
-	_M_move_assign(std::move(__x), __bool_constant<__move_storage>());
-	return *this;
-      }
-
-      /**
-       *  @brief  %Vector list assignment operator.
-       *  @param  __l  An initializer_list.
-       *
-       *  This function fills a %vector with copies of the elements in the
-       *  initializer list @a __l.
-       *
-       *  Note that the assignment completely changes the %vector and
-       *  that the resulting %vector's size is the same as the number
-       *  of elements assigned.
-       */
-      vector&
-      operator=(initializer_list<value_type> __l)
-      {
-	this->_M_assign_aux(__l.begin(), __l.end(),
-			    random_access_iterator_tag());
-	return *this;
-      }
-#endif
+      vector& operator=(const vector& __x);
 
       /**
        *  @brief  Assigns a given value to a %vector.
@@ -493,9 +427,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %vector and that the resulting %vector's size is the same as
        *  the number of elements assigned.
        */
-      void
-      assign(size_type __n, const value_type& __val)
-      { _M_fill_assign(__n, __val); }
+      void  assign(size_type __n, const value_type& __val) { _M_fill_assign(__n, __val); }
 
       /**
        *  @brief  Assigns a range to a %vector.
@@ -509,11 +441,8 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  that the resulting %vector's size is the same as the number
        *  of elements assigned.
        */
-      template<typename _InputIterator,
-	       typename = std::_RequireInputIter<_InputIterator>>
-	void
-	assign(_InputIterator __first, _InputIterator __last)
-	{ _M_assign_dispatch(__first, __last, __false_type()); }
+      template<typename _InputIterator, typename = std::_RequireInputIter<_InputIterator>>
+	void  assign(_InputIterator __first, _InputIterator __last) { _M_assign_dispatch(__first, __last, __false_type()); }
 
       /**
        *  @brief  Assigns an initializer list to a %vector.
@@ -526,12 +455,8 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  that the resulting %vector's size is the same as the number
        *  of elements assigned.
        */
-      void
-      assign(initializer_list<value_type> __l)
-      {
-	this->_M_assign_aux(__l.begin(), __l.end(),
-			    random_access_iterator_tag());
-      }
+      void  assign(initializer_list<value_type> __l)
+      {this->_M_assign_aux(__l.begin(), __l.end(), random_access_iterator_tag());}
 
       /// Get a copy of the memory allocation object.
       using _Base::get_allocator;
@@ -542,119 +467,91 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
-      iterator
-      begin() _GLIBCXX_NOEXCEPT
-      { return iterator(this->_M_impl._M_start); }
+      iterator    begin() { return iterator(this->_M_impl._M_start); }
 
       /**
        *  Returns a read-only (constant) iterator that points to the
        *  first element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
-      const_iterator
-      begin() const _GLIBCXX_NOEXCEPT
-      { return const_iterator(this->_M_impl._M_start); }
+      const_iterator begin() const { return const_iterator(this->_M_impl._M_start); }
 
       /**
        *  Returns a read/write iterator that points one past the last
        *  element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
-      iterator
-      end() _GLIBCXX_NOEXCEPT
-      { return iterator(this->_M_impl._M_finish); }
+      iterator    end() { return iterator(this->_M_impl._M_finish); }
 
       /**
        *  Returns a read-only (constant) iterator that points one past
        *  the last element in the %vector.  Iteration is done in
        *  ordinary element order.
        */
-      const_iterator
-      end() const _GLIBCXX_NOEXCEPT
-      { return const_iterator(this->_M_impl._M_finish); }
+      const_iterator end() const { return const_iterator(this->_M_impl._M_finish); }
 
       /**
        *  Returns a read/write reverse iterator that points to the
        *  last element in the %vector.  Iteration is done in reverse
        *  element order.
        */
-      reverse_iterator
-      rbegin() _GLIBCXX_NOEXCEPT
-      { return reverse_iterator(end()); }
+      reverse_iterator  rbegin() { return reverse_iterator(end()); }
 
       /**
        *  Returns a read-only (constant) reverse iterator that points
        *  to the last element in the %vector.  Iteration is done in
        *  reverse element order.
        */
-      const_reverse_iterator
-      rbegin() const _GLIBCXX_NOEXCEPT
-      { return const_reverse_iterator(end()); }
+      const_reverse_iterator  rbegin() const { return const_reverse_iterator(end()); }
 
       /**
        *  Returns a read/write reverse iterator that points to one
        *  before the first element in the %vector.  Iteration is done
        *  in reverse element order.
        */
-      reverse_iterator
-      rend() _GLIBCXX_NOEXCEPT
-      { return reverse_iterator(begin()); }
+      reverse_iterator  rend() { return reverse_iterator(begin()); }
 
       /**
        *  Returns a read-only (constant) reverse iterator that points
        *  to one before the first element in the %vector.  Iteration
        *  is done in reverse element order.
        */
-      const_reverse_iterator
-      rend() const _GLIBCXX_NOEXCEPT
-      { return const_reverse_iterator(begin()); }
+      const_reverse_iterator  rend() const { return const_reverse_iterator(begin()); }
 
       /**
        *  Returns a read-only (constant) iterator that points to the
        *  first element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
-      const_iterator
-      cbegin() const noexcept
-      { return const_iterator(this->_M_impl._M_start); }
+      const_iterator    cbegin() const noexcept { return const_iterator(this->_M_impl._M_start); }
 
       /**
        *  Returns a read-only (constant) iterator that points one past
        *  the last element in the %vector.  Iteration is done in
        *  ordinary element order.
        */
-      const_iterator
-      cend() const noexcept
-      { return const_iterator(this->_M_impl._M_finish); }
+      const_iterator    cend() const noexcept   { return const_iterator(this->_M_impl._M_finish); }
 
       /**
        *  Returns a read-only (constant) reverse iterator that points
        *  to the last element in the %vector.  Iteration is done in
        *  reverse element order.
        */
-      const_reverse_iterator
-      crbegin() const noexcept
-      { return const_reverse_iterator(end()); }
+      const_reverse_iterator  crbegin() const noexcept      { return const_reverse_iterator(end()); }
 
       /**
        *  Returns a read-only (constant) reverse iterator that points
        *  to one before the first element in the %vector.  Iteration
        *  is done in reverse element order.
        */
-      const_reverse_iterator
-      crend() const noexcept
-      { return const_reverse_iterator(begin()); }
+      const_reverse_iterator  crend() const noexcept  { return const_reverse_iterator(begin()); }
 
       // [23.2.4.2] capacity
       /**  Returns the number of elements in the %vector.  */
-      size_type
-      size() const _GLIBCXX_NOEXCEPT
-      { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
+      size_type   size() const { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
 
       /**  Returns the size() of the largest possible %vector.  */
-      size_type
-      max_size() const _GLIBCXX_NOEXCEPT
-      { return _S_max_size(_M_get_Tp_allocator()); }
+      size_type   max_size() const  { return _S_max_size(_M_get_Tp_allocator()); }
 
       /**
        *  @brief  Resizes the %vector to the specified number of elements.
@@ -665,13 +562,12 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %vector's current size the %vector is truncated, otherwise
        *  default constructed elements are appended.
        */
-      void
-      resize(size_type __new_size)
+      void  resize(size_type __new_size)
       {
-	if (__new_size > size())
-	  _M_default_append(__new_size - size());
-	else if (__new_size < size())
-	  _M_erase_at_end(this->_M_impl._M_start + __new_size);
+            if (__new_size > size())
+            _M_default_append(__new_size - size());
+            else if (__new_size < size())
+            _M_erase_at_end(this->_M_impl._M_start + __new_size);
       }
 
       /**
@@ -685,36 +581,29 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  the %vector is extended and new elements are populated with
        *  given data.
        */
-      void
-      resize(size_type __new_size, const value_type& __x)
+      void  resize(size_type __new_size, const value_type& __x)
       {
-	if (__new_size > size())
-	  _M_fill_insert(end(), __new_size - size(), __x);
-	else if (__new_size < size())
-	  _M_erase_at_end(this->_M_impl._M_start + __new_size);
+            if (__new_size > size())
+            _M_fill_insert(end(), __new_size - size(), __x);
+            else if (__new_size < size())
+            _M_erase_at_end(this->_M_impl._M_start + __new_size);
       }
 
       /**  A non-binding request to reduce capacity() to size().  */
-      void
-      shrink_to_fit()
-      { _M_shrink_to_fit(); }
+      void  shrink_to_fit()   { _M_shrink_to_fit(); }
 
       /**
        *  Returns the total number of elements that the %vector can
        *  hold before needing to allocate more memory.
        */
-      size_type
-      capacity() const _GLIBCXX_NOEXCEPT
-      { return size_type(this->_M_impl._M_end_of_storage
-			 - this->_M_impl._M_start); }
+      size_type   capacity() const
+      { return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start); }
 
       /**
        *  Returns true if the %vector is empty.  (Thus begin() would
        *  equal end().)
        */
-      _GLIBCXX_NODISCARD bool
-      empty() const _GLIBCXX_NOEXCEPT
-      { return begin() == end(); }
+      bool  empty() const     { return begin() == end(); }
 
       /**
        *  @brief  Attempt to preallocate enough memory for specified number of
@@ -733,8 +622,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %advance, and thus prevent a possible reallocation of memory
        *  and copying of %vector data.
        */
-      void
-      reserve(size_type __n);
+      void  reserve(size_type __n);
 
       // element access
       /**
@@ -748,11 +636,10 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
-      reference
-      operator[](size_type __n) _GLIBCXX_NOEXCEPT
+      reference   operator[](size_type __n)
       {
-	__glibcxx_requires_subscript(__n);
-	return *(this->_M_impl._M_start + __n);
+            __glibcxx_requires_subscript(__n);
+            return *(this->_M_impl._M_start + __n);
       }
 
       /**
@@ -766,23 +653,21 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
-      const_reference
-      operator[](size_type __n) const _GLIBCXX_NOEXCEPT
+      const_reference   operator[](size_type __n) const
       {
-	__glibcxx_requires_subscript(__n);
-	return *(this->_M_impl._M_start + __n);
+            __glibcxx_requires_subscript(__n);
+            return *(this->_M_impl._M_start + __n);
       }
 
     protected:
       /// Safety check used only from at().
-      void
-      _M_range_check(size_type __n) const
+      void  _M_range_check(size_type __n) const
       {
-	if (__n >= this->size())
-	  __throw_out_of_range_fmt(__N("vector::_M_range_check: __n "
-				       "(which is %zu) >= this->size() "
-				       "(which is %zu)"),
-				   __n, this->size());
+            if (__n >= this->size())
+            __throw_out_of_range_fmt(__N("vector::_M_range_check: __n "
+                                    "(which is %zu) >= this->size() "
+                                    "(which is %zu)"),
+                              __n, this->size());
       }
 
     public:
@@ -797,11 +682,10 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
-      reference
-      at(size_type __n)
+      reference   at(size_type __n)
       {
-	_M_range_check(__n);
-	return (*this)[__n];
+            _M_range_check(__n);
+            return (*this)[__n];
       }
 
       /**
@@ -815,55 +699,50 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
-      const_reference
-      at(size_type __n) const
+      const_reference   at(size_type __n) const
       {
-	_M_range_check(__n);
-	return (*this)[__n];
+            _M_range_check(__n);
+            return (*this)[__n];
       }
 
       /**
        *  Returns a read/write reference to the data at the first
        *  element of the %vector.
        */
-      reference
-      front() _GLIBCXX_NOEXCEPT
+      reference   front()
       {
-	__glibcxx_requires_nonempty();
-	return *begin();
+            __glibcxx_requires_nonempty();
+            return *begin();
       }
 
       /**
        *  Returns a read-only (constant) reference to the data at the first
        *  element of the %vector.
        */
-      const_reference
-      front() const _GLIBCXX_NOEXCEPT
+      const_reference   front() const
       {
-	__glibcxx_requires_nonempty();
-	return *begin();
+            __glibcxx_requires_nonempty();
+            return *begin();
       }
 
       /**
        *  Returns a read/write reference to the data at the last
        *  element of the %vector.
        */
-      reference
-      back() _GLIBCXX_NOEXCEPT
+      reference   back()
       {
-	__glibcxx_requires_nonempty();
-	return *(end() - 1);
+            __glibcxx_requires_nonempty();
+            return *(end() - 1);
       }
 
       /**
        *  Returns a read-only (constant) reference to the data at the
        *  last element of the %vector.
        */
-      const_reference
-      back() const _GLIBCXX_NOEXCEPT
+      const_reference   back() const
       {
-	__glibcxx_requires_nonempty();
-	return *(end() - 1);
+            __glibcxx_requires_nonempty();
+            return *(end() - 1);
       }
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -873,13 +752,9 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *   Returns a pointer such that [data(), data() + size()) is a valid
        *   range.  For a non-empty %vector, data() == &front().
        */
-      _Tp*
-      data() _GLIBCXX_NOEXCEPT
-      { return _M_data_ptr(this->_M_impl._M_start); }
+      _Tp*  data()      { return _M_data_ptr(this->_M_impl._M_start); }
 
-      const _Tp*
-      data() const _GLIBCXX_NOEXCEPT
-      { return _M_data_ptr(this->_M_impl._M_start); }
+      const _Tp*  data() const      { return _M_data_ptr(this->_M_impl._M_start); }
 
       // [23.2.4.3] modifiers
       /**
@@ -892,28 +767,24 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  done in constant time if the %vector has preallocated space
        *  available.
        */
-      void
-      push_back(const value_type& __x)
+      void  push_back(const value_type& __x)
       {
-	if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
-	  {
-	    _GLIBCXX_ASAN_ANNOTATE_GROW(1);
-	    _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-				     __x);
-	    ++this->_M_impl._M_finish;
-	    _GLIBCXX_ASAN_ANNOTATE_GREW(1);
-	  }
-	else
-	  _M_realloc_insert(end(), __x);
+            if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+            {
+            _GLIBCXX_ASAN_ANNOTATE_GROW(1);
+            _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+                              __x);
+            ++this->_M_impl._M_finish;
+            _GLIBCXX_ASAN_ANNOTATE_GREW(1);
+            }
+            else
+            _M_realloc_insert(end(), __x);
       }
 
-      void
-      push_back(value_type&& __x)
-      { emplace_back(std::move(__x)); }
+      void  push_back(value_type&& __x)   { emplace_back(std::move(__x)); }
 
       template<typename... _Args>
-	reference
-	emplace_back(_Args&&... __args);
+	reference   emplace_back(_Args&&... __args);
 
       /**
        *  @brief  Removes last element.
@@ -924,13 +795,12 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  data is needed, it should be retrieved before pop_back() is
        *  called.
        */
-      void
-      pop_back() _GLIBCXX_NOEXCEPT
+      void  pop_back()
       {
-	__glibcxx_requires_nonempty();
-	--this->_M_impl._M_finish;
-	_Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
-	_GLIBCXX_ASAN_ANNOTATE_SHRINK(1);
+            __glibcxx_requires_nonempty();
+            --this->_M_impl._M_finish;
+            _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
+            _GLIBCXX_ASAN_ANNOTATE_SHRINK(1);
       }
 
       /**
@@ -946,8 +816,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  std::list.
        */
       template<typename... _Args>
-	iterator
-	emplace(const_iterator __position, _Args&&... __args)
+	iterator    emplace(const_iterator __position, _Args&&... __args)
 	{ return _M_emplace_aux(__position, std::forward<_Args>(__args)...); }
 
       /**
@@ -961,8 +830,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  could be expensive for a %vector and if it is frequently
        *  used the user should consider using std::list.
        */
-      iterator
-      insert(const_iterator __position, const value_type& __x);
+      iterator    insert(const_iterator __position, const value_type& __x);
 
       /**
        *  @brief  Inserts given rvalue into %vector before specified iterator.
@@ -975,8 +843,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  could be expensive for a %vector and if it is frequently
        *  used the user should consider using std::list.
        */
-      iterator
-      insert(const_iterator __position, value_type&& __x)
+      iterator    insert(const_iterator __position, value_type&& __x)
       { return _M_insert_rval(__position, std::move(__x)); }
 
       /**
@@ -992,13 +859,12 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %vector and if it is frequently used the user should
        *  consider using std::list.
        */
-      iterator
-      insert(const_iterator __position, initializer_list<value_type> __l)
+      iterator    insert(const_iterator __position, initializer_list<value_type> __l)
       {
-	auto __offset = __position - cbegin();
-	_M_range_insert(begin() + __offset, __l.begin(), __l.end(),
-			std::random_access_iterator_tag());
-	return begin() + __offset;
+            auto __offset = __position - cbegin();
+            _M_range_insert(begin() + __offset, __l.begin(), __l.end(),
+                        std::random_access_iterator_tag());
+            return begin() + __offset;
       }
 
       /**
@@ -1015,12 +881,11 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %vector and if it is frequently used the user should
        *  consider using std::list.
        */
-      iterator
-      insert(const_iterator __position, size_type __n, const value_type& __x)
+      iterator    insert(const_iterator __position, size_type __n, const value_type& __x)
       {
-	difference_type __offset = __position - cbegin();
-	_M_fill_insert(begin() + __offset, __n, __x);
-	return begin() + __offset;
+            difference_type __offset = __position - cbegin();
+            _M_fill_insert(begin() + __offset, __n, __x);
+            return begin() + __offset;
       }
 
       /**
@@ -1038,16 +903,13 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  %vector and if it is frequently used the user should
        *  consider using std::list.
        */
-      template<typename _InputIterator,
-	       typename = std::_RequireInputIter<_InputIterator>>
-	iterator
-	insert(const_iterator __position, _InputIterator __first,
-	       _InputIterator __last)
+      template<typename _InputIterator, typename = std::_RequireInputIter<_InputIterator>>
+	iterator    insert(const_iterator __position, _InputIterator __first, _InputIterator __last)
 	{
-	  difference_type __offset = __position - cbegin();
-	  _M_insert_dispatch(begin() + __offset,
-			     __first, __last, __false_type());
-	  return begin() + __offset;
+            difference_type __offset = __position - cbegin();
+            _M_insert_dispatch(begin() + __offset,
+                        __first, __last, __false_type());
+            return begin() + __offset;
 	}
       /**
        *  @brief  Remove element at given position.
@@ -1064,8 +926,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  the pointed-to memory is not touched in any way.  Managing
        *  the pointer is the user's responsibility.
        */
-      iterator
-      erase(const_iterator __position)
+      iterator    erase(const_iterator __position)
       { return _M_erase(begin() + (__position - cbegin())); }
 
       /**
@@ -1086,12 +947,11 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  pointers, the pointed-to memory is not touched in any way.
        *  Managing the pointer is the user's responsibility.
        */
-      iterator
-      erase(const_iterator __first, const_iterator __last)
+      iterator    erase(const_iterator __first, const_iterator __last)
       {
-	const auto __beg = begin();
-	const auto __cbeg = cbegin();
-	return _M_erase(__beg + (__first - __cbeg), __beg + (__last - __cbeg));
+            const auto __beg = begin();
+            const auto __cbeg = cbegin();
+            return _M_erase(__beg + (__first - __cbeg), __beg + (__last - __cbeg));
       }
       /**
        *  @brief  Swaps data with another %vector.
@@ -1104,14 +964,12 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *
        *  Whether the allocators are swapped depends on the allocator traits.
        */
-      void
-      swap(vector& __x) _GLIBCXX_NOEXCEPT
+      void  swap(vector& __x)
       {
-	__glibcxx_assert(_Alloc_traits::propagate_on_container_swap::value
-			 || _M_get_Tp_allocator() == __x._M_get_Tp_allocator());
-	this->_M_impl._M_swap_data(__x._M_impl);
-	_Alloc_traits::_S_on_swap(_M_get_Tp_allocator(),
-				  __x._M_get_Tp_allocator());
+            __glibcxx_assert(_Alloc_traits::propagate_on_container_swap::value
+                        || _M_get_Tp_allocator() == __x._M_get_Tp_allocator());
+            this->_M_impl._M_swap_data(__x._M_impl);
+            _Alloc_traits::_S_on_swap(_M_get_Tp_allocator(), __x._M_get_Tp_allocator());
       }
 
       /**
@@ -1120,9 +978,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  pointed-to memory is not touched in any way.  Managing the pointer is
        *  the user's responsibility.
        */
-      void
-      clear() _GLIBCXX_NOEXCEPT
-      { _M_erase_at_end(this->_M_impl._M_start); }
+      void  clear()     { _M_erase_at_end(this->_M_impl._M_start); }
 
     protected:
       /**
@@ -1130,22 +986,20 @@ class vector : protected _Vector_base<_Tp, _Alloc>
        *  obtain @a n bytes of memory, and then copies [first,last) into it.
        */
       template<typename _ForwardIterator>
-	pointer
-	_M_allocate_and_copy(size_type __n,
-			     _ForwardIterator __first, _ForwardIterator __last)
+	pointer     _M_allocate_and_copy(size_type __n, _ForwardIterator __first, _ForwardIterator __last)
 	{
-	  pointer __result = this->_M_allocate(__n);
-	  __try
-	    {
-	      std::__uninitialized_copy_a(__first, __last, __result,
-					  _M_get_Tp_allocator());
-	      return __result;
-	    }
-	  __catch(...)
-	    {
-	      _M_deallocate(__result, __n);
-	      __throw_exception_again;
-	    }
+            pointer __result = this->_M_allocate(__n);
+            __try
+            {
+            std::__uninitialized_copy_a(__first, __last, __result,
+                                    _M_get_Tp_allocator());
+            return __result;
+            }
+            __catch(...)
+            {
+            _M_deallocate(__result, __n);
+            __throw_exception_again;
+            }
 	}
 
 
@@ -1156,74 +1010,60 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
       template<typename _Integer>
-	void
-	_M_initialize_dispatch(_Integer __n, _Integer __value, __true_type)
+	void  _M_initialize_dispatch(_Integer __n, _Integer __value, __true_type)
 	{
-	  this->_M_impl._M_start = _M_allocate(_S_check_init_len(
-		static_cast<size_type>(__n), _M_get_Tp_allocator()));
-	  this->_M_impl._M_end_of_storage =
-	    this->_M_impl._M_start + static_cast<size_type>(__n);
-	  _M_fill_initialize(static_cast<size_type>(__n), __value);
+            this->_M_impl._M_start = _M_allocate(_S_check_init_len(
+            static_cast<size_type>(__n), _M_get_Tp_allocator()));
+            this->_M_impl._M_end_of_storage =
+            this->_M_impl._M_start + static_cast<size_type>(__n);
+            _M_fill_initialize(static_cast<size_type>(__n), __value);
 	}
 
       // Called by the range constructor to implement [23.1.1]/9
       template<typename _InputIterator>
-	void
-	_M_initialize_dispatch(_InputIterator __first, _InputIterator __last,
-			       __false_type)
+	void  _M_initialize_dispatch(_InputIterator __first, _InputIterator __last, __false_type)
 	{
-	  _M_range_initialize(__first, __last,
-			      std::__iterator_category(__first));
+	      _M_range_initialize(__first, __last, std::__iterator_category(__first));
 	}
 
       // Called by the second initialize_dispatch above
       template<typename _InputIterator>
-	void
-	_M_range_initialize(_InputIterator __first, _InputIterator __last,
-			    std::input_iterator_tag)
+	void  _M_range_initialize(_InputIterator __first, _InputIterator __last, std::input_iterator_tag)
 	{
-	  __try {
-	    for (; __first != __last; ++__first)
-	      emplace_back(*__first);
-	  } __catch(...) {
-	    clear();
-	    __throw_exception_again;
-	  }
+            __try 
+            {
+                  for (; __first != __last; ++__first)
+                        emplace_back(*__first);
+            } __catch(...) {
+                  clear();
+                  __throw_exception_again;
+            }
 	}
 
       // Called by the second initialize_dispatch above
       template<typename _ForwardIterator>
-	void
-	_M_range_initialize(_ForwardIterator __first, _ForwardIterator __last,
-			    std::forward_iterator_tag)
+	void  _M_range_initialize(_ForwardIterator __first, _ForwardIterator __last, std::forward_iterator_tag)
 	{
-	  const size_type __n = std::distance(__first, __last);
-	  this->_M_impl._M_start
-	    = this->_M_allocate(_S_check_init_len(__n, _M_get_Tp_allocator()));
-	  this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
-	  this->_M_impl._M_finish =
-	    std::__uninitialized_copy_a(__first, __last,
-					this->_M_impl._M_start,
-					_M_get_Tp_allocator());
+            const size_type __n = std::distance(__first, __last);
+            this->_M_impl._M_start = this->_M_allocate(_S_check_init_len(__n, _M_get_Tp_allocator()));
+            this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
+            this->_M_impl._M_finish = std::__uninitialized_copy_a(__first, __last,
+                              this->_M_impl._M_start, _M_get_Tp_allocator());
 	}
 
       // Called by the first initialize_dispatch above and by the
       // vector(n,value,a) constructor.
-      void
-      _M_fill_initialize(size_type __n, const value_type& __value)
+      void  _M_fill_initialize(size_type __n, const value_type& __value)
       {
-	this->_M_impl._M_finish =
-	  std::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value,
-					_M_get_Tp_allocator());
+            this->_M_impl._M_finish = std::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value,
+                                    _M_get_Tp_allocator());
       }
 
       // Called by the vector(n) constructor.
-      void
-      _M_default_initialize(size_type __n)
+      void  _M_default_initialize(size_type __n)
       {
-	this->_M_impl._M_finish =
-	  std::__uninitialized_default_n_a(this->_M_impl._M_start, __n,
-					   _M_get_Tp_allocator());
+            this->_M_impl._M_finish = std::__uninitialized_default_n_a(this->_M_impl._M_start, __n,
+                                    _M_get_Tp_allocator());
       }
 
       // Internal assign functions follow.  The *_aux functions do the actual
@@ -1234,33 +1074,24 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
       template<typename _Integer>
-	void
-	_M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
-	{ _M_fill_assign(__n, __val); }
+	void  _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)     { _M_fill_assign(__n, __val); }
 
       // Called by the range assign to implement [23.1.1]/9
       template<typename _InputIterator>
-	void
-	_M_assign_dispatch(_InputIterator __first, _InputIterator __last,
-			   __false_type)
+	void  _M_assign_dispatch(_InputIterator __first, _InputIterator __last, __false_type)
 	{ _M_assign_aux(__first, __last, std::__iterator_category(__first)); }
 
       // Called by the second assign_dispatch above
       template<typename _InputIterator>
-	void
-	_M_assign_aux(_InputIterator __first, _InputIterator __last,
-		      std::input_iterator_tag);
+	void  _M_assign_aux(_InputIterator __first, _InputIterator __last, std::input_iterator_tag);
 
       // Called by the second assign_dispatch above
       template<typename _ForwardIterator>
-	void
-	_M_assign_aux(_ForwardIterator __first, _ForwardIterator __last,
-		      std::forward_iterator_tag);
+	void  _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last, std::forward_iterator_tag);
 
       // Called by assign(n,t), and the range assign when it turns out
       // to be the same thing.
-      void
-      _M_fill_assign(size_type __n, const value_type& __val);
+      void  _M_fill_assign(size_type __n, const value_type& __val);
 
       // Internal insert functions follow.
 
@@ -1269,197 +1100,162 @@ class vector : protected _Vector_base<_Tp, _Alloc>
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
       template<typename _Integer>
-	void
-	_M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val,
-			   __true_type)
+	void  _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val, __true_type)
 	{ _M_fill_insert(__pos, __n, __val); }
 
       // Called by the range insert to implement [23.1.1]/9
       template<typename _InputIterator>
-	void
-	_M_insert_dispatch(iterator __pos, _InputIterator __first,
-			   _InputIterator __last, __false_type)
-	{
-	  _M_range_insert(__pos, __first, __last,
-			  std::__iterator_category(__first));
-	}
+	void  _M_insert_dispatch(iterator __pos, _InputIterator __first, _InputIterator __last, __false_type)
+	{ _M_range_insert(__pos, __first, __last, std::__iterator_category(__first));}
 
       // Called by the second insert_dispatch above
       template<typename _InputIterator>
-	void
-	_M_range_insert(iterator __pos, _InputIterator __first,
-			_InputIterator __last, std::input_iterator_tag);
+	void  _M_range_insert(iterator __pos, _InputIterator __first, _InputIterator __last, std::input_iterator_tag);
 
       // Called by the second insert_dispatch above
       template<typename _ForwardIterator>
-	void
-	_M_range_insert(iterator __pos, _ForwardIterator __first,
-			_ForwardIterator __last, std::forward_iterator_tag);
+	void  _M_range_insert(iterator __pos, _ForwardIterator __first, _ForwardIterator __last, std::forward_iterator_tag);
 
       // Called by insert(p,n,x), and the range insert when it turns out to be
       // the same thing.
-      void
-      _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
+      void  _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
 
       // Called by resize(n).
-      void
-      _M_default_append(size_type __n);
+      void  _M_default_append(size_type __n);
 
-      bool
-      _M_shrink_to_fit();
+      bool  _M_shrink_to_fit();
 
       // A value_type object constructed with _Alloc_traits::construct()
       // and destroyed with _Alloc_traits::destroy().
       struct _Temporary_value
       {
-	template<typename... _Args>
-	  explicit
-	  _Temporary_value(vector* __vec, _Args&&... __args) : _M_this(__vec)
-	  {
-	    _Alloc_traits::construct(_M_this->_M_impl, _M_ptr(),
-				     std::forward<_Args>(__args)...);
-	  }
+                  template<typename... _Args>
+                  explicit    _Temporary_value(vector* __vec, _Args&&... __args) : _M_this(__vec)
+                  {
+                        _Alloc_traits::construct(_M_this->_M_impl, _M_ptr(),
+                                    std::forward<_Args>(__args)...);
+                  }
 
-	~_Temporary_value()
-	{ _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
+                  ~_Temporary_value() { _Alloc_traits::destroy(_M_this->_M_impl, _M_ptr()); }
 
-	value_type&
-	_M_val() { return *_M_ptr(); }
+                  value_type& _M_val() { return *_M_ptr(); }
 
-      private:
-	_Tp*
-	_M_ptr() { return reinterpret_cast<_Tp*>(&__buf); }
-
-	vector* _M_this;
-	typename aligned_storage<sizeof(_Tp), alignof(_Tp)>::type __buf;
+            private:
+            
+                  vector* _M_this;
+                  
+                  _Tp*  _M_ptr() { return reinterpret_cast<_Tp*>(&__buf); }
+                  typename aligned_storage<sizeof(_Tp), alignof(_Tp)>::type __buf;
       };
 
       // Called by insert(p,x) and other functions when insertion needs to
       // reallocate or move existing elements. _Arg is either _Tp& or _Tp.
       template<typename _Arg>
-	void
-	_M_insert_aux(iterator __position, _Arg&& __arg);
+	void  _M_insert_aux(iterator __position, _Arg&& __arg);
 
       template<typename... _Args>
-	void
-	_M_realloc_insert(iterator __position, _Args&&... __args);
+	void  _M_realloc_insert(iterator __position, _Args&&... __args);
 
       // Either move-construct at the end, or forward to _M_insert_aux.
-      iterator
-      _M_insert_rval(const_iterator __position, value_type&& __v);
+      iterator    _M_insert_rval(const_iterator __position, value_type&& __v);
 
       // Try to emplace at the end, otherwise forward to _M_insert_aux.
       template<typename... _Args>
-	iterator
-	_M_emplace_aux(const_iterator __position, _Args&&... __args);
+	iterator    _M_emplace_aux(const_iterator __position, _Args&&... __args);
 
       // Emplacing an rvalue of the correct type can use _M_insert_rval.
-      iterator
-      _M_emplace_aux(const_iterator __position, value_type&& __v)
+      iterator    _M_emplace_aux(const_iterator __position, value_type&& __v)
       { return _M_insert_rval(__position, std::move(__v)); }
 
       // Called by _M_fill_insert, _M_insert_aux etc.
-      size_type
-      _M_check_len(size_type __n, const char* __s) const
+      size_type   _M_check_len(size_type __n, const char* __s) const
       {
-	if (max_size() - size() < __n)
-	  __throw_length_error(__N(__s));
+            if (max_size() - size() < __n)
+                  __throw_length_error(__N(__s));
 
-	const size_type __len = size() + (std::max)(size(), __n);
-	return (__len < size() || __len > max_size()) ? max_size() : __len;
+            const size_type __len = size() + (std::max)(size(), __n);
+            return (__len < size() || __len > max_size()) ? max_size() : __len;
       }
 
       // Called by constructors to check initial size.
-      static size_type
-      _S_check_init_len(size_type __n, const allocator_type& __a)
+      static size_type  _S_check_init_len(size_type __n, const allocator_type& __a)
       {
-	if (__n > _S_max_size(_Tp_alloc_type(__a)))
-	  __throw_length_error(
-	      __N("cannot create std::vector larger than max_size()"));
-	return __n;
+            if (__n > _S_max_size(_Tp_alloc_type(__a)))
+            __throw_length_error(
+                  __N("cannot create std::vector larger than max_size()"));
+            return __n;
       }
 
-      static size_type
-      _S_max_size(const _Tp_alloc_type& __a) _GLIBCXX_NOEXCEPT
+      static size_type  _S_max_size(const _Tp_alloc_type& __a)
       {
-	// std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
-	// and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
-	// (even if std::allocator_traits::max_size says we can).
-	const size_t __diffmax
-	  = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
-	const size_t __allocmax = _Alloc_traits::max_size(__a);
-	return (std::min)(__diffmax, __allocmax);
+            // std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
+            // and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
+            // (even if std::allocator_traits::max_size says we can).
+            const size_t __diffmax = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+            const size_t __allocmax = _Alloc_traits::max_size(__a);
+            return (std::min)(__diffmax, __allocmax);
       }
 
       // Internal erase functions follow.
 
       // Called by erase(q1,q2), clear(), resize(), _M_fill_assign,
       // _M_assign_aux.
-      void
-      _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
+      void  _M_erase_at_end(pointer __pos)
       {
-	if (size_type __n = this->_M_impl._M_finish - __pos)
-	  {
-	    std::_Destroy(__pos, this->_M_impl._M_finish,
-			  _M_get_Tp_allocator());
-	    this->_M_impl._M_finish = __pos;
-	    _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
-	  }
+            if (size_type __n = this->_M_impl._M_finish - __pos)
+            {
+                  std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
+                  this->_M_impl._M_finish = __pos;
+                  _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
+            }
       }
 
-      iterator
-      _M_erase(iterator __position);
+      iterator    _M_erase(iterator __position);
 
-      iterator
-      _M_erase(iterator __first, iterator __last);
+      iterator    _M_erase(iterator __first, iterator __last);
 
     private:
       // Constant-time move assignment when source object's memory can be
       // moved, either because the source's allocator will move too
       // or because the allocators are equal.
-      void
-      _M_move_assign(vector&& __x, true_type) noexcept
+      void  _M_move_assign(vector&& __x, true_type) noexcept
       {
-	vector __tmp(get_allocator());
-	this->_M_impl._M_swap_data(__x._M_impl);
-	__tmp._M_impl._M_swap_data(__x._M_impl);
-	std::__alloc_on_move(_M_get_Tp_allocator(), __x._M_get_Tp_allocator());
+            vector __tmp(get_allocator());
+            this->_M_impl._M_swap_data(__x._M_impl);
+            __tmp._M_impl._M_swap_data(__x._M_impl);
+            std::__alloc_on_move(_M_get_Tp_allocator(), __x._M_get_Tp_allocator());
       }
 
       // Do move assignment when it might not be possible to move source
       // object's memory, resulting in a linear-time operation.
-      void
-      _M_move_assign(vector&& __x, false_type)
+      void  _M_move_assign(vector&& __x, false_type)
       {
-	if (__x._M_get_Tp_allocator() == this->_M_get_Tp_allocator())
-	  _M_move_assign(std::move(__x), true_type());
-	else
-	  {
-	    // The rvalue's allocator cannot be moved and is not equal,
-	    // so we need to individually move each element.
-	    this->assign(std::__make_move_if_noexcept_iterator(__x.begin()),
-			 std::__make_move_if_noexcept_iterator(__x.end()));
-	    __x.clear();
-	  }
+            if (__x._M_get_Tp_allocator() == this->_M_get_Tp_allocator())
+                  _M_move_assign(std::move(__x), true_type());
+            else
+            {
+                  // The rvalue's allocator cannot be moved and is not equal,
+                  // so we need to individually move each element.
+                  this->assign(std::__make_move_if_noexcept_iterator(__x.begin()),
+                              std::__make_move_if_noexcept_iterator(__x.end()));
+                  __x.clear();
+	      }
       }
 
       template<typename _Up>
-	_Up*
-	_M_data_ptr(_Up* __ptr) const _GLIBCXX_NOEXCEPT
-	{ return __ptr; }
+	_Up*  _M_data_ptr(_Up* __ptr) const { return __ptr; }
 
       template<typename _Ptr>
 	typename std::pointer_traits<_Ptr>::element_type*
-	_M_data_ptr(_Ptr __ptr) const
-	{ return empty() ? nullptr : std::__to_address(__ptr); }
+	_M_data_ptr(_Ptr __ptr) const { return empty() ? nullptr : std::__to_address(__ptr); }
+    
     };
 
   template <typename _InputIterator, typename _ValT
 	     = typename iterator_traits<InputIterator>::value_type, typename _Allocator = allocator<_ValT>,
 	   typename = _RequireInputIter<_InputIterator>,
 	   typename = _RequireAllocator<_Allocator>>,
-    vector(_InputIterator, _InputIterator, _Allocator = _Allocator())
-      -> vector<_ValT, _Allocator>;
+    vector(_InputIterator, _InputIterator, _Allocator = _Allocator())   -> vector<_ValT, _Allocator>;
 
   /**
    *  @brief  Vector equality comparison.
@@ -1471,11 +1267,9 @@ class vector : protected _Vector_base<_Tp, _Alloc>
    *  vectors.  Vectors are considered equivalent if their sizes are equal,
    *  and if corresponding elements compare equal.
   */
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return (__x.size() == __y.size()
-	      && std::equal(__x.begin(), __x.end(), __y.begin())); }
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      { return (__x.size() == __y.size() && std::equal(__x.begin(), __x.end(), __y.begin())); }
 
   /**
    *  @brief  Vector ordering relation.
@@ -1488,42 +1282,35 @@ class vector : protected _Vector_base<_Tp, _Alloc>
    *
    *  See std::lexicographical_compare() for how the determination is made.
   */
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator<(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return std::lexicographical_compare(__x.begin(), __x.end(),
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator<(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      { return std::lexicographical_compare(__x.begin(), __x.end(),
 					  __y.begin(), __y.end()); }
 
   /// Based on operator==
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator!=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return !(__x == __y); }
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator!=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)    { return !(__x == __y); }
 
   /// Based on operator<
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator>(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return __y < __x; }
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator>(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      { return __y < __x; }
 
   /// Based on operator<
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator<=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return !(__y < __x); }
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator<=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      { return !(__y < __x); }
 
   /// Based on operator<
-  template<typename _Tp, typename _Alloc>
-    inline bool
-    operator>=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
-    { return !(__x < __y); }
+      template<typename _Tp, typename _Alloc>
+      inline bool   operator>=(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      { return !(__x < __y); }
 
   /// See std::vector::swap().
-  template<typename _Tp, typename _Alloc>
-    inline void
-    swap(vector<_Tp, _Alloc>& __x, vector<_Tp, _Alloc>& __y)
-    _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y)))
-    { __x.swap(__y); }
+      template<typename _Tp, typename _Alloc>
+      inline void   swap(vector<_Tp, _Alloc>& __x, vector<_Tp, _Alloc>& __y)
+      _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y)))
+      { __x.swap(__y); }
 
 _GLIBCXX_END_NAMESPACE_CONTAINER
 
