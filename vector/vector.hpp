@@ -7,6 +7,7 @@
 #include <exception>
 #include <stdexcept>
 #include "../utils/type_traits.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft 
 {
@@ -85,70 +86,70 @@ namespace ft
 			pointer _ptr;
 	};
 	
-	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
-	class RevIterator
-	{
-		public:
+	// template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
+	// class RevIterator
+	// {
+	// 	public:
 
-			typedef typename Vec::value_type value_type;
-			typedef typename Vec::value_type* pointer;
-			typedef typename Vec::value_type& reference;
-			typedef typename Vec::difference_type difference_type;
+	// 		typedef typename Vec::value_type value_type;
+	// 		typedef typename Vec::value_type* pointer;
+	// 		typedef typename Vec::value_type& reference;
+	// 		typedef typename Vec::difference_type difference_type;
 
-			RevIterator(pointer ptr) : _ptr(ptr){} 
+	// 		RevIterator(pointer ptr) : _ptr(ptr){} 
 
-			// RevIterator &operator=(const RevIterator &rhs)
-			// {
-			// 	_ptr = rhs._ptr;
-			// }
+	// 		// RevIterator &operator=(const RevIterator &rhs)
+	// 		// {
+	// 		// 	_ptr = rhs._ptr;
+	// 		// }
 
-			~RevIterator() {};
-			RevIterator& operator++()
-			{
-				_ptr++;
-				return *this;
-			}
+	// 		~RevIterator() {};
+	// 		RevIterator& operator++()
+	// 		{
+	// 			_ptr++;
+	// 			return *this;
+	// 		}
 
-			RevIterator operator++(int)
-			{
-				RevIterator temp = *this;
-				++(*this);
-				return temp;
-			}
+	// 		RevIterator operator++(int)
+	// 		{
+	// 			RevIterator temp = *this;
+	// 			++(*this);
+	// 			return temp;
+	// 		}
 
-			RevIterator& operator--()
-			{
-				_ptr--;
-				return *this;
-			}
+	// 		RevIterator& operator--()
+	// 		{
+	// 			_ptr--;
+	// 			return *this;
+	// 		}
 
-			RevIterator operator--(int)
-			{
-				RevIterator temp = *this;
-				--(*this);
-				return temp;
-			}
+	// 		RevIterator operator--(int)
+	// 		{
+	// 			RevIterator temp = *this;
+	// 			--(*this);
+	// 			return temp;
+	// 		}
 
-			reference operator[] (int index) {return *(_ptr + index);}
+	// 		reference operator[] (int index) {return *(_ptr + index);}
 
-			reference operator*() { return *(_ptr);}
-			// RevIterator &operator = (const RevIterator *rhs)
-			// {
+	// 		reference operator*() { return *(_ptr);}
+	// 		// RevIterator &operator = (const RevIterator *rhs)
+	// 		// {
 
-			// }
-			difference_type operator - (const RevIterator &rhs) const {return (_ptr - rhs._ptr);}
-			RevIterator operator + (const difference_type &rhs) const {return (_ptr + rhs);}
+	// 		// }
+	// 		difference_type operator - (const RevIterator &rhs) const {return (_ptr - rhs._ptr);}
+	// 		RevIterator operator + (const difference_type &rhs) const {return (_ptr + rhs);}
 			
-			bool    operator == (const RevIterator &rhs) const {return _ptr == rhs._ptr;}
-			bool    operator != (const RevIterator &rhs) const {return _ptr != rhs._ptr;}
-			bool    operator > (const RevIterator &rhs) const {return _ptr > rhs._ptr;}
-			bool    operator >= (const RevIterator &rhs) const {return _ptr >= rhs._ptr;}
-			bool    operator < (const RevIterator &rhs) const {return _ptr < rhs._ptr;}
-			bool    operator <= (const RevIterator &rhs) const {return _ptr <= rhs._ptr;}
+	// 		bool    operator == (const RevIterator &rhs) const {return _ptr == rhs._ptr;}
+	// 		bool    operator != (const RevIterator &rhs) const {return _ptr != rhs._ptr;}
+	// 		bool    operator > (const RevIterator &rhs) const {return _ptr > rhs._ptr;}
+	// 		bool    operator >= (const RevIterator &rhs) const {return _ptr >= rhs._ptr;}
+	// 		bool    operator < (const RevIterator &rhs) const {return _ptr < rhs._ptr;}
+	// 		bool    operator <= (const RevIterator &rhs) const {return _ptr <= rhs._ptr;}
 		
-		private:
-			pointer _ptr;
-	};
+	// 	private:
+	// 		pointer _ptr;
+	// };
 	
 	template <typename T, typename _allocator = std::allocator<T> >
 	class vector
@@ -163,8 +164,8 @@ namespace ft
 			typedef const T* 							const_pointer;
 			typedef VecIterator<vector<T> > 			iterator;
 			typedef VecIterator<vector<const T> > 		const_iterator;
-			typedef RevIterator<vector<T> > 			reverse_iterator;
-			typedef RevIterator<vector<const T> > 		const_reverse_iterator;
+			typedef reverse_iterator<const_iterator >	const_reverse_iterator;
+			typedef reverse_iterator<iterator> 			reverse_iterator;
 			typedef ptrdiff_t 							difference_type;
 			typedef size_t								size_type;
 
@@ -265,22 +266,27 @@ namespace ft
 			{
 				if (n == 0)
 					_destroy_arr();
-				if (n < _size) {
+				if (n < _size) 
+				{
 					for (size_t i = n; i < _size; i++)
 						_alloc.destroy(_arr + i);
-				} else if (n > _size && n < _capacity) {
+				} 
+				else if (n > _size && n < _capacity) 
+				{
 					for (size_t i = _size; i < n; i++)
 						_alloc.construct(_arr + i, val);
-				} else if (n > _capacity && n < max_size()) {
+				} 
+				else if (n > _capacity && n < max_size()) 
+				{
 					reserve(n);
 					insert(begin(), n - _size, val);
 				}
 				_size = n;
 			} 
 			
-			size_t  capacity() const {return (_capacity);};
+			size_t  capacity() const { return (_capacity); };
 
-			bool empty() const {return (_size == 0);}
+			bool empty() const { return (_size == 0); }
 
 			// Este funciona
 			void	reserve(size_t newCapacity) {
@@ -313,8 +319,8 @@ namespace ft
 			 */
 
 
-			T	&operator[](size_t index) {return (_arr[index]);}
-			const T	&operator[](size_t index) const {return (_arr[index]);}
+			T	&operator[](size_t index) { return (_arr[index]); }
+			const T	&operator[](size_t index) const { return (_arr[index]); }
 
 			/**
 			 * @definition: Returns a reference to the element at position n in the vector.
@@ -340,11 +346,11 @@ namespace ft
 			 * Possivelmente vou ter que tirar o assert do front e do back
 			 */ 
 
-			T	&front()  {return (_arr);}
-			const T	&front() const {return (_arr);}
+			T	&front()  { return (_arr); }
+			const T	&front() const { return (_arr); }
 
 			T	&back() {return (_arr[_size - 1]);}
-			const T	&back() const {return (_arr[_size - 1]);}
+			const T	&back() const { return (_arr[_size - 1]); }
 
 			/**
 			 *		Modifiers
@@ -418,9 +424,10 @@ namespace ft
 				_arr = temp;
 				return (begin() + offset);
 			}
-/*			
+
 			template <typename InputIterator>
-			void	insert(iterator position, InputIterator first, InputIterator last) // Nao esta bem feito
+			void	insert(iterator position, InputIterator first, InputIterator last,
+			typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = 0) // Nao esta bem feito
 			{
 				size_t n = 0;
 				for (iterator it = begin(); it != position; it++, n++)
@@ -441,7 +448,6 @@ namespace ft
 					_alloc.construct(temp + j + i, *(_arr + i));
 				}
 			}
-*/
 			/**
 			 *  @describe: Removes from the vector either a single element (position) or a range of elements ([first,last)).
 			 *	This effectively reduces the container size by the number of elements removed, which are destroyed.
@@ -551,6 +557,7 @@ namespace ft
 					_alloc.destroy(_arr + i);
 				_alloc.deallocate(_arr, _capacity);
 			}
+
 			T			*_arr;
 			size_t		_capacity;
 			size_t		_size;

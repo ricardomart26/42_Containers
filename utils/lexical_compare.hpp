@@ -15,7 +15,7 @@ namespace ft
     bool    lexicographical_compare(Iterator1 first, Iterator1 last, 
     Iterator2 first2, Iterator2 last2, Compare cmp)
     {
-
+        
     }
 }
 

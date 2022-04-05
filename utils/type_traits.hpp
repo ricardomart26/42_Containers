@@ -3,7 +3,9 @@
 
 #include <iostream>
 
-namespace ft {
+namespace ft 
+{
+
     template <bool B, typename T = void>
     struct enable_if {};
 

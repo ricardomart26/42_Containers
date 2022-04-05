@@ -9,20 +9,15 @@ int main()
         ft::vector<int> vec;
 
         for(int i = 0; i < 10; i++)
-        {
             vec.push_back(i);
-        }
 
         for(int i = 0; i < 1; i++)
             vec.insert(vec.begin() + 2, 10, 5);
 
         for(ft::vector<int>::iterator it = vec.begin(); it != vec.end() ; it++)
-        {
             std::cout << *it << std::endl;
-        }
 
     }
-    #if 0
     {
         ft::vector<int> vec(10);
         for (int i = 0; i < 10; i++)
@@ -136,7 +131,7 @@ int main()
         std::cout << "size: " << vec.size() << "\n";
 
         ft::vector<int> vec2(10, 23);
-        vec.insert<ft::vector<int>::iterator>(vec2.begin(), vec2.begin() + 5, vec2.begin() + 10);
+        vec.insert(vec.begin(), vec2.begin() + 5, vec2.begin() + 10);
         // std::cout << "capacity: " << vec.capacity() << "\n";
 
         std::cout << "\n<<<<<<<<<<<  Copy construct  >>>>>>>>>>>>\n";
@@ -248,7 +243,6 @@ int main()
         // for (int i : vec)
         //     std::cout << i << std::endl;
     }
-    #endif
     #if 0
     {
         // ft::vector<int> vec = {1, 2, 3};

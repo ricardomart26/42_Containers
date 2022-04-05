@@ -34,23 +34,22 @@ namespace ft
     template <typename T> // Tipo de iterador
     struct iterator_traits<T*> 
     {
-        typedef typename T value_type;
-        typedef typename T* pointer;
-        typedef typename T& reference;
-        typedef typename random_access_iterator_traits iterator_category;
-        typedef typename ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef T* pointer;
+        typedef T& reference;
+        typedef random_access_iterator_tag iterator_category;
+        typedef ptrdiff_t difference_type;
     };
 
     template <typename T> // Tipo de iterador
     struct iterator_traits<const T*> 
     {
-        typedef typename T value_type;
-        typedef typename T* pointer;
-        typedef typename T& reference;
-        typedef typename random_access_iterator_traits iterator_category;
-        typedef typename ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef T* pointer;
+        typedef T& reference;
+        typedef random_access_iterator_tag iterator_category;
+        typedef ptrdiff_t difference_type;
     };
 }
-
 
 #endif
