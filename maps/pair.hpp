@@ -9,31 +9,48 @@ namespace ft
 		/**
 		 *		Constructores
 		 */
+		typedef T1	first_type;
+		typedef T2	second_type;
 
-		pair() : _first(), _second() {}
-        pair(const T1 &arg1, const T2 &arg2) : _first(arg1), _second(arg2) {}
+		pair() : first(), second() {}
 
 		template <class U, class V>
-		pair(const pair<U,V> &obj);
+		pair(const pair<U,V> &obj)	: first(obj.first), second(obj.second) {}
+        
+		pair(const first_type &arg1, const second_type &arg2) : first(arg1), second(arg2) {}
 		
-		pair	&operator=(const pair &obj);
 
-		
+		pair &operator=(const pair& rhs)
+		{
+			if (this == &rhs)
+				return (*this);
+			first = rhs.first;
+			second = rhs.second;
+			return (*this);
+		}
+
 		/**
 		 *		Relational operators
 		 */
 
-		bool	operator==(const pair &lhs, const pair &rhs);
-		bool	operator!=(const pair &lhs, const pair &rhs);
-		bool	operator<(const pair &lhs, const pair &rhs);
-		bool	operator<=(const pair &lhs, const pair &rhs);
-		bool	operator>(const pair &lhs, const pair &rhs);
-		bool	operator>=(const pair &lhs, const pair &rhs);
-    
-		private:
-			T1 _first;
-			T2 _second;
-	};
-};
+		friend	bool	operator==(const pair &lhs, const pair &rhs)
+		{ return (lhs.first == rhs.first && lhs.second == rhs.second); }
+		friend	bool	operator!=(const pair &lhs, const pair &rhs)
+		{ return (lhs.first != rhs.first || lhs.second != rhs.second); }
 
+		friend	bool	operator<(const pair &lhs, const pair &rhs)
+		{ return (lhs.first < rhs.first || (rhs.first == lhs.first && lhs.second < rhs.second)); }
+		friend	bool	operator<=(const pair &lhs, const pair &rhs) { return !(rhs<lhs); }
+		friend	bool	operator>(const pair &lhs, const pair &rhs) { return (rhs<lhs); }
+		
+		friend	bool	operator>=(const pair &lhs, const pair &rhs) { return !(lhs < rhs); }
+
+		first_type first;
+		second_type second;
+	};
+	
+	template <typename T1, typename T2>
+	pair<T1, T2>	make_pair(T1 x, T2 y) { return (pair<T1, T2>(x, y)); }
+
+};
 #endif

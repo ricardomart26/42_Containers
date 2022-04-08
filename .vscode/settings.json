@@ -92,7 +92,8 @@
 		"ios": "cpp",
 		"locale": "cpp",
 		"stack": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"__functional_03": "cpp"
 	},
 	"workbench.view.alwaysShowHeaderActions": true,
 	"workbench.tree.renderIndentGuides": false,
