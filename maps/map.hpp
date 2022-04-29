@@ -14,12 +14,24 @@ namespace ft {
 	};
 
 	template <typename key, typename T, 
-	typename compare = less<key>, typename _allocator = std::allocator<ft::pair<const key, T> > >
+	typename compare = less<key>, typename allocator = std::allocator<ft::pair<const key, T> > >
 	class map 
 	{
 		public:
 
-			typedef value_type ft::pair<const key, T>;
+			typedef	key										key_type;
+			typedef T 										mapped_type;
+			typedef ft::pair<const key_type, mapped_type>	value_type;
+			typedef compare									value_compare;
+			typedef	std::allocator_traits<value_type>		alloc_traits;
+			typedef	allocator<value_type>					allocator_type;
+			typedef allocator_type::reference				reference;
+			typedef allocator_type::const_reference			const_reference;
+			typedef allocator_type::pointer					pointer;
+			typedef allocator_type::const_pointer			const_pointer;
+
+		
+
 			/**
 			 *		Contructores
 			*/
@@ -27,11 +39,14 @@ namespace ft {
 			//https://www.cplusplus.com/reference/map/map/map/
 			map();
 			explicit map(const compare &comp = compare(),
-			const _allocator &alloc = allocator_type());
+			const allocator &alloc = allocator_type())
+			: _size(0) {}
+
 			template <typename InputIterator>
 			map(InputIterator first, InputIterator last,
-			const compare & comp = compare(),
-			const _allocator &alloc = allocator_type());
+			const compare &comp = compare(),
+			const allocator &alloc = allocator_type());
+
 			map(const map &x);
 
 			// https://www.cplusplus.com/reference/map/map/~map/
@@ -65,20 +80,31 @@ namespace ft {
 			 */
 
 			// https://www.cplusplus.com/reference/map/map/empty/
-			bool	empty() const;
+			bool	empty() const {return (_size == 0)};
 
 			// https://www.cplusplus.com/reference/map/map/size/
-			size_t	size() const;
+			size_t	size() const {return (_size)};
 
 			// https://www.cplusplus.com/reference/map/map/max_size/
-			size_t	max_size() const;
+			size_t	max_size() const {return (alloc_traits::max_size(_alloc);)}
 
 			/**
 			 *		Element Acess
 			 */
 			
 			// https://www.cplusplus.com/reference/map/map/operator[]/
-			T	&operator[](const key &k);
+			T	&operator[](const key &k)
+			{
+				for (size_t i = 0; i < _size; i++)
+				{
+					if (k == _arr->first)
+					{
+						return (_arr->second);
+					}
+					_arr++;
+				}
+				return (nullptr);
+			}
 
 			/**
 			 *		Modifiers
@@ -138,7 +164,13 @@ namespace ft {
 			 *		Allocator
 			 */
 
-			_allocator get_allocator() const;
+			allocator get_allocator() const;
+
+		private:
+		
+			size_t		_size;
+			allocator	_alloc;
+			value_type	*_arr;
 	};
 }
 
