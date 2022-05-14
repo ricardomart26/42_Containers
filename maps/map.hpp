@@ -3,6 +3,8 @@
 
 #include <memory>
 #include "pair.hpp"
+#include "../vector/random_access_it.hpp"
+#include "../vector/reverse_iterator.hpp"
 
 namespace ft {
 
@@ -18,17 +20,22 @@ namespace ft {
 	class map 
 	{
 		public:
+			(void)comp;
 
-			typedef	key										key_type;
-			typedef T 										mapped_type;
-			typedef ft::pair<const key_type, mapped_type>	value_type;
-			typedef compare									value_compare;
-			typedef	std::allocator_traits<value_type>		alloc_traits;
-			typedef	allocator<value_type>					allocator_type;
-			typedef allocator_type::reference				reference;
-			typedef allocator_type::const_reference			const_reference;
-			typedef allocator_type::pointer					pointer;
-			typedef allocator_type::const_pointer			const_pointer;
+			typedef random_access_it<map<key, T> >				iterator;
+			typedef random_access_it<map<const key, T> > 		const_iterator;
+			typedef reverse_iterator<map<key, T> >				reverse_iterator;
+			typedef reverse_iterator<map<const key, T> >		const_reverse_iterator;
+			typedef	key											key_type;
+			typedef T 											mapped_type;
+			typedef ft::pair<const key_type, mapped_type>		value_type;
+			typedef compare										value_compare;
+			typedef	std::allocator_traits<value_type>			alloc_traits;
+			typedef	std::allocator<value_type>					allocator_type;
+			typedef typename allocator_type::reference			reference;
+			typedef typename allocator_type::const_reference	const_reference;
+			typedef typename allocator_type::pointer			pointer;
+			typedef typename allocator_type::const_pointer		const_pointer;
 
 		
 
@@ -80,13 +87,13 @@ namespace ft {
 			 */
 
 			// https://www.cplusplus.com/reference/map/map/empty/
-			bool	empty() const {return (_size == 0)};
+			bool	empty() const {return (_size == 0);};
 
 			// https://www.cplusplus.com/reference/map/map/size/
-			size_t	size() const {return (_size)};
+			size_t	size() const {return (_size);};
 
 			// https://www.cplusplus.com/reference/map/map/max_size/
-			size_t	max_size() const {return (alloc_traits::max_size(_alloc);)}
+			size_t	max_size() const {return (alloc_traits::max_size(_alloc););}
 
 			/**
 			 *		Element Acess
