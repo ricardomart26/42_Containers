@@ -1,9 +1,10 @@
-#include <map>
+#include "map.hpp" 
 #include <iostream>
+#include <string>
 
 int main( void )
 {
-    std::map<std::string, int> map_test;
-    std::pair<int, int> p(10, 2); 
-    map_test.insert(p);
+    ft::map<std::string, int> map_test;
+    map_test.insert(ft::pair<const std::string, int>("random", 2));
+    
 }

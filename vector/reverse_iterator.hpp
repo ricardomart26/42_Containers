@@ -8,7 +8,7 @@ namespace ft
     template <typename iterator>
     class   reverse_iterator // Devia 
     {
-        typedef iterator                                        iterator_type;
+        typedef iterator                                                 iterator_type;
         typedef typename iterator_traits<iterator>::iterator_category    iterator_catefory;
         typedef typename iterator_traits<iterator>::value_type           value_type;
         typedef typename iterator_traits<iterator>::difference_type      difference_type;

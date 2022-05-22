@@ -8,162 +8,24 @@
 #include <stdexcept>
 #include "../utils/type_traits.hpp"
 #include "reverse_iterator.hpp"
+#include "random_access_it.hpp"
 
 namespace ft 
 {
-
-	// class error_handling 
-	// 	: public std::exception
-	// {
-	// 	virtual const char *what() const throw();
-	// };
-
 	
-
-	template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
-	// do template conseguimos usar as variaveis que declaramos na classe do vector
-	class VecIterator
-	{
-		public:
-
-			typedef typename Vec::value_type value_type;
-			typedef typename Vec::value_type* pointer;
-			typedef typename Vec::value_type& reference;
-			typedef typename Vec::difference_type difference_type;
-
-			VecIterator(pointer ptr) : _ptr(ptr){} 
-
-			// VecIterator &operator=(const VecIterator &rhs)
-			// {
-			// 	_ptr = rhs._ptr;
-			// }
-
-			~VecIterator() {};
-			VecIterator &operator++()
-			{
-				_ptr++;
-				return *this;
-			}
-
-			VecIterator	operator++(int)
-			{
-				VecIterator temp = *this;
-				++(*this);
-				return temp;
-			}
-
-			VecIterator &operator--()
-			{
-				_ptr--;
-				return *this;
-			}
-
-			VecIterator operator--(int)
-			{
-				VecIterator temp = *this;
-				--(*this);
-				return temp;
-			}
-
-			reference operator[] (int index) {return *(_ptr + index);}
-
-			reference operator*() { return *(_ptr);}
-			// VecIterator &operator = (const VecIterator *rhs)
-			// {
-
-			// }
-			difference_type operator - (const VecIterator &rhs) const {return (_ptr - rhs._ptr);}
-			VecIterator operator + (const difference_type &rhs) const {return (_ptr + rhs);}
-			
-			bool    operator == (const VecIterator &rhs) const {return _ptr == rhs._ptr;}
-			bool    operator != (const VecIterator &rhs) const {return _ptr != rhs._ptr;}
-			bool    operator > (const VecIterator &rhs) const {return _ptr > rhs._ptr;}
-			bool    operator >= (const VecIterator &rhs) const {return _ptr >= rhs._ptr;}
-			bool    operator < (const VecIterator &rhs) const {return _ptr < rhs._ptr;}
-			bool    operator <= (const VecIterator &rhs) const {return _ptr <= rhs._ptr;}
-		
-		private:
-			pointer _ptr;
-	};
-	
-	// template <typename Vec> // Vec é o objeto vector<T>, e a partir do parametro do 
-	// class RevIterator
-	// {
-	// 	public:
-
-	// 		typedef typename Vec::value_type value_type;
-	// 		typedef typename Vec::value_type* pointer;
-	// 		typedef typename Vec::value_type& reference;
-	// 		typedef typename Vec::difference_type difference_type;
-
-	// 		RevIterator(pointer ptr) : _ptr(ptr){} 
-
-	// 		// RevIterator &operator=(const RevIterator &rhs)
-	// 		// {
-	// 		// 	_ptr = rhs._ptr;
-	// 		// }
-
-	// 		~RevIterator() {};
-	// 		RevIterator& operator++()
-	// 		{
-	// 			_ptr++;
-	// 			return *this;
-	// 		}
-
-	// 		RevIterator operator++(int)
-	// 		{
-	// 			RevIterator temp = *this;
-	// 			++(*this);
-	// 			return temp;
-	// 		}
-
-	// 		RevIterator& operator--()
-	// 		{
-	// 			_ptr--;
-	// 			return *this;
-	// 		}
-
-	// 		RevIterator operator--(int)
-	// 		{
-	// 			RevIterator temp = *this;
-	// 			--(*this);
-	// 			return temp;
-	// 		}
-
-	// 		reference operator[] (int index) {return *(_ptr + index);}
-
-	// 		reference operator*() { return *(_ptr);}
-	// 		// RevIterator &operator = (const RevIterator *rhs)
-	// 		// {
-
-	// 		// }
-	// 		difference_type operator - (const RevIterator &rhs) const {return (_ptr - rhs._ptr);}
-	// 		RevIterator operator + (const difference_type &rhs) const {return (_ptr + rhs);}
-			
-	// 		bool    operator == (const RevIterator &rhs) const {return _ptr == rhs._ptr;}
-	// 		bool    operator != (const RevIterator &rhs) const {return _ptr != rhs._ptr;}
-	// 		bool    operator > (const RevIterator &rhs) const {return _ptr > rhs._ptr;}
-	// 		bool    operator >= (const RevIterator &rhs) const {return _ptr >= rhs._ptr;}
-	// 		bool    operator < (const RevIterator &rhs) const {return _ptr < rhs._ptr;}
-	// 		bool    operator <= (const RevIterator &rhs) const {return _ptr <= rhs._ptr;}
-		
-	// 	private:
-	// 		pointer _ptr;
-	// };
-	
-	template <typename T, typename _allocator = std::allocator<T> >
+	template <typename T, typename allocator = std::allocator<T> >
 	class vector
 	{
 		public:
 
 			typedef T									value_type;
-			typedef _allocator							allocator_type;
+			typedef allocator							allocator_type;
 			typedef T&									reference;  
-			typedef std::allocator_traits<_allocator>	alloc_traits;
+			typedef std::allocator_traits<allocator>	alloc_traits;
 			typedef T* 									pointer;
 			typedef const T* 							const_pointer;
-			typedef VecIterator<vector<T> > 			iterator;
-			typedef VecIterator<vector<const T> > 		const_iterator;
+			typedef random_access_it<vector<T> > 		iterator;
+			typedef random_access_it<vector<const T> > 	const_iterator;
 			typedef reverse_iterator<const_iterator >	const_reverse_iterator;
 			typedef reverse_iterator<iterator> 			reverse_iterator;
 			typedef ptrdiff_t 							difference_type;
@@ -189,7 +51,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const _allocator& alloc = _allocator(), 
+			vector(InputIterator first, InputIterator last, const allocator& alloc = _allocator(), 
 			typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
 			{
 				_alloc = alloc;
@@ -510,7 +372,7 @@ namespace ft
 			 *		Allocator
 			 */
 
-			_allocator	get_allocator() const; // Nao esta feito
+			allocator	get_allocator() const; // Nao esta feito
 
 			/**
 			 *	Relational operators - Non member functions overloads
@@ -561,7 +423,7 @@ namespace ft
 			T			*_arr;
 			size_t		_capacity;
 			size_t		_size;
-			_allocator	_alloc;
+			allocator	_alloc;
 	};
 
 }
