@@ -4,24 +4,32 @@ CC = clang++ -Wall -Wextra -g -Werror -pedantic -std=c++98
 
 SRC = vector/my_vector.cpp
 
-SRC_TESTE = vector/teste.cpp
+VEC_SRC = STL_tester/vector_test.cpp
+
+SRC_TEST = vector/test.cpp
 
 all: $(NAME)
 
 $(NAME): 
 	$(CC) $(SRC) -o $(NAME)
 
-teste: 
-	$(CC) $(SRC_TESTE) -o teste
+
+
+vec_test:
+	$(CC) $(VEC_SRC) -D "FT=0" -o my_vecTest
+	$(CC) $(VEC_SRC) -D "FT=1" -o stl_vecTest
+
+test:
+	$(CC) $(SRC_TEST) -o test
 
 clean:
 	test ! -s $(NAME) || rm $(NAME)
 
-clean_teste:
-	test ! -s teste || rm teste
+clean_test:
+	test ! -s test || rm test
 
 re: clean all
 
-re_teste: clean_teste teste
+re_test: clean_test test
 
 .PHONY: all clean re

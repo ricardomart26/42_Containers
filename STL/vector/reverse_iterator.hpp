@@ -15,7 +15,7 @@ namespace ft
         typedef typename iterator_traits<iterator>::pointer              pointer;
         typedef typename iterator_traits<iterator>::reference            reference;
 
-        reverse_iterator() : _ptr(nullptr) {};
+        reverse_iterator() : _ptr(NULL) {};
         
         explicit    reverse_iterator(iterator_type iter) : _ptr(iter) {};
         

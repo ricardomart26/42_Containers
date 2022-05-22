@@ -4,9 +4,9 @@
 #include <cstring>
 #include <memory>
 #include <iostream>
-#include <exception>
-#include <stdexcept>
-#include "../utils/type_traits.hpp"
+// #include <exception>
+// #include <stdexcept>
+#include "../../utils/type_traits.hpp"
 #include "reverse_iterator.hpp"
 #include "random_access_it.hpp"
 
@@ -21,7 +21,6 @@ namespace ft
 			typedef T									value_type;
 			typedef allocator							allocator_type;
 			typedef T&									reference;  
-			typedef std::allocator_traits<allocator>	alloc_traits;
 			typedef T* 									pointer;
 			typedef const T* 							const_pointer;
 			typedef random_access_it<vector<T> > 		iterator;
@@ -39,19 +38,18 @@ namespace ft
 			 */ 
 
 			vector(const allocator_type& alloc = allocator_type())
-			:  _arr(nullptr), _capacity(0), _size(0), _alloc(alloc) {}
+			:  _arr(NULL), _capacity(0), _size(0), _alloc(alloc) {}
 
 			explicit vector(size_t n, const T &val = T(), const allocator_type& alloc = allocator_type())
 			:	_capacity(n), _size(n), _alloc(alloc)
 			{
-				// std::cout << "Vector constructed\n";
 				_arr = _alloc.allocate(n);
 				for (size_t i = 0; i < n; i++)
 					_alloc.construct(_arr + i, val);
 			}
 
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator& alloc = _allocator(), 
+			vector(InputIterator first, InputIterator last, const allocator& alloc = allocator(), 
 			typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
 			{
 				_alloc = alloc;
@@ -111,7 +109,7 @@ namespace ft
 	
 			size_t	size() const {return (_size);}
 			
-			size_t max_size() const {return (alloc_traits::max_size(_alloc));};
+			size_t max_size() const {return (_alloc.max_size(_alloc));};
 			
 			// https://www.cplusplus.com/reference/vector/vector/resize/
 			/**
