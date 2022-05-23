@@ -1,5 +1,7 @@
 
 #include "../inc.hpp"
+#include <map>
+#include <vector>
 
 #ifndef FT
     #define FT 1
@@ -14,6 +16,10 @@
 //     // #include "../STL/vector/vector.hpp"
 // #endif
 
+enum e_cat {
+    CONSTRUCTOR,
+    PUSH_BACK
+};
 
 template <typename T>
 void    print_vec_info(ft::vector<T> vec)
@@ -92,22 +98,56 @@ void	constructor_test()
     
 }
 
+void    vector_test()
+{
+    std::string n[] = {"constructor", "push_back"};
+	std::cout << "*************************************\n";
 
+    for (size_t i = 0; i < 2; i++)
+    {
+	    std::cout << "*                                   *\n";
+	    std::cout << "*    " << i <<". " << n[i] << "         *\n"; 
+    }
+	std::cout << "*************************************\n";
+}
 
 int main(int ac, char **av)
 {
-	std::map<size_t, std::map<std::string, void (*fn[10])()> > categories;
+	std::map<size_t, std::map<std::string, void (*[10])()> > categories;
+    std::vector<std::string> names;
+
+    // categories.insert(std::make_pair(0, std::map<std::string, void (*[10])()>()));
+    // categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "push_back" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
+	// categories.insert(std::make_pair( "constructor" , &constructor_test));
 	
-	
-	void	(*fn[10])() = { &constructor_test, &push_back_test};
+
+	// void	(*fn[10])() = { &constructor_test, &push_back_test};
 	// void	(*fn)() = &constructor_test;
 
 	(void)av;
-	std::cout << "\nWhich STL you want to test?\n\n\t0. vector\n";
-	if (ac == 2)
-	{
-	
-		std::cout << GREEN << "[OK]" << RESET << std::endl;
-	}
+	std::cout << "\nWhich STL you want to test?\n\n\t0. vector\n\t1.  map\n\n";
+    
+    std::string answer;
+    std::getline(std::cin, answer);
+    
+    if (ac == 1)
+    {
+        if (answer == "0")
+        {
+            vector_test();
+        }
+    }
+	// if (ac == 2)
+	// {
+
+
+	// 	std::cout << GREEN << "[OK]" << RESET << std::endl;
+	// }
 
 }
