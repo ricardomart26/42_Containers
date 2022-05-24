@@ -36,7 +36,7 @@ void	push_back_test();
 template    <typename T>
 int    wrong_msg(const std::string &err, T ft, T std)
 {
-    std::cerr << RED << "[ KO" << err << ": (ft = " << ft << " and std = " << std << ")]" << RESET;
+    std::cerr << RED << " [ KO " << err << ": (ft = " << ft << " and std = " << std << ")] " << RESET;
     return (-1);
 }
 
@@ -48,6 +48,8 @@ int    compare_vec(ft::vector<T> ft_vec, std::vector<T> std_vec)
 
     if (ft_vec.size() != std_vec.size())
         return (wrong_msg("Vectors Size is different", ft_vec.size(), std_vec.size()));
+
+    std::cout << "ft cap: " << ft_vec.capacity() << " std cap: " << std_vec.capacity() << std::endl;
 
     if (ft_vec.capacity() != std_vec.capacity())
         return (wrong_msg("Vectors Capacity is different", ft_vec.capacity(), std_vec.capacity()));
@@ -74,7 +76,7 @@ int    compare_vec(ft::vector<T> ft_vec, std::vector<T> std_vec)
             return (-1);
         }
     }
-    std::cerr << GREEN << "[ OK ]" << RESET;
+    std::cerr << GREEN << " [ OK ] " << RESET;
     return (0);
 }
 

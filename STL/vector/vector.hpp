@@ -61,21 +61,30 @@ namespace ft
 					_alloc.construct(_arr + i, *first);
 			}
 
+			// MEU
+			// vector(const vector &obj) // Nao esta acabado
+			// :	_capacity(obj._capacity), _size(obj._size), _alloc(allocator_type())
+			// {
+			// 	_arr = _alloc.allocate(_capacity);
+			// 	for (size_t i = 0; i < _size; i++)
+			// 		_alloc.construct(_arr + i, *(obj._arr + i));
+			// }
+			
 			vector(const vector &obj) // Nao esta acabado
-			:	_capacity(obj._capacity), _size(obj._size), _alloc(allocator_type())
+			:	_arr(0), _capacity(0), _size(0), _alloc(obj._alloc) 
 			{
-				// std::cout << "Vector Copy constructor\n";
-				_arr = _alloc.allocate(_capacity);
-				for (size_t i = 0; i < _size; i++)
-					_alloc.construct(_arr + i, *(obj._arr + i));
+				*this = obj;
+				_capacity = obj._size; // Porque quando nao passamos uma ref para uma fn, a capacity ficar igual ao size, dkw
 			}
 			
-			~vector() {
-				// std::cout << "Vector deconstructed\n";
+			~vector() 
+			{
 				_destroy_arr();
 			}
 			
-			vector	&operator = (const vector &rhs) {
+			// MEU
+			vector	&operator = (const vector &rhs) 
+			{
 				if (this == &rhs)
 					return (*this);
 				if (_capacity != 0)
@@ -89,6 +98,25 @@ namespace ft
 					_alloc.construct(_arr + i, rhs._arr[i]);
 				return (*this);
 			}
+
+			// vector & operator=(const vector & x) {
+			// 	if (this == &x) {
+			// 		return *this;
+			// 	}
+			// 	if (_capacity >= x._size) {
+			// 		clear();
+			// 	}
+			// 	else {
+			// 		this->~vector();
+			// 		_arr = _alloc.allocate(x._size);
+			// 		_capacity = x._capacity;
+			// 	}
+			// 	for (size_type i = 0; i < x._size; i++) {
+			// 		_alloc.construct(_arr + i, x._arr[i]);
+			// 	}
+			// 	_size = x._size;
+			// 	return *this;
+			// };
 
 			/**
 			 *		Iterators
@@ -108,7 +136,6 @@ namespace ft
 			 */
 	
 			size_t	size() const {return (_size);}
-			
 			size_t max_size() const {return (_alloc.max_size(_alloc));};
 			
 			// https://www.cplusplus.com/reference/vector/vector/resize/
@@ -149,17 +176,19 @@ namespace ft
 			bool empty() const { return (_size == 0); }
 
 			// Este funciona
-			void	reserve(size_t newCapacity) {
-				if (newCapacity <= _capacity)
-					return ;
-				T *temp = _alloc.allocate(newCapacity);
-				for (size_t i = 0; i < _capacity; i++)
-					_alloc.construct(temp + i, _arr[i]);
-				for (size_t i = _capacity; i < newCapacity; i++)
-					_alloc.construct(temp + i, 0);
-				_destroy_arr();
-				_arr = temp;
-				_capacity = newCapacity;
+			void	reserve(size_t newCapacity) 
+			{
+				if (newCapacity > _capacity)
+				{
+					T *temp = _alloc.allocate(newCapacity);
+					for (size_t i = 0; i < _capacity; i++)
+						_alloc.construct(temp + i, _arr[i]);
+					for (size_t i = _capacity; i < newCapacity; i++)
+						_alloc.construct(temp + i, 0);
+					_destroy_arr();
+					_arr = temp;
+					_capacity = newCapacity;
+				}
 			}
 
 			// void	reserve(size_t newCapacity) {
@@ -230,11 +259,13 @@ namespace ft
 			}
 
 			void    push_back(const T &val) {
-				// std::cout << "size: "<< _size<<" capacity: "<<_capacity<<"\n";
 				if (_capacity == 0)
 					reserve(2);
 				if (_size >= _capacity)
+				{
+					std::cout << "New size: " << _capacity * 2 << "\n";
 					reserve(_capacity * 2);
+				}
 				_alloc.construct(_arr + (_size++), val);
 			}
 
@@ -269,7 +300,6 @@ namespace ft
 				if (_size > _capacity)
 					reserve(_size + 1);
 				T*	temp = _alloc.allocate(_capacity);
-				//std::cout << offset << std::endl;
 				size_t i = 0, x = 0;
 				for (; i < n; i++)
 				{
@@ -418,7 +448,7 @@ namespace ft
 				_alloc.deallocate(_arr, _capacity);
 			}
 
-			T			*_arr;
+			pointer		_arr;
 			size_t		_capacity;
 			size_t		_size;
 			allocator	_alloc;
