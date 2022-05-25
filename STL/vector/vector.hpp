@@ -60,15 +60,6 @@ namespace ft
 				for (size_t i = 0; first != last; first++, i++)
 					_alloc.construct(_arr + i, *first);
 			}
-
-			// MEU
-			// vector(const vector &obj) // Nao esta acabado
-			// :	_capacity(obj._capacity), _size(obj._size), _alloc(allocator_type())
-			// {
-			// 	_arr = _alloc.allocate(_capacity);
-			// 	for (size_t i = 0; i < _size; i++)
-			// 		_alloc.construct(_arr + i, *(obj._arr + i));
-			// }
 			
 			vector(const vector &obj) // Nao esta acabado
 			:	_arr(0), _capacity(0), _size(0), _alloc(obj._alloc) 
@@ -77,12 +68,8 @@ namespace ft
 				_capacity = obj._size; // Porque quando nao passamos uma ref para uma fn, a capacity ficar igual ao size, dkw
 			}
 			
-			~vector() 
-			{
-				_destroy_arr();
-			}
+			~vector() { _destroy_arr(); }
 			
-			// MEU
 			vector	&operator = (const vector &rhs) 
 			{
 				if (this == &rhs)
@@ -98,25 +85,6 @@ namespace ft
 					_alloc.construct(_arr + i, rhs._arr[i]);
 				return (*this);
 			}
-
-			// vector & operator=(const vector & x) {
-			// 	if (this == &x) {
-			// 		return *this;
-			// 	}
-			// 	if (_capacity >= x._size) {
-			// 		clear();
-			// 	}
-			// 	else {
-			// 		this->~vector();
-			// 		_arr = _alloc.allocate(x._size);
-			// 		_capacity = x._capacity;
-			// 	}
-			// 	for (size_type i = 0; i < x._size; i++) {
-			// 		_alloc.construct(_arr + i, x._arr[i]);
-			// 	}
-			// 	_size = x._size;
-			// 	return *this;
-			// };
 
 			/**
 			 *		Iterators
@@ -136,7 +104,7 @@ namespace ft
 			 */
 	
 			size_t	size() const {return (_size);}
-			size_t max_size() const {return (_alloc.max_size(_alloc));};
+			size_t max_size() const {return (_alloc.max_size());};
 			
 			// https://www.cplusplus.com/reference/vector/vector/resize/
 			/**
@@ -151,7 +119,8 @@ namespace ft
 			
 			void	resize(size_t n, T val = T())
 			{
-				if (n == 0)
+				// // std::cout << "value: " << val << std::endl;
+				if (n == 0 && _size != 0)
 					_destroy_arr();
 				if (n < _size) 
 				{
@@ -191,18 +160,6 @@ namespace ft
 				}
 			}
 
-			// void	reserve(size_t newCapacity) {
-			// 	if (newCapacity <= _capacity)
-			// 		return ;
-			// 	for (size_t i = 0; i < _capacity; i++)
-			// 		_alloc.construct(temp + i, _arr[i]);
-			// 	for (size_t i = _capacity; i < newCapacity; i++)
-			// 		_alloc.construct(temp + i, 0);
-			// 	_destroy_arr();
-			// 	_arr = temp;
-			// 	_capacity = newCapacity;
-			// }
-
 			/**
 			 *		Element acess 
 			 */
@@ -223,17 +180,13 @@ namespace ft
 					throw std::out_of_range("hello");
 				return (_arr[n]);			
 			}
+
 			const T	&at(size_t n) const // Nao esta testado
 			{
 				if (n >= _size)
 					throw std::out_of_range("hello");
 				return (_arr[n]);					
 			}
-
-			
-			/**
-			 * Possivelmente vou ter que tirar o assert do front e do back
-			 */ 
 
 			T	&front()  { return (_arr); }
 			const T	&front() const { return (_arr); }
@@ -262,10 +215,7 @@ namespace ft
 				if (_capacity == 0)
 					reserve(2);
 				if (_size >= _capacity)
-				{
-					std::cout << "New size: " << _capacity * 2 << "\n";
 					reserve(_capacity * 2);
-				}
 				_alloc.construct(_arr + (_size++), val);
 			}
 
@@ -296,19 +246,20 @@ namespace ft
 			iterator	insert(iterator position, size_t n, const T& val)
 			{
 				difference_type offset = position - begin();
+				// std::cout << "offset: " << offset << "\n";
+				// std::cout << "n: " << n << "\n";
 				_size += n;
 				if (_size > _capacity)
 					reserve(_size + 1);
 				T*	temp = _alloc.allocate(_capacity);
 				size_t i = 0, x = 0;
-				for (; i < n; i++)
-				{
+				for (; i < (size_t)offset; i++)
 					_alloc.construct(temp + i + x, *(_arr + i));
-				}
-				for (; i >= (size_t)offset && x >= n; x++)
+				// std::cout << "i: " << i << std::endl;
+				for (; x < n; x++)
 					_alloc.construct(temp + i + x, val);
-				for (; i < _size; i++)
-					_alloc.construct(temp + i + x, val);
+				// for (; i < _size; i++)
+				// 	_alloc.construct(temp + i + x, val);
 				
 				_destroy_arr();
 				_arr = temp;
