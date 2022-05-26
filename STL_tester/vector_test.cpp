@@ -82,7 +82,7 @@ int main()
         i = 0;
         for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
             std::cout << i++ << ": " << *it << std::endl;
-        std::cout << "size: " << vec.size() << "\n";
+        std::cout << "sitze: " << vec.size() << "\n";
         // std::cout << "capacity: " << vec.capacity() << "\n";
         
 

@@ -123,6 +123,17 @@ void    print_vec_info(T vec)
     std::cout << "\\0 ]\n\n";
 }
 
+template <typename T>
+T   random_vector_constructor(size_t size)
+{
+
+    T   vec(size);
+
+    for (size_t i = 0; i < size; i++)
+        vec.push_back((size / 2) + (size * (i + 1)));
+
+    return (vec);
+}
 
 
 #endif
