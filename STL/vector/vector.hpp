@@ -177,22 +177,22 @@ namespace ft
 			T	&at(size_t n) // Nao esta testado
 			{
 				if (n >= _size)
-					throw std::out_of_range("hello");
+					throw std::out_of_range("vector");
 				return (_arr[n]);			
 			}
 
 			const T	&at(size_t n) const // Nao esta testado
 			{
 				if (n >= _size)
-					throw std::out_of_range("hello");
+					throw std::out_of_range("vector");
 				return (_arr[n]);					
 			}
 
-			T	&front()  { return (_arr); }
-			const T	&front() const { return (_arr); }
+			T	&front()  { return (*_arr); }
+			const T	&front() const { return (*_arr); }
 
 			T	&back() {return (_arr[_size - 1]);}
-			const T	&back() const { return (_arr[_size - 1]); }
+			const T	&back() const {return (_arr[_size - 1]); }
 
 			/**
 			 *		Modifiers
@@ -203,9 +203,11 @@ namespace ft
 				vector<T> newOne(n, val);
 				*this = newOne;
 			}
+			
 			// Range
 			template <class InputIterator>
-			void	assign(InputIterator first, InputIterator last) // Fazer enable 
+			void	assign(InputIterator first, InputIterator last, 
+			typename enable_if<!is_integral<InputIterator>::value>::type* = 0) // Fazer enable 
 			{
 				vector<T> newOne(first, last);
 				*this = newOne;

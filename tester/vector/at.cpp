@@ -17,33 +17,49 @@
 
 void	at_test()
 {
-	std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
-	ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);
-	compare_vec(ft_vec, std_vec);
+	{	
+		std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
+		ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);
 
-    std::cout << "\nAt: ";
-	if	(std_vec.at(std_vec.size() - 1) == ft_vec.at(ft_vec.size() - 1))
-		std::cout << GREEN << "[ OK ]" << RESET;
-	else
-		std::cout << RED << "[ KO ]" << RESET;
+		std::cout << "\nAt: ";
+		if	(std_vec.at(std_vec.size() - 1) == ft_vec.at(ft_vec.size() - 1))
+			std::cout << GREEN << "[ OK ]" << RESET;
+		else
+			std::cout << RED << "[ KO ]" << RESET;
 
-	
-	if	(std_vec.at(0) == ft_vec.at(0))
-		std::cout << GREEN << "[ OK ]" << RESET;
-	else
-		std::cout << RED << "[ KO ]" << RESET;
+		if	(std_vec.at(0) == ft_vec.at(0))
+			std::cout << GREEN << "[ OK ]" << RESET;
+		else
+			std::cout << RED << "[ KO ]" << RESET;
 
-	if	(std_vec.at(std_vec.size()) == ft_vec.at(ft_vec.size()))
-		std::cout << GREEN << "[ OK ]" << RESET;
-	else
-		std::cout << RED << "[ KO ]" << RESET;
+		try {
+			ft_vec.at(ft_vec.size());
+			std::cout << RED << "[ KO ]" << RESET;
+		} catch (const std::exception &e) {
+			std::cout << GREEN << "[ OK ]" << RESET;
+		}
+	}
+	{
+		const std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
+		const ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);
+		std::cout << "\nAt const: ";
+		if	(std_vec.at(std_vec.size() - 1) == ft_vec.at(ft_vec.size() - 1))
+			std::cout << GREEN << "[ OK ]" << RESET;
+		else
+			std::cout << RED << "[ KO ]" << RESET;
 
-	try {
-		ft_vec.at(ft_vec.size() + 1);
-		std::cout << RED << "[ KO ]" << RESET;
-	} catch (const std::exception &e) {
-		std::cout << e.what();
-		std::cout << GREEN << "[ OK ]" << RESET;
+		if	(std_vec.at(0) == ft_vec.at(0))
+			std::cout << GREEN << "[ OK ]" << RESET;
+		else
+			std::cout << RED << "[ KO ]" << RESET;
+
+		try {
+			ft_vec.at(ft_vec.size());
+			std::cout << RED << "[ KO ]" << RESET;
+		} catch (const std::exception &e) {
+			std::cout << GREEN << "[ OK ]" << RESET;
+		}
+
 	}
 
 }

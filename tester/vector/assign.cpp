@@ -34,8 +34,7 @@
 
 void	assign_test()
 {
-    std::cout << "Assign Range: ";
-    std::cout << "\nAssign Fill: ";
+	std::cout << "Assign Fill: ";
 
 	std::vector<int> std_vec(10);
 	ft::vector<int> ft_vec(10);
@@ -44,13 +43,10 @@ void	assign_test()
 	std_vec.assign(std_vec.size() + 5, 10);
 
 	compare_vec(ft_vec, std_vec);
-	print_vec_info(ft_vec);
 
-
+    std::cout << "\nAssign Range: ";
 	ft_vec.assign(ft_vec.begin() + 5, ft_vec.end());
 	std_vec.assign(std_vec.begin() + 5, std_vec.end());
-
+	
 	compare_vec(ft_vec, std_vec);
-	print_vec_info(ft_vec);
-
 }
