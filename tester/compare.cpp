@@ -4,16 +4,20 @@ void    print_table()
 {
     std::string n[TEST_SIZE + 1] = {"Do All", "Constructor", "Push back", "Max size", "Resize", "Assign", "At", "Back"
     , "Clear", "Erase", "Front", "Get Allocator", "Insert", "Pop Back", "Reserve", "Swap" , "Operators"};
-    std::cout << YELLOW << "//" << std::string(51, '=') << "\\\\\n";
-    int helper = 0;
+    std::cout << "//" << std::string(51, '=') << "\\\\\n";
+    std::cout << "||" << BLUE << std::string(51, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(22, '#') << RESET << "VECTOR" << BLUE << std::string(23, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(51, '#') << RESET << "||\n";
+
+    // int helper = 0;
     for (size_t i = 0; i < TEST_SIZE + 1; i++)
     {
-        if (i == 10)
-            helper = 1;
-	    std::cout << "||" << std::string(51, ' ') << "||\n";
-	    std::cout << "||\t\t" << RESET << RED << i << ". " << RESET << "Vector " << n[i] << std::string(27 - n[i].size() - helper, ' ') << YELLOW << "||\n"; 
+        // if (i == 10)
+        //     helper = 1;
+	    std::cout << "||" << std::string(51, '-') << "||\n";
+	    std::cout << "||\t" << RED << i << ".\t" << RESET << "|" << "\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << "||\n"; 
     }
-	std::cout << YELLOW << "||" << std::string(51, ' ') << "||\n" << "\\\\" << std::string(51, '=') << "//\n" << RESET;
+	std::cout << "\\\\" << std::string(51, '=') << "//\n";
 }
 
 void    vector_test()
