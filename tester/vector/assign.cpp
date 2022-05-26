@@ -34,6 +34,8 @@
 
 void	assign_test()
 {
+    std::cout << std::endl << std::endl;
+
 	std::cout << "Assign Fill: ";
 
 	std::vector<int> std_vec(10);

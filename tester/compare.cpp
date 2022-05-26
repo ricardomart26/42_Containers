@@ -4,16 +4,16 @@ void    print_table()
 {
     std::string n[TEST_SIZE + 1] = {"Do All", "Constructor", "Push back", "Max size", "Resize", "Assign", "At", "Back"
     , "Clear", "Erase", "Front", "Get Allocator", "Insert", "Pop Back", "Reserve", "Swap" , "Operators"};
-    std::cout << " " << std::string(51, '*') << "\n";
+    std::cout << YELLOW << "//" << std::string(51, '=') << "\\\\\n";
     int helper = 0;
     for (size_t i = 0; i < TEST_SIZE + 1; i++)
     {
         if (i == 10)
             helper = 1;
-	    std::cout << "*" << std::string(51, ' ') << "*\n";
-	    std::cout << "*\t\t" << i <<". Vector " << n[i] << std::string(26 - n[i].size() - helper, ' ') << "*\n"; 
+	    std::cout << "||" << std::string(51, ' ') << "||\n";
+	    std::cout << "||\t\t" << RESET << RED << i << ". " << RESET << "Vector " << n[i] << std::string(27 - n[i].size() - helper, ' ') << YELLOW << "||\n"; 
     }
-	std::cout << "*" << std::string(51, ' ') << "*\n" << " " << std::string(51, '*') << "\n";
+	std::cout << YELLOW << "||" << std::string(51, ' ') << "||\n" << "\\\\" << std::string(51, '=') << "//\n" << RESET;
 }
 
 void    vector_test()

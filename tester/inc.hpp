@@ -10,6 +10,7 @@
 // #include "../STL/vector/vector.hpp"
 #define	GREEN "\033[0;32m"
 #define	RED "\033[31m"
+#define YELLOW  "\033[33m"
 
 #define	RESET "\033[0m"
 #define TEST_SIZE 16
@@ -124,10 +125,9 @@ void    print_vec_info(T vec)
 }
 
 template <typename T>
-T   random_vector_constructor(size_t size)
+T   &random_vector_constructor(size_t size)
 {
-
-    T   vec(size);
+    T   &vec = *new T(size);
 
     for (size_t i = 0; i < size; i++)
         vec.push_back((size / 2) + (size * (i + 1)));

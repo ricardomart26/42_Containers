@@ -3,6 +3,8 @@
 
 void	constructor_test()
 {
+    std::cout << std::endl << std::endl;
+
     std::cout << "Default Constructor: ";
     compare_vec(ft::vector<int>(), std::vector<int>());
     std::cout << "\nFill Constructor: ";

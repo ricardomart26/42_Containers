@@ -32,9 +32,7 @@ namespace ft
 
 
 			/**
-			 * 
 			 *  Contructors
-			 * 
 			 */ 
 
 			vector(const allocator_type& alloc = allocator_type())
@@ -69,7 +67,7 @@ namespace ft
 			}
 			
 			~vector() { _destroy_arr(); }
-			
+
 			vector	&operator = (const vector &rhs) 
 			{
 				if (this == &rhs)
@@ -147,6 +145,7 @@ namespace ft
 			// Este funciona
 			void	reserve(size_t newCapacity) 
 			{
+				// std::cout << "check this one: " << this->_size << "\n";
 				if (newCapacity > _capacity)
 				{
 					T *temp = _alloc.allocate(newCapacity);
@@ -260,9 +259,9 @@ namespace ft
 				// std::cout << "i: " << i << std::endl;
 				for (; x < n; x++)
 					_alloc.construct(temp + i + x, val);
-				// for (; i < _size; i++)
-				// 	_alloc.construct(temp + i + x, val);
-				
+				for (; i + x < _size; i++)
+					_alloc.construct(temp + i + x, *(_arr + i));
+
 				_destroy_arr();
 				_arr = temp;
 				return (begin() + offset);
@@ -273,24 +272,32 @@ namespace ft
 			typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = 0) // Nao esta bem feito
 			{
 				size_t n = 0;
-				for (iterator it = begin(); it != position; it++, n++)
-				{
-					if (it + 1 == end())
-						return; // Ver o que faz se nao encontrar a position
-				}
-
-				T* temp = _alloc.allocate(_capacity);
-				size_t oldSize = _size; // + tamanho do first ao last 
-				for (size_t i = 0, j = 0; i < oldSize; i++)
+				iterator it = begin();
+				
+				for (; it != position && it != end(); it++, n++);
+				if (it == end() && it != position)
+					return ;
+				size_t newSize = _size + (last - first);
+				if (newSize > _capacity)
+					reserve(newSize);
+				T* temp = _alloc.allocate(newSize);
+				for (size_t i = 0, j = 0; i + j < newSize; i++)
 				{
 					if (i == n)
 					{
 						for (;first != last; first++, j++)
 							_alloc.construct(temp + j + i, *first);
 					}
+					if (i + j >= newSize)
+						break;
 					_alloc.construct(temp + j + i, *(_arr + i));
 				}
+				_destroy_arr();
+				_arr = temp;
+				_size = newSize;
+
 			}
+
 			/**
 			 *  @describe: Removes from the vector either a single element (position) or a range of elements ([first,last)).
 			 *	This effectively reduces the container size by the number of elements removed, which are destroyed.

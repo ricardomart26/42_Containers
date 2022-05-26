@@ -17,6 +17,8 @@
 
 void	back_test()
 {
+    std::cout << std::endl << std::endl;
+
 	{
 		std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
 		ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);

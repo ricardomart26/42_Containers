@@ -51,6 +51,8 @@ namespace ft
             reference operator[] (int index) {return *(_ptr + index);}
             reference operator*() { return *(_ptr);}
             difference_type operator - (const random_access_it &rhs) const {return (_ptr - rhs._ptr);}
+            random_access_it operator - (int i) const {return (_ptr - i);}
+
             random_access_it operator + (const difference_type &rhs) const {return (_ptr + rhs);}
             
             bool    operator == (const random_access_it &rhs) const {return _ptr == rhs._ptr;}
