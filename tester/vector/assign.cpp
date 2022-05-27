@@ -34,6 +34,9 @@
 
 void	assign_test()
 {
+	std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(23, '#') << RESET << "Assign" << BLUE << std::string(23, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
     std::cout << std::endl << std::endl;
 
 	std::cout << "Assign Fill: ";
@@ -51,4 +54,5 @@ void	assign_test()
 	std_vec.assign(std_vec.begin() + 5, std_vec.end());
 	
 	compare_vec(ft_vec, std_vec);
+    std::cout << std::endl << std::endl;
 }

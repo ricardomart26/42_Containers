@@ -3,6 +3,9 @@
 
 void	constructor_test()
 {
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(21, '#') << RESET << "Constructor" << BLUE << std::string(20, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
     std::cout << std::endl << std::endl;
 
     std::cout << "Default Constructor: ";

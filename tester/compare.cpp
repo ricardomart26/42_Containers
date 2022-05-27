@@ -9,13 +9,10 @@ void    print_table()
     std::cout << "||" << BLUE << std::string(22, '#') << RESET << "VECTOR" << BLUE << std::string(23, '#') << RESET << "||\n";
     std::cout << "||" << BLUE << std::string(51, '#') << RESET << "||\n";
 
-    // int helper = 0;
     for (size_t i = 0; i < TEST_SIZE + 1; i++)
     {
-        // if (i == 10)
-        //     helper = 1;
-	    std::cout << "||" << std::string(51, '-') << "||\n";
-	    std::cout << "||\t" << RED << i << ".\t" << RESET << "|" << "\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << "||\n"; 
+	    std::cout << "||" << std::string(51, '-') << "||\n" 
+        << "||\t" << RED << i << ".\t" << RESET << "|" << "\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << "||\n";
     }
 	std::cout << "\\\\" << std::string(51, '=') << "//\n";
 }
@@ -33,20 +30,16 @@ void    vector_test()
     std::getline(std::cin, answer);
     std::cout << std::endl;
     if (answer == "0")
-    {
         for (int i = 0; i < TEST_SIZE; i++)
             fn[i]();
-    }
     else
         fn[atoi(answer.c_str()) - 1]();
 
     std::cout << "Do you want to do another test? ";
     std::getline(std::cin, answer);
     std::for_each(answer.begin(), answer.end(), tolower);
-    
     if (answer == "y" || answer == "yes" || answer.empty())
         vector_test();
-
 }
 
 int main()

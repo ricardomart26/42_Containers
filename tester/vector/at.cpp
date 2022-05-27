@@ -17,8 +17,10 @@
 
 void	at_test()
 {
+	std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(25, '#') << RESET << "At" << BLUE << std::string(25, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
     std::cout << std::endl << std::endl;
-
 	{	
 		std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
 		ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);
