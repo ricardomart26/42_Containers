@@ -10,6 +10,7 @@ void	constructor_test()
 
     std::cout << "Default Constructor: ";
     compare_vec(ft::vector<int>(), std::vector<int>());
+
     std::cout << "\nFill Constructor: ";
     compare_vec(ft::vector<int>(10), std::vector<int>(10));
     compare_vec(ft::vector<int>(0), std::vector<int>(0));
@@ -31,13 +32,43 @@ void	constructor_test()
 
     std::cout << "\nRange Constructor: ";
 
+    int arr[] = {1, 2, 5, 1, 2, 6, 3, 2};
+    compare_vec(ft::vector<int>(arr + 0, arr + 4), std::vector<int>(arr + 0, arr + 4));
+    compare_vec(ft::vector<int>(arr + 0, arr + 8), std::vector<int>(arr + 0, arr + 8));
+
     std::cout << "\nCopy Constructor: ";
+    {
+        std::vector<int> std_vec;
+        ft::vector<int> ft_vec;
 
-    std::cout << "\nConstruct with max size: ";
+        std::vector<int> std_vec_cp(std_vec);
+        ft::vector<int> ft_vec_cp(ft_vec);
 
+        compare_vec(ft_vec_cp, std_vec_cp);
+    }
+    
+    {
+        std::vector<int> std_vec(MID);
+        ft::vector<int> ft_vec(MID);
 
+        std::vector<int> std_vec_cp(std_vec);
+        ft::vector<int> ft_vec_cp(ft_vec);
 
+        compare_vec(ft_vec_cp, std_vec_cp);
+    }
+    
+    
+    {
+        std::vector<int> std_vec(MID, 4);
+        ft::vector<int> ft_vec(MID, 4);
 
-   std::cout << std::endl;
+        std::vector<int> std_vec_cp(std_vec);
+        ft::vector<int> ft_vec_cp(ft_vec);
+
+        compare_vec(ft_vec_cp, std_vec_cp);
+    }
+    
+
+    std::cout << std::endl;
 }
 

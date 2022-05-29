@@ -45,7 +45,11 @@
 
 void	insert_test()
 {
-    std::cout << std::endl;
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(23, '#') << RESET << "Insert" << BLUE << std::string(23, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
+    std::cout << std::endl << std::endl;
+    
     {
 		std::vector<int> std_vec = random_vector_constructor<std::vector<int> >(100);
 		ft::vector<int> ft_vec = random_vector_constructor<ft::vector<int> >(100);
@@ -118,7 +122,46 @@ void	insert_test()
         compare_vec(ft_vec, std_vec);
 
 	}
-    std::cout << std::endl << std::endl;
 
+    {
+        std::cout << "\nMore test's: ";
+        ft::vector<int> ft_vec;
+        std::vector<int> std_vec;
+        
+        ft_vec.insert(ft_vec.begin() + 4, 20);
+        std_vec.insert(std_vec.begin() + 4, 20);
+        compare_vec(ft_vec, std_vec);
+        
+
+        ft::vector<int>::iterator ft_pos = ft_vec.insert(ft_vec.begin(), 20);
+        std::vector<int>::iterator std_pos = std_vec.insert(std_vec.begin(), 20);
+
+        if (*ft_pos == *std_pos)
+        {
+            compare_vec(ft_vec, std_vec);
+        } else {
+            std::cerr << RED << "[ KO Insert Return has different values ] " << RESET << std::endl;
+        }
+
+        ft_pos = ft_vec.insert(ft_vec.end(), 25);
+        std_pos = std_vec.insert(std_vec.end(), 25);
+        
+
+        if (*ft_pos == *std_pos)
+        {
+            compare_vec(ft_vec, std_vec);
+        } else {
+            std::cerr << RED << "[ KO Insert Return has different values ] " << RESET << std::endl;
+        }
+
+        ft::vector<int> ft_vec2(10, 23);
+        std::vector<int> std_vec2(10, 23);
+
+        ft_vec.insert(ft_vec.begin(), ft_vec2.begin() + 5, ft_vec2.begin() + 10);
+        std_vec.insert(std_vec.begin(), std_vec2.begin() + 5, std_vec2.begin() + 10);
+        compare_vec(ft_vec, std_vec);
+
+    }
+    std::cout << std::endl << std::endl;
 
 }

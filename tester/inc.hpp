@@ -72,8 +72,6 @@ int    compare_vec(ft::vector<T> ft_vec, std::vector<T> std_vec)
     if (ft_vec.size() != std_vec.size())
         return (wrong_msg("Vectors Size is different", ft_vec.size(), std_vec.size()));
 
-    // std::cout << "ft cap: " << ft_vec.capacity() << " std cap: " << std_vec.capacity() << std::endl;
-
     if (ft_vec.capacity() != std_vec.capacity())
         return (wrong_msg("Vectors Capacity is different", ft_vec.capacity(), std_vec.capacity()));
 
