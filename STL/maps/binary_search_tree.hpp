@@ -4,120 +4,137 @@
 #include <utility>
 #include <string>
 #include <iostream>
+#include <memory>
 
+template <typename key, typename T, typename allocator = std::allocator<std::pair<key, T> > >
 class bst {
     
     public:
 
         typedef std::pair<std::string, int> value_type;
+		typedef allocator			        allocator_type;
         
         typedef struct s_node
         {
-            value_type _data;
-            struct s_node *_left;
-            struct s_node *_right;
+            public:
+
+                s_node(value_type type) {
+                    _data = type;
+                    _left = NULL;
+                    _right = NULL;
+                };
+
+                friend std::ostream &operator<<(std::ostream &out, const struct s_node &node)
+                {
+                    out << "data: " << "[" << node._data.first << "] [" << node._data.second << "]\n";
+                    return (out); 
+                }
+
+                value_type _data;
+                struct s_node *_left;
+                struct s_node *_right;
+                allocator_type _alloc;
+
         } t_node;
 
-        bst()
-        {
-            head = new t_node;
-            head->_data = std::make_pair("random", 3);
-            head->_left = NULL;
-            head->_right = NULL;
-        }
+    
+        typedef std::allocator<t_node>      allocator_node;
 
-        bool    compare(const std::pair<std::string, int>& elem, const std::pair<std::string, int>& toAdd)
+        bool    compare(const value_type &elem, const value_type &toAdd)
         {
-            // random vs random2
             return (elem.first < toAdd.first);
         }
+        
+        bst() : _head(NULL) cmp_ptr() {}
 
         ~bst() {};
 
-        void    add_node(t_node *node, const std::pair<std::string, int>& type)
+        void    wrapper_add_node(t_node *node, const value_type &type)
         {
-            static int counter = 0;
             if (!compare(node->_data, type)) {
-                // std::cout << "smaller\n";
-
                 if (node->_left == NULL) {
-                    node->_left = new t_node;
-                    node->_left->_data = type;
-                    // std::cout << counter++ << ": " << node->_left->_data.first << " (left) " << std::endl;
-                } else {
-                    // std::cout << "(left) no add\n";
-                    add_node(node->_left, type);
+                    node->_left = _alloc_node.allocate(1);
+                    _alloc_node.construct(node->_left, t_node(type));
+                    return ;
                 }
-            } else {
-                // std::cout << "bigger\n";
+                wrapper_add_node(node->_left, type);
+            } 
+            else {
                 if (node->_right == NULL) {
-                    node->_right = new t_node;
-                    node->_right->_data = type;
-                    // std::cout << counter++ << ": " << node->_right->_data.first << " (right) " << std::endl;
-                } else {
-                    // std::cout << "(right) no add\n";
-                    add_node(node->_right, type);
+                    node->_right = _alloc_node.allocate(1);
+                    _alloc_node.construct(node->_right, t_node(type));
+                    return ;
                 }
+                wrapper_add_node(node->_right, type);
             }
         }
 
-        int find_width(t_node *node, int w)
-        {
-            static int ret = 0;
-            int save_ret;
-
-            if (w > ret)
-                ret = w;
-            if (node->_left != NULL)
-                if ((save_ret = find_width(node->_left, ++w)) > ret)
-                    ret = save_ret;
-            if (node->_right != NULL)
-                if ((save_ret = find_width(node->_right, ++w)) > ret)
-                    ret = save_ret;
-
-            if (node == head)
-                return (ret - 1);
-            return (w);
-        }
-
-        void    print_bst() {
-            static int nv = 1;
-            static t_node *my_node = head;
-            int i = 0;
-            int width = find_width(head, 0);
-            std::cout << "width: " << width << std::endl;
-            return;
-            if (nv == 1) {
-                std::cout << "\t\t" << head->_data.first << "\t\t\n";
-            }
-            static t_node *myLeft = head->_left;
-            static t_node *myRight = head->_right;
-            std::cout << "Chegou aqui!\n";
-            while (i < nv)
+        void    add_node(const value_type &type)
+        {  
+            if (_head == NULL)
             {
-                if (myLeft != NULL)
-                    std::cout << "\t" << myLeft->_data.first << "\t";
-                if (myRight != NULL)
-                    std::cout << "\t" << myRight->_data.first << "\t";
-                i++;
-                if (i == nv)
-                    std::cout << "\n";
+                _head = _alloc_node.allocate(1);
+                _alloc_node.construct(_head, t_node(type));
             }
-            nv++;
-            my_node = myLeft;
-            if (!myLeft && !myRight)
-                return ;
-            print_bst();
+            else
+                wrapper_add_node(getHead(), type);
         }
 
-        t_node *getHead() const
-        {
-            return (head);
-        }
+        // int find_width(t_node *node, int w)
+        // {
+        //     static int ret = 0;
+        //     int save_ret;
+
+        //     if (w > ret)
+        //         ret = w;
+        //     if (node->_left != NULL)
+        //         if ((save_ret = find_width(node->_left, ++w)) > ret)
+        //             ret = save_ret;
+        //     if (node->_right != NULL)
+        //         if ((save_ret = find_width(node->_right, ++w)) > ret)
+        //             ret = save_ret;
+
+        //     if (node == _head)
+        //         return (ret - 1);
+        //     return (w);
+        // }
+
+        // void    print_bst(t_node *node) {
+        //     static size_t nv = 1;
+        //     static t_node *my_node = head;
+        //     size_t width = find_width(head, 0);
+        //     static size_t size = 71;
+
+        //     if (nv == 1) 
+        //         std::cout << "\t\t" << _head->_data.first << "\t\t\n";
+
+        //     static t_node *myLeft = _head->_left;
+        //     static t_node *myRight = _head->_right;
+        //     for (size_t i = 0; i < nv; i++)
+        //     {
+        //         if (myLeft != NULL)
+        //             std::cout << std::string(width / 65, ' ') << myLeft->_data.first << "\t";
+        //         if (myRight != NULL)
+        //             std::cout << "\t" << myRight->_data.first << "\t";
+        //         i++;
+        //         if (i == nv)
+        //             std::cout << "\n";
+        //     }
+        //     nv++;
+        //     // my_node = myLeft;
+        //     if (!myLeft && !myRight)
+        //         return ;
+        //     print_bst();
+        // }
+
+        t_node *getHead() const { return (_head); }
 
     private:
 
-        t_node *head;
+        allocator_type _alloc;
+        allocator_node _alloc_node;
+        t_node *_head;
+        bool    (*cmp_ptr)(const value_type&, const value_type&);    
 };
 
 #endif

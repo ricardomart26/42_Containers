@@ -6,6 +6,7 @@
 #include "../vector/random_access_it.hpp"
 #include "../vector/reverse_iterator.hpp"
 #include "../utils/type_traits.hpp"
+#include "binary_search_tree.hpp"
 
 namespace ft {
 
@@ -18,7 +19,7 @@ namespace ft {
 
 	template <typename key, typename T, 
 	typename compare = less<key>, typename allocator = std::allocator<ft::pair<const key, T> > >
-	class map 
+	class map
 	{
 		public:
 
@@ -51,13 +52,10 @@ namespace ft {
 
 			//https://www.cplusplus.com/reference/map/map/map/
 			// map();
-			explicit map(const compare &comp = compare(),
-			const allocator &alloc = allocator_type())
-			: _size(0) 
+			explicit map(const compare &comp = compare(), const allocator &alloc = allocator_type())
+			: _size(0), _tree(comp), _alloc(alloc)
 			{
-				const key myKey;
-				comp(myKey, "Chalupa");
-				_alloc = alloc;
+
 			}
 	
 			template <typename InputIterator>
@@ -193,6 +191,8 @@ namespace ft {
 			size_t		_size;
 			allocator	_alloc;
 			value_type	*_arr;
+
+			bst<key, T>	_tree;
 	};
 }
 

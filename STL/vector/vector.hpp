@@ -269,7 +269,7 @@ namespace ft
 
 			template <typename InputIterator>
 			void	insert(iterator position, InputIterator first, InputIterator last,
-			typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type = 0) // Nao esta bem feito
+			typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type* = 0) // Nao esta bem feito
 			{
 				size_t n = 0;
 				iterator it = begin();
