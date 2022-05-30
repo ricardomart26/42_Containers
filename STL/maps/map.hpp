@@ -23,9 +23,9 @@ namespace ft {
 	{
 		public:
 
-			typedef random_access_it <map <key, T> >				iterator;
-			typedef random_access_it <map <const key, T> > 		const_iterator;
-			typedef reverse_iterator <map <key, T> >				reverse_iterator;
+			typedef map_iterator<map <key, T> >					iterator;
+			typedef map_iterator<map <const key, T> > 			const_iterator;
+			typedef reverse_iterator<map <key, T> >				reverse_iterator;
 			// // typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
 			typedef	key											key_type;
 			typedef T 											mapped_type;
@@ -39,13 +39,6 @@ namespace ft {
 			typedef typename allocator_type::const_pointer		const_pointer;
 			typedef typename allocator_type::difference_type	difference_type;
 		
-			typedef struct s_node
-			{
-				value_type data;
-				struct s_node *left;
-				struct s_node *right;
-			} t_node;
-
 			/**
 			 *		Contructores
 			*/
@@ -53,10 +46,7 @@ namespace ft {
 			//https://www.cplusplus.com/reference/map/map/map/
 			// map();
 			explicit map(const compare &comp = compare(), const allocator &alloc = allocator_type())
-			: _size(0), _tree(comp), _alloc(alloc)
-			{
-
-			}
+			: _size(0), _alloc(alloc), _tree(comp) {}
 	
 			template <typename InputIterator>
 			map(InputIterator first, InputIterator last,
@@ -127,10 +117,14 @@ namespace ft {
 			 */
 			
 			// https://www.cplusplus.com/reference/map/map/insert/
+			// value = <vector, int>
 			ft::pair<iterator, bool>	insert(const value_type &val)
 			{
-				return (ft::pair<typename value_type::first_type::iterator, ft::true_type>());
+				_tree.add_node(val);
+				ft::pair <iterator, ft::true_type> ret;
+				return (ft::make_pair(it, true));
 			};
+
 			iterator	insert(iterator position, const value_type &val);
 			template <typename InputIterator>
 			void	insert(InputIterator first, InputIterator last);
@@ -192,7 +186,7 @@ namespace ft {
 			allocator	_alloc;
 			value_type	*_arr;
 
-			bst<key, T>	_tree;
+			bst<key_type, mapped_type, value_compare>	_tree;
 	};
 }
 
