@@ -34,10 +34,10 @@
 
 void	assign_test()
 {
+    std::cout << std::endl << std::endl;
 	std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
     std::cout << "||" << BLUE << std::string(23, '#') << RESET << "Assign" << BLUE << std::string(23, '#') << RESET << "||\n";
     std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
-    std::cout << std::endl << std::endl;
 
 	std::cout << "Assign Fill: ";
 

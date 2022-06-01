@@ -11,13 +11,18 @@ int main(void)
         std::cout << "\n\t--------------------------------------\n";
         std::cout << "\t\t      make_pair \n";
         std::cout << "\t--------------------------------------\n\n";
-        ft::pair <int,int> foo;
+        ft::pair <std::string::iterator, ft::true_type> foo;
         ft::pair <int,int> bar;
 
-        foo = ft::make_pair (10,20);
+        ft::pair <std::string::iterator, ft::true_type> tee(foo);
+
+        std::cout << tee.second << std::endl;
+        // foo = ft::make_pair (10,20);
         bar = ft::make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
 
-        std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
+
+
+        std::cout << "foo: " << foo.second << ", " << foo.second << '\n';
         std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
 
         return 0;

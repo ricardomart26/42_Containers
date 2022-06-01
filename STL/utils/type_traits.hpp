@@ -25,37 +25,37 @@ namespace ft
     typedef integral_constant<bool, false>		false_type;
 
     template<typename>
-    struct is_integral_helper : public false_type { };
+    struct is_integral_helper : public false_type {};
 
     template<>
-    struct is_integral_helper<bool> : public true_type { };
+    struct is_integral_helper<bool> : public true_type {};
 
     template<>
-    struct is_integral_helper<char> : public true_type { };
+    struct is_integral_helper<char> : public true_type {};
 
     template<>
-    struct is_integral_helper<signed char> : public true_type { };
+    struct is_integral_helper<signed char> : public true_type {};
 
     template<>
-    struct is_integral_helper<unsigned char> : public true_type { };
+    struct is_integral_helper<unsigned char> : public true_type {};
 
     template<>
-    struct is_integral_helper<wchar_t> : public true_type { };
+    struct is_integral_helper<wchar_t> : public true_type {};
 
     template<>
-    struct is_integral_helper<short> : public true_type { };
+    struct is_integral_helper<short> : public true_type {};
 
     template<>
-    struct is_integral_helper<int> : public true_type { };		// char16_t
+    struct is_integral_helper<int> : public true_type {};		// char16_t
 
     template<>
-    struct is_integral_helper<unsigned int> : public true_type { };		// char32_t
+    struct is_integral_helper<unsigned int> : public true_type {};		// char32_t
 
     template<>
-    struct is_integral_helper<long> : public true_type { };
+    struct is_integral_helper<long> : public true_type {};
 
     template<>
-    struct is_integral_helper<unsigned long> : public true_type { };
+    struct is_integral_helper<unsigned long> : public true_type {};
 
     // remove cv
 
