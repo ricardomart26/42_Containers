@@ -7,6 +7,9 @@
 // #include <exception>
 // #include <stdexcept>
 #include "../utils/type_traits.hpp"
+#include "../utils/lexical_compare.hpp"
+#include "../utils/equal.hpp"
+
 #include "reverse_iterator.hpp"
 #include "random_access_it.hpp"
 
@@ -24,9 +27,9 @@ namespace ft
 			typedef T* 									pointer;
 			typedef const T* 							const_pointer;
 			typedef random_access_it<vector<T> > 		iterator;
-			typedef random_access_it<vector<const T> > 	const_iterator;
-			typedef reverse_iterator<const_iterator >	const_reverse_iterator;
-			typedef reverse_iterator<iterator> 			reverse_iterator;
+			typedef random_access_it<vector<const T> >	const_iterator;
+			typedef reverse_iterator<<vector<const T> >	const_reverse_iterator;
+			typedef reverse_iterator<vector<T> > 		reverse_iterator;
 			typedef ptrdiff_t 							difference_type;
 			typedef size_t								size_type;
 
@@ -360,18 +363,28 @@ namespace ft
 			 *		Allocator
 			 */
 
-			allocator	get_allocator() const; // Nao esta feito
+			allocator	get_allocator() const { return _alloc; }
 
 			/**
 			 *	Relational operators - Non member functions overloads
 			 */
 
-			friend	bool	operator==(const vector &lhs, const vector &rhs); // Nao esta feito
-			friend	bool	operator!=(const vector &lhs, const vector &rhs); // Nao esta feito
-			friend	bool	operator<(const vector &lhs, const vector &rhs); // Nao esta feito
-			friend	bool	operator<=(const vector &lhs, const vector &rhs); // Nao esta feito
-			friend	bool	operator>(const vector &lhs, const vector &rhs); // Nao esta feito
-			friend	bool	operator>=(const vector &lhs, const vector &rhs); // Nao esta feito
+			friend	bool	operator==(const vector &lhs, const vector &rhs) { return (ft::equal(lhs.begin(), lhs.end(), rhs.begin())); }
+
+			friend	bool	operator!=(const vector &lhs, const vector &rhs) { return (!(lhs == rhs)); }
+
+			friend	bool	operator<(const vector &lhs, const vector &rhs); {
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+			}
+			
+			friend	bool	operator<=(const vector &lhs, const vector &rhs) {
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()) 
+				|| ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+			}
+			
+			friend	bool	operator>(const vector &lhs, const vector &rhs) { return (!(lhs <= rhs)); }
+			
+			friend	bool	operator>=(const vector &lhs, const vector &rhs) { return (!(lhs < rhs)); }
 
 
 			/**
