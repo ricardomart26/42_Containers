@@ -7,6 +7,8 @@
 #include "../vector/reverse_iterator.hpp"
 #include "../utils/type_traits.hpp"
 #include "binary_search_tree.hpp"
+#include "map_iterator.hpp"
+#include "map_reverse_it.hpp"
 
 namespace ft {
 
@@ -25,7 +27,7 @@ namespace ft {
 
 			typedef map_iterator<map <key, T> >					iterator;
 			typedef map_iterator<map <const key, T> > 			const_iterator;
-			typedef reverse_iterator<map <key, T> >				reverse_iterator;
+			typedef map_reverse_iterator<map <key, T> >			reverse_iterator;
 			// // typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
 			typedef	key											key_type;
 			typedef T 											mapped_type;
@@ -104,9 +106,7 @@ namespace ft {
 				for (size_t i = 0; i < _size; i++)
 				{
 					if (k == _arr->first)
-					{
 						return (_arr->second);
-					}
 					_arr++;
 				}
 				return (nullptr);

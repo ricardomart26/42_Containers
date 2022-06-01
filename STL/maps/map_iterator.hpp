@@ -12,7 +12,7 @@ namespace ft
             typedef typename map::value_type            value_type;
             typedef typename value_type::first_type     first_type;
             typedef typename value_type::second_type    second_type;
-            typedef typename map::value_type*            ;
+            typedef typename map::value_type*           pointer;
             typedef typename map::value_type&           reference;
             typedef typename map::difference_type       difference_type;
 
