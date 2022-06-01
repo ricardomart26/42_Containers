@@ -69,7 +69,7 @@ namespace ft
 
 			void    _wrapper_add_node_(t_node *node, const value_type &type)
 			{
-				if (!comp(node->_data, type)) {
+				if (!_comp(node->_data, type)) {
 					if (node->_left == NULL) {
 						node->_left = _alloc_node.allocate(1);
 						_alloc_node.construct(node->_left, t_node(type));

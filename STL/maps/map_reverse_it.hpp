@@ -3,8 +3,8 @@
 
 namespace ft
 {
-    template <typename map> // map é o objeto maptor<T>, e a partir do parametro do 
-    // do template conseguimos usar as variaveis que declaramos na classe do maptor
+    template <typename map> // map é o objeto mapr<T>, e a partir do parametro do 
+    // do template conseguimos usar as variaveis que declaramos na classe do map
     class map_reverse_iterator
     {
         public:

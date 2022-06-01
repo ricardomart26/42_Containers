@@ -16,10 +16,10 @@ namespace ft
 
             random_access_it(pointer ptr) : _ptr(ptr){} 
 
-            // random_access_it &operator=(const random_access_it &rhs)
-            // {
-            // 	_ptr = rhs._ptr;
-            // }
+            random_access_it &operator=(const random_access_it &rhs)
+            {
+            	_ptr = rhs._ptr;
+            }
 
             ~random_access_it() {};
             random_access_it &operator++()

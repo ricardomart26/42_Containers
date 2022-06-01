@@ -7,7 +7,6 @@
 
 int main( void )
 {
-    ft::map<std::vector<int>, int> map_test;
-    std::vector<int> vec;
-    map_test.insert(ft::make_pair(vec,  2));    
+    ft::map<std::string, int> map_test;
+    map_test.insert(ft::make_pair("random",  2));    
 }

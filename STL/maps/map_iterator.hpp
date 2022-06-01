@@ -3,26 +3,28 @@
 
 namespace ft
 {
-    template <typename map> // map é o objeto maptor<T>, e a partir do parametro do 
-    // do template conseguimos usar as variaveis que declaramos na classe do maptor
+    template <typename map> // map é o objeto map<T>, e a partir do parametro do 
+    // do template conseguimos usar as variaveis que declaramos na classe do map
     class map_iterator
     {
         public:
 
             typedef typename map::value_type            value_type;
-            typedef typename value_type::first_type     first_type;
-            typedef typename value_type::second_type    second_type;
+            typedef typename map::allocator_type        allocator_type;
+            typedef typename map::key_type              key_type;
+            typedef typename map::mapped_type           mapped_type;
             typedef typename map::value_type*           pointer;
             typedef typename map::value_type&           reference;
             typedef typename map::difference_type       difference_type;
 
-            map_iterator() : _ptr(NULL) {} 
+            map_iterator() : _ptr(NULL) {}
 
             map_iterator(pointer ptr) : _ptr(ptr) {} 
 
             map_iterator &operator=(const map_iterator &rhs)
             {
-            	_ptr = rhs._ptr;
+                _ptr = rhs._ptr;
+                return (*this);
             }
 
             ~map_iterator() {};
@@ -57,7 +59,7 @@ namespace ft
             reference operator*() { return *(_ptr);}
             difference_type operator - (const map_iterator &rhs) const {return (_ptr - rhs._ptr);}
             map_iterator operator + (const difference_type &rhs) const {return (_ptr + rhs);}
-            
+
             bool    operator == (const map_iterator &rhs) const {return _ptr == rhs._ptr;}
             bool    operator != (const map_iterator &rhs) const {return _ptr != rhs._ptr;}
             bool    operator > (const map_iterator &rhs) const {return _ptr > rhs._ptr;}

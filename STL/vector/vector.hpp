@@ -28,7 +28,7 @@ namespace ft
 			typedef const T* 							const_pointer;
 			typedef random_access_it<vector<T> > 		iterator;
 			typedef random_access_it<vector<const T> >	const_iterator;
-			typedef reverse_iterator<<vector<const T> >	const_reverse_iterator;
+			typedef reverse_iterator<vector<const T> >	const_reverse_iterator;
 			typedef reverse_iterator<vector<T> > 		reverse_iterator;
 			typedef ptrdiff_t 							difference_type;
 			typedef size_t								size_type;
@@ -373,7 +373,7 @@ namespace ft
 
 			friend	bool	operator!=(const vector &lhs, const vector &rhs) { return (!(lhs == rhs)); }
 
-			friend	bool	operator<(const vector &lhs, const vector &rhs); {
+			friend	bool	operator<(const vector &lhs, const vector &rhs) {
 				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 			}
 			

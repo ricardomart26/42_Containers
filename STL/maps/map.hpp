@@ -16,7 +16,7 @@ namespace ft {
 	template <typename T>
 	struct less {
 		public:
-			bool	operator()(const T& x, const T& y) const {return (x < y);};
+			bool	operator()(const T& x, const T& y) const {return (x < y);}
 	};
 
 	template <typename key, typename T, 
@@ -117,13 +117,13 @@ namespace ft {
 			 */
 			
 			// https://www.cplusplus.com/reference/map/map/insert/
-			// value = <vector, int>
-			ft::pair<iterator, bool>	insert(const value_type &val)
-			{
-				_tree.add_node(val);
-				ft::pair <iterator, ft::true_type> ret;
-				return (ft::make_pair(it, true));
-			};
+			// // value = <vector, int>
+			// ft::pair<iterator, bool>	insert(const value_type &val)
+			// {
+			// 	_tree.add_node(val);
+			// 	ft::pair <iterator, ft::true_type> ret;
+			// 	return (ft::make_pair(ret, true));
+			// };
 
 			iterator	insert(iterator position, const value_type &val);
 			template <typename InputIterator>
