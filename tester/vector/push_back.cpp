@@ -4,9 +4,9 @@
 void	push_back_test()
 {
     std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
-    std::cout << "||" << BLUE << std::string(20, '#') << RESET << "Push Back" << BLUE << std::string(19, '#') << RESET << "||\n";
+    std::cout << "||" << BLUE << std::string(22, '#') << RESET << "Push Back" << BLUE << std::string(21, '#') << RESET << "||\n";
     std::cout << "||" << BLUE << std::string(52, '#') << RESET << "||\n";
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl;
 
     std::cout << "Push back: ";
 

@@ -44,6 +44,7 @@ namespace ft
 			explicit vector(size_t n, const T &val = T(), const allocator_type& alloc = allocator_type())
 			:	_capacity(n), _size(n), _alloc(alloc)
 			{
+				std::cout << "Size: " << n << std::endl;
 				_arr = _alloc.allocate(n);
 				for (size_t i = 0; i < n; i++)
 					_alloc.construct(_arr + i, val);
@@ -120,10 +121,10 @@ namespace ft
 			
 			void	resize(size_t n, T val = T())
 			{
-				// // std::cout << "value: " << val << std::endl;
+				std::cout << "value: " << val << std::endl;
 				if (n == 0 && _size != 0)
 					_destroy_arr();
-				if (n < _size) 
+				else if (n < _size)
 				{
 					for (size_t i = n; i < _size; i++)
 						_alloc.destroy(_arr + i);
@@ -139,6 +140,7 @@ namespace ft
 					insert(begin(), n - _size, val);
 				}
 				_size = n;
+				_capacity = n;
 			} 
 			
 			size_t  capacity() const { return (_capacity); };

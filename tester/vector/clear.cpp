@@ -76,9 +76,8 @@ void	clear_test()
         ft_vec.clear();
         std_vec.clear();
         compare_vec(ft_vec, std_vec);
-
     }
 
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
 
 }

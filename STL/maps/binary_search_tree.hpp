@@ -19,15 +19,18 @@ namespace ft
 			typedef T									mapped_type;
 			typedef allocator							allocator_type;
 			typedef std::pair<key_type, mapped_type>	value_type;
+			typedef std::pair<key_type, mapped_type>*	pointer;
 			
 			typedef struct s_node
 			{
 				public:
 
-					s_node(value_type type) {
+					s_node(value_type &type) 
+					{
 						_data = type;
 						_left = NULL;
 						_right = NULL;
+						_parent = NULL;
 					};
 
 					friend std::ostream &operator<<(std::ostream &out, const struct s_node &node)
@@ -62,32 +65,22 @@ namespace ft
 			// {
 			//     return (elem.first < toAdd.first);
 			// }
-			
-			bst(const compare comp) : _head(NULL), _comp(comp) {}
 
-			~bst() {};
+			bst(const compare comp = compare()) : _head(NULL), _comp(comp) {}
 
-			void    _wrapper_add_node_(t_node *node, const value_type &type)
+			~bst() 
 			{
-				if (!_comp(node->_data, type)) {
-					if (node->_left == NULL) {
-						node->_left = _alloc_node.allocate(1);
-						_alloc_node.construct(node->_left, t_node(type));
-						node->_left->_parent = node;
-						return ;
-					}
-					_wrapper_add_node_(node->_left, type);
-				} 
-				else {
-					if (node->_right == NULL) {
-						node->_right = _alloc_node.allocate(1);
-						_alloc_node.construct(node->_right, t_node(type));
-						node->_right->_parent = node;
-						return ;
-					}
-					_wrapper_add_node_(node->_right, type);
-				}
+				if (_head->_left)
+					delete (_head->_left);
+				if (_head->_right)
+					delete (_head->_right);
+				delete (_head);
 			}
+
+			// void    _wrapper_add_node_(t_node *node, const value_type &type)
+			// {
+
+			// }
 
 			void    add_node(const value_type &type)
 			{  
@@ -95,9 +88,54 @@ namespace ft
 				{
 					_head = _alloc_node.allocate(1);
 					_alloc_node.construct(_head, t_node(type));
+					_lowest = type.first;
 				}
 				else
 					_wrapper_add_node_(getHead(), type);
+			}
+
+			void    new_add_node(const value_type &val)
+			{ 
+				static t_node *node = _head;
+				if (_head == NULL)
+				{
+					_head = _alloc_node.allocate(1);
+					_alloc_node.construct(_head, t_node(val));
+					_lowest = val.first;
+				}
+				else 
+				{
+					if (node->_data.first == val.first)
+						return ;
+					if (!_comp(node->_data, val)) 
+					{
+						if (node->_left == NULL)
+						{
+							node->_left = _alloc_node.allocate(1);
+							_alloc_node.construct(node->_left, t_node(val));
+							node->_left->_parent = node;
+							if (_lowest > val.first)
+								_lowest = val.first;
+							return ;
+						}
+						std::cout << node << std::endl;
+						node = node->_left;
+						new_add_node(val);
+					} 
+					else 
+					{
+						if (node->_right == NULL) 
+						{
+							node->_right = _alloc_node.allocate(1);
+							_alloc_node.construct(node->_right, t_node(val));
+							node->_right->_parent = node;
+							return ;
+						}
+						std::cout << node << std::endl;
+						node = node->_right;
+						new_add_node(val);
+					}
+				}
 			}
 
 			mapped_type	_wrapper_search_node_(const t_node *node, const key_type &find) const 
@@ -112,6 +150,13 @@ namespace ft
 				}
 			}
 
+			// pointer	find_min() const 
+			// {
+			// 	if (_lowest == )
+			// 	{
+					
+			// 	}
+			// }
 
 			mapped_type   &search_node(const key_type &find) const
 			{
@@ -166,7 +211,7 @@ namespace ft
 			//         return ;
 			//     print_bst();
 			// }
-
+			mapped_type	&getLowest() const {return (_lowest);}
 			t_node *getHead() const { return (_head); }
 
 		private:
@@ -175,6 +220,7 @@ namespace ft
 			allocator_node  _alloc_node;
 			t_node          *_head;
 			compare         _comp;
+			key_type		_lowest;
 			// bool    (*cmp_ptr)(const value_type&, const value_type&);    
 	};
 

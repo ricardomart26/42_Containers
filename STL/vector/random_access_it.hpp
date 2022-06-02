@@ -19,6 +19,7 @@ namespace ft
             random_access_it &operator=(const random_access_it &rhs)
             {
             	_ptr = rhs._ptr;
+                return (*this);
             }
 
             ~random_access_it() {};
