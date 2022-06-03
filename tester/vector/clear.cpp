@@ -27,7 +27,8 @@ void	clear_test()
 
         ft_vec.clear();
         std_vec.clear();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -39,7 +40,8 @@ void	clear_test()
 
         ft_vec.clear();
         std_vec.clear();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -49,7 +51,8 @@ void	clear_test()
 
         ft_vec.clear();
         std_vec.clear();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -62,7 +65,8 @@ void	clear_test()
 
         ft_vec.clear();
         std_vec.clear();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -75,7 +79,8 @@ void	clear_test()
 
         ft_vec.clear();
         std_vec.clear();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
     }
 
 	std::cout << std::endl << std::endl;

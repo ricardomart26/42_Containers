@@ -47,12 +47,14 @@ void	assign_test()
 	ft_vec.assign(ft_vec.size() + 5, 10);
 	std_vec.assign(std_vec.size() + 5, 10);
 
-	compare_vec(ft_vec, std_vec);
+	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;
 
     std::cout << "\nAssign Range: ";
 	ft_vec.assign(ft_vec.begin() + 5, ft_vec.end());
 	std_vec.assign(std_vec.begin() + 5, std_vec.end());
 	
-	compare_vec(ft_vec, std_vec);
-    std::cout << std::endl << std::endl;
+	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;
+	std::cout << std::endl << std::endl;
 }

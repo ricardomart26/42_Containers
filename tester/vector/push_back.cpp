@@ -27,7 +27,8 @@ void	push_back_test()
         std_vecA.push_back(i);
     }
     
-    compare_vec(ft_vecA, std_vecA);
+    if (compare_vec(ft_vecA, std_vecA) && compare_vec_ref(ft_vecA, std_vecA))
+		std::cout << GREEN << " [ OK ] " << RESET;
 
     for (int i = 0; i < MID; i++)
     {
@@ -35,11 +36,13 @@ void	push_back_test()
         std_vecB.push_back(i);
     }
 
-    compare_vec(ft_vecB, std_vecB);
+    if (compare_vec(ft_vecB, std_vecB) && compare_vec_ref(ft_vecB, std_vecB))
+		std::cout << GREEN << " [ OK ] " << RESET;
 
     std_vecB.push_back(420);
     ft_vecB.push_back(420);
-    compare_vec(ft_vecB, std_vecB);
+    if (compare_vec(ft_vecB, std_vecB) && compare_vec_ref(ft_vecB, std_vecB))
+		std::cout << GREEN << " [ OK ] " << RESET;
 
     for (int i = 0; i < HIGH; i++)
     {
@@ -47,7 +50,8 @@ void	push_back_test()
         std_vecC.push_back(i);
     }
 
-    compare_vec(ft_vecC, std_vecC);
+    if (compare_vec(ft_vecC, std_vecC) && compare_vec_ref(ft_vecC, std_vecC))
+		std::cout << GREEN << " [ OK ] " << RESET;
 
     for (int i = 0; i < CRAZY_HIGH; i++)
     {
@@ -55,7 +59,8 @@ void	push_back_test()
         std_vecD.push_back(i);
     }
 
-    compare_vec(ft_vecD, std_vecD);
+    if (compare_vec(ft_vecD, std_vecD) && compare_vec_ref(ft_vecD, std_vecD))
+		std::cout << GREEN << " [ OK ] " << RESET;
     
     std::cout << std::endl;
 }

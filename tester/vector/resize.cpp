@@ -34,7 +34,8 @@ void	resize_test()
 
         ft_vec.resize(10, 2);
         std_vec.resize(10, 2);
-        compare_vec(ft_vec, std_vec);
+        if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+            std::cout << GREEN << " [ OK ] " << RESET;
     }
 
     {
@@ -45,23 +46,30 @@ void	resize_test()
         ft_vec.resize(ft_vec.size() - 10);
         std_vec.resize(std_vec.size() - 10);
         print_vec_info(std_vec);
-        // compare_vec(ft_vec, std_vec);
+        compare_vec_ref(ft_vec, std_vec);
+        //	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
         ft_vec.resize(ft_vec.size() + 10);
         std_vec.resize(std_vec.size() + 10);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
+        compare_vec_ref(ft_vec, std_vec);
         
         ft_vec.resize(ft_vec.size());
         std_vec.resize(std_vec.size());
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
         
         ft_vec.resize(ft_vec.size(), 10);
         std_vec.resize(std_vec.size(), 10);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
         
         ft_vec.resize(ft_vec.size() + 5, 10);
         std_vec.resize(std_vec.size() + 5, 10);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -73,7 +81,8 @@ void	resize_test()
 
         ft_vec.resize(2, 2);
         std_vec.resize(2, 2);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 

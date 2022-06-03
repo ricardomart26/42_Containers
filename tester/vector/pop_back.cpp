@@ -14,7 +14,8 @@ void	pop_back_test()
 
     std_vec.pop_back();
     ft_vec.pop_back();
-    compare_vec(ft_vec, std_vec);
+   	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
 
     std::cout << "Pop full vec: ";
@@ -27,7 +28,8 @@ void	pop_back_test()
 
     std_vec.pop_back();
     ft_vec.pop_back();
-    compare_vec(ft_vec, std_vec);
+   	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
     {
 
@@ -44,7 +46,8 @@ void	pop_back_test()
 
         std_vec.pop_back();
         ft_vec.pop_back();
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;;
 
     }
 
@@ -56,7 +59,8 @@ void	pop_back_test()
         std_vec.pop_back();
     }
 
-    compare_vec(ft_vec, std_vec);
+   	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		std::cout << GREEN << " [ OK ] " << RESET;;
 
 
 }

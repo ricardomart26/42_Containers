@@ -9,10 +9,13 @@ void	constructor_test()
     std::cout << std::endl;
 
     std::cout << "Default Constructor: ";
-    compare_vec(ft::vector<int>(), std::vector<int>());
+    if (compare_vec(ft::vector<int>(), std::vector<int>()))
+        std::cout << GREEN << " [ OK ] " << RESET;
 
     std::cout << "\nFill Constructor: ";
-    compare_vec(ft::vector<int>(10), std::vector<int>(10));
+    if (compare_vec(ft::vector<int>(10), std::vector<int>(10)))
+		std::cout << GREEN << " [ OK ] " << RESET;
+
     compare_vec(ft::vector<int>(0), std::vector<int>(0));
     {
         try {
@@ -26,15 +29,20 @@ void	constructor_test()
             e.what();
         }
     }
-    compare_vec(ft::vector<int>(10, 2), std::vector<int>(10, 2));
-    compare_vec(ft::vector<int>(10, -1), std::vector<int>(10, -1));
-    compare_vec(ft::vector<int>(0, 3), std::vector<int>(0, 3));
+    if (compare_vec(ft::vector<int>(10, 2), std::vector<int>(10, 2)))
+        std::cout << GREEN << " [ OK ] " << RESET;
+    if (compare_vec(ft::vector<int>(10, -1), std::vector<int>(10, -1)))
+        std::cout << GREEN << " [ OK ] " << RESET;
+    if (compare_vec(ft::vector<int>(0, 3), std::vector<int>(0, 3)))
+        std::cout << GREEN << " [ OK ] " << RESET;
 
     std::cout << "\nRange Constructor: ";
 
     int arr[] = {1, 2, 5, 1, 2, 6, 3, 2};
-    compare_vec(ft::vector<int>(arr + 0, arr + 4), std::vector<int>(arr + 0, arr + 4));
-    compare_vec(ft::vector<int>(arr + 0, arr + 8), std::vector<int>(arr + 0, arr + 8));
+    if (compare_vec(ft::vector<int>(arr + 0, arr + 4), std::vector<int>(arr + 0, arr + 4)))
+        std::cout << GREEN << " [ OK ] " << RESET;
+    if (compare_vec(ft::vector<int>(arr + 0, arr + 8), std::vector<int>(arr + 0, arr + 8)))
+        std::cout << GREEN << " [ OK ] " << RESET;
 
     std::cout << "\nCopy Constructor: ";
     {
@@ -44,7 +52,9 @@ void	constructor_test()
         std::vector<int> std_vec_cp(std_vec);
         ft::vector<int> ft_vec_cp(ft_vec);
 
-        compare_vec(ft_vec_cp, std_vec_cp);
+        if (compare_vec(ft_vec_cp, std_vec_cp) && compare_vec_ref(ft_vec_cp, std_vec_cp))
+            std::cout << GREEN << " [ OK ] " << RESET;
+
     }
     
     {
@@ -54,7 +64,8 @@ void	constructor_test()
         std::vector<int> std_vec_cp(std_vec);
         ft::vector<int> ft_vec_cp(ft_vec);
 
-        compare_vec(ft_vec_cp, std_vec_cp);
+        if (compare_vec(ft_vec_cp, std_vec_cp) && compare_vec_ref(ft_vec_cp, std_vec_cp))
+            std::cout << GREEN << " [ OK ] " << RESET;
     }
     
     
@@ -65,7 +76,8 @@ void	constructor_test()
         std::vector<int> std_vec_cp(std_vec);
         ft::vector<int> ft_vec_cp(ft_vec);
 
-        compare_vec(ft_vec_cp, std_vec_cp);
+        if (compare_vec(ft_vec_cp, std_vec_cp) && compare_vec_ref(ft_vec_cp, std_vec_cp))
+            std::cout << GREEN << " [ OK ] " << RESET;
     }
     
 

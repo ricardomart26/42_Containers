@@ -58,16 +58,19 @@ void	insert_test()
 
         ft_vec.insert(ft_vec.begin(), 4);
         std_vec.insert(std_vec.begin(), 4);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.end(), 4);
         std_vec.insert(std_vec.end(), 4);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
 
         ft_vec.insert(ft_vec.end() - 5, 4);
         std_vec.insert(std_vec.end() - 5, 4);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
 
 	}
@@ -81,20 +84,24 @@ void	insert_test()
 
         ft_vec.insert(ft_vec.begin(), 4, 123);
         std_vec.insert(std_vec.begin(), 4, 123);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.begin(), 0, 123);
         std_vec.insert(std_vec.begin(), 0, 123);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.end(), 4, 123);
         std_vec.insert(std_vec.end(), 4, 123);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
 
         ft_vec.insert(ft_vec.end() - 5, 4, 123);
         std_vec.insert(std_vec.end() - 5, 4, 123);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
 	}
 
@@ -107,19 +114,23 @@ void	insert_test()
 
         ft_vec.insert(ft_vec.begin(), arr + 0, arr + 5);
         std_vec.insert(std_vec.begin(), arr + 0, arr + 5);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.end(), arr + 0, arr + 5);
         std_vec.insert(std_vec.end(), arr + 0, arr + 5);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.end() - 5, arr + 0, arr + 5);
         std_vec.insert(std_vec.end() - 5, arr + 0, arr + 5);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
         ft_vec.insert(ft_vec.begin() + 2, arr + 5, arr + 7);
         std_vec.insert(std_vec.begin() + 2, arr + 5, arr + 7);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
 	}
 
@@ -130,7 +141,8 @@ void	insert_test()
         
         ft_vec.insert(ft_vec.begin() + 4, 20);
         std_vec.insert(std_vec.begin() + 4, 20);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
         
 
         ft::vector<int>::iterator ft_pos = ft_vec.insert(ft_vec.begin(), 20);
@@ -138,7 +150,8 @@ void	insert_test()
 
         if (*ft_pos == *std_pos)
         {
-            compare_vec(ft_vec, std_vec);
+           	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		        std::cout << GREEN << " [ OK ] " << RESET;
         } else {
             std::cerr << RED << "[ KO Insert Return has different values ] " << RESET << std::endl;
         }
@@ -149,7 +162,8 @@ void	insert_test()
 
         if (*ft_pos == *std_pos)
         {
-            compare_vec(ft_vec, std_vec);
+           	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		        std::cout << GREEN << " [ OK ] " << RESET;
         } else {
             std::cerr << RED << "[ KO Insert Return has different values ] " << RESET << std::endl;
         }
@@ -159,7 +173,8 @@ void	insert_test()
 
         ft_vec.insert(ft_vec.begin(), ft_vec2.begin() + 5, ft_vec2.begin() + 10);
         std_vec.insert(std_vec.begin(), std_vec2.begin() + 5, std_vec2.begin() + 10);
-        compare_vec(ft_vec, std_vec);
+       	if (compare_vec(ft_vec, std_vec) && compare_vec_ref(ft_vec, std_vec))
+		    std::cout << GREEN << " [ OK ] " << RESET;
 
     }
     std::cout << std::endl << std::endl;

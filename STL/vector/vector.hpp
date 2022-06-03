@@ -106,7 +106,7 @@ namespace ft
 			 */
 	
 			size_t	size() const {return (_size);}
-			size_t max_size() const {return (_alloc.max_size());};
+			size_t max_size() const {return (_alloc.max_size());}
 			
 			// https://www.cplusplus.com/reference/vector/vector/resize/
 			/**
@@ -122,6 +122,8 @@ namespace ft
 			void	resize(size_t n, T val = T())
 			{
 				std::cout << "value: " << val << std::endl;
+				std::cout << "size: " << _size << std::endl;
+				std::cout << "n: " << n << std::endl;
 				if (n == 0 && _size != 0)
 					_destroy_arr();
 				else if (n < _size)
@@ -143,7 +145,7 @@ namespace ft
 				_capacity = n;
 			} 
 			
-			size_t  capacity() const { return (_capacity); };
+			size_t  capacity() const { return (_capacity); }
 
 			bool empty() const { return (_size == 0); }
 

@@ -6,14 +6,8 @@
 // #include <fstream>
 #include <vector>
 #include <algorithm>
+#include "colors.h"
 
-// #include "../STL/vector/vector.hpp"
-#define	GREEN "\033[0;32m"
-#define	RED "\033[31m"
-#define YELLOW  "\033[33m"
-#define BLUE    "\033[34m"      /* Blue */
-
-#define	RESET "\033[0m"
 #define TEST_SIZE 16
 
 #define LOW 10
@@ -60,11 +54,49 @@ template    <typename T>
 int    wrong_msg(const std::string &err, T ft, T std)
 {
     std::cerr << RED << " [ KO " << err << ": (ft = " << ft << " and std = " << std << ")] " << RESET;
-    return (-1);
+    return (0);
 }
 
 template <typename T>
 int    compare_vec(ft::vector<T> ft_vec, std::vector<T> std_vec)
+{
+    if (ft_vec.empty() != std_vec.empty())
+        return (wrong_msg("(Copy) Vectors Empty func different", ft_vec.empty(), std_vec.empty()));
+
+    if (ft_vec.size() != std_vec.size())
+        return (wrong_msg("(Copy) Vectors Size is different", ft_vec.size(), std_vec.size()));
+
+    if (ft_vec.capacity() != std_vec.capacity())
+        return (wrong_msg("(Copy) Vectors Capacity is different", ft_vec.capacity(), std_vec.capacity()));
+
+    ft::vector<int>::iterator ft_it = ft_vec.begin();
+    std::vector<int>::iterator std_it = std_vec.begin();
+
+    for (; ft_it != ft_vec.end() && std_it != std_vec.end(); ft_it++, std_it++)
+    {
+        if (*ft_it != *std_it)
+        {
+            std::cerr << RED << "[ KO Vectors Elements are different ] " << RESET << std::endl;
+            ft_it = ft_vec.begin();
+            std::cout << "\nFT ELEMENTS: [ ";
+            for (; ft_it != ft_vec.end(); ft_it++)
+                std::cout << *ft_it << ", ";
+            std::cout << "\\0 ]\n";
+
+            std_it = std_vec.begin();
+            std::cout << "STD ELEMENTS: [ ";
+            for (; std_it != std_vec.end(); std_it++)
+                std::cout << *std_it << ", ";
+            std::cout << "\\0 ]\n\n";
+            return (0);
+        }
+    }
+    std::cout << GREEN << " [ OK ] " << RESET;
+    return (1);
+}
+
+template <typename T>
+int    compare_vec_ref(ft::vector<T> &ft_vec, std::vector<T> &std_vec)
 {
     if (ft_vec.empty() != std_vec.empty())
         return (wrong_msg("Vectors Empty func different", ft_vec.empty(), std_vec.empty()));
@@ -94,11 +126,10 @@ int    compare_vec(ft::vector<T> ft_vec, std::vector<T> std_vec)
             for (; std_it != std_vec.end(); std_it++)
                 std::cout << *std_it << ", ";
             std::cout << "\\0 ]\n\n";
-            return (-1);
+            return (0);
         }
     }
-    std::cout << GREEN << " [ OK ] " << RESET;
-    return (0);
+    return (1);
 }
 
 
