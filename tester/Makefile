@@ -4,7 +4,12 @@ VEC_SRC = compare.cpp vector/constructor.cpp vector/push_back.cpp vector/max_siz
 		vector/assign.cpp vector/at.cpp vector/back.cpp vector/clear.cpp vector/erase.cpp vector/front.cpp \
 		vector/get_allocator.cpp vector/insert.cpp vector/op.cpp vector/pop_back.cpp vector/reserve.cpp vector/swap.cpp
 
+VEC_GR = compare.cpp
+
 all: $(NAME)
+
+graphic:
+	$(CC) $(VEC_GR) -D "FT=0" -o vecTest
 
 $(NAME): vec_test
 

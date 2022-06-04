@@ -2,12 +2,12 @@
 #define COLORS_HPP
 
 #define BLACK "\e[0;30m"
-#define BLACK_BLUE "\e[100m\e[1;34m"
+#define BLUE_BOLD "\e[1;33m"
 #define RED "\e[0;31m"
 #define GREEN "\e[0;32m"
 #define YELLOW "\e[0;33m"
-#define BLUE "\e[0;34m"
-#define MAGENTA "\e[0;35m"
+#define BLUE "\e[0;31m"
+#define MAGENTA "\e[1;33m"
 #define CYANO "\e[0;36m"
 #define WHITE "\e[0;37m"
 

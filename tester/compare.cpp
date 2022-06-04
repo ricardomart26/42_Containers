@@ -34,33 +34,50 @@ int    print_table()
     {
         static std::string n[TEST_SIZE + 1] = {"Do All", "Constructor", "Push back", "Max size", "Resize", "Assign", "At", "Back"
         , "Clear", "Erase", "Front", "Get Allocator", "Insert", "Pop Back", "Reserve", "Swap" , "Operators"};
-        
-        std::cout << "//" << std::string(51, '=') << "\\\\\n";
-        std::cout << "█" << BLACK_BLUE << std::string(51, ' ') << RESET << "█\n";
-        std::cout << "█" << BLACK_BLUE << std::string(22, ' ') <<  "VECTOR" << std::string(23, ' ') << RESET << "█\n";
-        std::cout << "█" << BLACK_BLUE << std::string(51, ' ') << RESET << "█\n";
+
+        std::cout <<  RED<< "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" << RESET <<  "\n";
+        std::cout << RED << "█" << YELLOW << std::string(23, ' ') <<  "VECTOR" << std::string(23, ' ') << RED<< "█\n";
+        std::cout << RED << "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" <<  "\n";
         if (counter < 0)
             counter = 16;
         for (size_t i = 0; i < TEST_SIZE + 1; i++)
         {
             if (counter % 17 == i)
-                std::cout << "█" << std::string(51, '-') << "█\n" 
-                << "█\t" << RED << i << ".\t" << RESET << "|\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << "█\n";
+            {
+                if (counter % 17 != 16 && i != 0)
+                {
+                    std::cout << RED << "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" << "\n";
+                    std::cout << "█\t" << RESET << RED << i << ".\t|\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << RED<< "█\n" << RESET;
+                    std::cout << RED << "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" << "\n";
+                } 
+                else if (i != 0)
+                {
+                    std::cout << RED << "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" << "\n";
+                    std::cout << "█\t" << RESET << RED << i << ".\t|\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << RED<< "█\n" << RESET;
+                } 
+                else
+                {
+                    std::cout << "█\t" << RESET << RED << i << ".\t|\t" << YELLOW << n[i] << std::string(29 - n[i].size(), ' ') << RESET << RED<< "█\n" << RESET;
+                    std::cout << RED << "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█" << "\n";
+                }
+            }
             else
-                std::cout << "█" << std::string(51, '-') << "█\n█\t" << i << ".\t|\t" << n[i] << std::string(29 - n[i].size(), ' ') << "█\n";
-                
+            {
+                if (counter % 17 == i - 1)
+                    std::cout << "█\t" << RESET << i << ".\t|\t" << n[i] << std::string(29 - n[i].size(), ' ') << RED<< "█\n" << RESET;
+                else
+                {
+                    if (i != 0)
+                        std::cout << RED << "█" << RESET << std::string(52, '-') << RED<< "█\n";
+                    else
+                    {
+                    }
+                    std::cout << "█\t" << RESET << i << ".\t|\t" << n[i] << std::string(29 - n[i].size(), ' ') << RED<< "█\n" << RESET;
+                        // std::cout << "█" << std::string(50, ' ') << "█\n";
+                }
+            }
         }
-        std::cout << "█" << std::string(51, '-') << "█\n";
-	    std::cout << "✎" << std::string(51, '▁') << "╝\n";
-
-
-        std::cout << "█" << std::endl;
-// █████╗░███████╗░██████╗██████╗░███████╗░██████╗██████╗░███████╗
-// ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝
-// ██║░░██║█████╗░░╚█████╗░██║░░██║█████╗░░╚█████╗░██║░░██║█████╗░░
-// ██║░░██║██╔══╝░░░╚═══██╗██║░░██║██╔══╝░░░╚═══██╗██║░░██║██╔══╝░░
-// ██████╔╝██║░░░░░██████╔╝██████╔╝██║░░░░░██████╔╝██████╔╝██║░░░░░
-// ╚═════╝░╚═╝░░░░░╚═════╝░╚═════╝░╚═╝░░░░░╚═════╝░╚═════╝░╚═╝░░░░░
+	    std::cout <<  RED<< "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█" << RESET <<  "\n";
 
         char answer = get_keys();
 
@@ -77,16 +94,17 @@ int    print_table()
 
 void    vector_test()
 {
-    void (*fn[TEST_SIZE])() = {&constructor_test, &push_back_test, &max_size_test, &resize_test,  &assign_test,  &at_test,
-    &back_test,  &clear_test,  &erase_test,  &front_test,  &get_allocator_test,  &insert_test,  &pop_back_test, &reserve_test,
-    &swap_test, &op_test};
+    // void (*fn[TEST_SIZE])() = {&constructor_test, &push_back_test, &max_size_test, &resize_test,  &assign_test,  &at_test,
+    // &back_test,  &clear_test,  &erase_test,  &front_test,  &get_allocator_test,  &insert_test,  &pop_back_test, &reserve_test,
+    // &swap_test, &op_test};
 
-    int answer = print_table();
-    if (answer % 17 == 0)
-        for (int i = 0; i < TEST_SIZE; i++)
-            fn[i]();
-    else
-        fn[answer % 17]();
+    // int answer = 
+    print_table();
+    // if (answer % 17 == 0)
+    //     for (int i = 0; i < TEST_SIZE; i++)
+    //         fn[i]();
+    // else
+    //     fn[answer % 17]();
 
     std::cout << "Do you want to do another test? ";
     std::string line;
@@ -105,9 +123,9 @@ int main()
         std::cout << "\nWhich STL you want to test?\n";
 
         if (counter % 2 == 0)
-            std::cout << YELLOW <<"\n\t -> Vector " << RESET << "\n\tMap\n\n";
+            std::cout << YELLOW <<"\n\t ➾ Vector " << RESET << "\n\tMap\n\n";
         else
-            std::cout << "\n\tVector " << YELLOW << "\n\t -> Map\n\n" RESET;
+            std::cout << "\n\tVector " << YELLOW << "\n\t ➾ Map\n\n" RESET;
 
         char answer = get_keys();
 
