@@ -9,12 +9,10 @@
 
 namespace ft 
 {
-
 	template <typename key, typename T, typename compare = std::less<key>, typename allocator = std::allocator<std::pair<key, T> > >
 	class bst {
 
 		public:
-
 			typedef key									key_type;
 			typedef T									mapped_type;
 			typedef allocator							allocator_type;
@@ -39,15 +37,9 @@ namespace ft
 						return (out); 
 					}
 
-					key_type	&getKey() const 
-					{
-						return (_data.first);
-					}
+					key_type	&getKey() const  { return (_data.first); }
 
-					mapped_type	&getMapped() const 
-					{
-						return (_data.second);
-					}
+					mapped_type	&getMapped() const { return (_data.second); }
 
 
 					value_type _data;

@@ -13,8 +13,6 @@ char    get_keys()
     struct termios save = old;
     old.c_lflag &= ~ICANON;
     old.c_lflag &= ~ECHO;
-    old.c_cc[VMIN] = 1;
-    old.c_cc[VTIME] = 0;
     tcsetattr(0, TCSANOW, &old);
 
     char answer = getchar();

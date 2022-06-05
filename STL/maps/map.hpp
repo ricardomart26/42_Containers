@@ -156,7 +156,7 @@ namespace ft {
 			 */
 
 			// https://www.cplusplus.com/reference/map/map/find/
-			iterator	find(const key &k);
+			iterator		find(const key &k);
 			const_iterator	find(const key &k) const;
 
 			// https://www.cplusplus.com/reference/map/map/count/
@@ -177,7 +177,6 @@ namespace ft {
 			/**
 			 *		Allocator
 			 */
-
 			allocator get_allocator() const;
 
 		private:
@@ -185,7 +184,6 @@ namespace ft {
 			size_t		_size;
 			allocator	_alloc;
 			value_type	*_arr;
-
 			bst<key_type, mapped_type, value_compare>	_tree;
 	};
 }
