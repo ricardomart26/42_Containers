@@ -7,6 +7,38 @@
 #include <memory>
 #include "map.hpp"
 
+
+typedef struct s_node
+{
+	public:
+
+		s_node(value_type &type) 
+		{
+			_data = type;
+			_left = NULL;
+			_right = NULL;
+			_parent = NULL;
+		};
+
+		friend std::ostream &operator<<(std::ostream &out, const struct s_node &node)
+		{
+			out << "data: " << "[" << node._data.first << "] [" << node._data.second << "]\n";
+			return (out); 
+		}
+
+		key_type	&getKey() const  { return (_data.first); }
+
+		mapped_type	&getMapped() const { return (_data.second); }
+
+
+		value_type _data;
+		struct s_node *_left;
+		struct s_node *_right;
+		struct s_node *_parent;
+		allocator_type _alloc;
+
+} t_node;
+
 namespace ft 
 {
 	template <typename key, typename T, typename compare = std::less<key>, typename allocator = std::allocator<std::pair<key, T> > >
@@ -18,37 +50,6 @@ namespace ft
 			typedef allocator							allocator_type;
 			typedef std::pair<key_type, mapped_type>	value_type;
 			typedef std::pair<key_type, mapped_type>*	pointer;
-			
-			typedef struct s_node
-			{
-				public:
-
-					s_node(value_type &type) 
-					{
-						_data = type;
-						_left = NULL;
-						_right = NULL;
-						_parent = NULL;
-					};
-
-					friend std::ostream &operator<<(std::ostream &out, const struct s_node &node)
-					{
-						out << "data: " << "[" << node._data.first << "] [" << node._data.second << "]\n";
-						return (out); 
-					}
-
-					key_type	&getKey() const  { return (_data.first); }
-
-					mapped_type	&getMapped() const { return (_data.second); }
-
-
-					value_type _data;
-					struct s_node *_left;
-					struct s_node *_right;
-					struct s_node *_parent;
-					allocator_type _alloc;
-
-			} t_node;
 
 		
 			typedef std::allocator<t_node>      allocator_node;
@@ -69,10 +70,10 @@ namespace ft
 				delete (_head);
 			}
 
-			// void    _wrapper_add_node_(t_node *node, const value_type &type)
-			// {
+			void    _wrapper_add_node_(t_node *node, const value_type &type)
+			{
 
-			// }
+			}
 
 			void    add_node(const value_type &type)
 			{  
@@ -80,7 +81,6 @@ namespace ft
 				{
 					_head = _alloc_node.allocate(1);
 					_alloc_node.construct(_head, t_node(type));
-					_lowest = type.first;
 				}
 				else
 					_wrapper_add_node_(getHead(), type);
@@ -93,7 +93,6 @@ namespace ft
 				{
 					_head = _alloc_node.allocate(1);
 					_alloc_node.construct(_head, t_node(val));
-					_lowest = val.first;
 				}
 				else 
 				{
@@ -106,8 +105,6 @@ namespace ft
 							node->_left = _alloc_node.allocate(1);
 							_alloc_node.construct(node->_left, t_node(val));
 							node->_left->_parent = node;
-							if (_lowest > val.first)
-								_lowest = val.first;
 							return ;
 						}
 						std::cout << node << std::endl;
@@ -142,13 +139,27 @@ namespace ft
 				}
 			}
 
-			// pointer	find_min() const 
-			// {
-			// 	if (_lowest == )
-			// 	{
-					
-			// 	}
-			// }
+			get_next_node(const t_node *node, const key_type &find) const 
+			{
+				get_next_node(node->_left, find); // Ver se os lados estão certos
+				get_next_node(node->_right, find); // Ver se os lados estão certos
+			}
+
+			pointer	find_max() const 
+			{
+				t_node *temp = _head;
+				while (temp != NULL)
+					temp = temp->_right;
+				return (temp);
+			}
+
+			pointer	find_min() const 
+			{
+				t_node *temp = _head;
+				while (temp != NULL)
+					temp = temp->_left;
+				return (temp);
+			}
 
 			mapped_type   &search_node(const key_type &find) const
 			{
@@ -206,13 +217,12 @@ namespace ft
 			mapped_type	&getLowest() const {return (_lowest);}
 			t_node *getHead() const { return (_head); }
 
-		private:
+		protected:
 
 			allocator_type  _alloc;
 			allocator_node  _alloc_node;
 			t_node          *_head;
 			compare         _comp;
-			key_type		_lowest;
 			// bool    (*cmp_ptr)(const value_type&, const value_type&);    
 	};
 

@@ -28,7 +28,7 @@ namespace ft {
 			typedef map_iterator<map <key, T> >					iterator;
 			typedef map_iterator<map <const key, T> > 			const_iterator;
 			typedef map_reverse_iterator<map <key, T> >			reverse_iterator;
-			// // typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
+			// typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
 			typedef	key											key_type;
 			typedef T 											mapped_type;
 			typedef ft::pair<const key_type, mapped_type>		value_type;
