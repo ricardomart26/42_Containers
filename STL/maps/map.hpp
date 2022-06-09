@@ -25,8 +25,7 @@ namespace ft {
 	{
 		public:
 
-			typedef map_iterator<map <key, T> >					iterator;
-			typedef map_iterator<map <const key, T> > 			const_iterator;
+			typedef map_iterator<bst::iterator>					iterator;
 			typedef map_reverse_iterator<map <key, T> >			reverse_iterator;
 			// typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
 			typedef	key											key_type;
@@ -39,6 +38,7 @@ namespace ft {
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef map_iterator<bst::iterator>					const_iterator;
 			typedef typename allocator_type::difference_type	difference_type;
 		
 			/**
@@ -58,7 +58,7 @@ namespace ft {
 			map(const map &x);
 
 			// https://www.cplusplus.com/reference/map/map/~map/
-			~map();
+			~map() {};
 
 			// https://www.cplusplus.com/reference/map/map/operator=/
 			map	&operator=(const map &x);
@@ -117,15 +117,19 @@ namespace ft {
 			 */
 			
 			// https://www.cplusplus.com/reference/map/map/insert/
-			// // value = <vector, int>
-			// ft::pair<iterator, bool>	insert(const value_type &val)
-			// {
-			// 	_tree.add_node(val);
-			// 	ft::pair <iterator, ft::true_type> ret;
-			// 	return (ft::make_pair(ret, true));
-			// };
+			// value = <vector, int>
+			ft::pair<iterator, bool>	insert(const value_type &val)
+			{
+				_tree.add_node(val);
+				ft::pair <iterator, ft::true_type> ret;
+				return (ft::make_pair(ret, true));
+			};
 
-			iterator	insert(iterator position, const value_type &val);
+			// iterator	insert(iterator position, const value_type &val)
+			// {
+
+			// }
+
 			template <typename InputIterator>
 			void	insert(InputIterator first, InputIterator last);
 
@@ -181,10 +185,10 @@ namespace ft {
 
 		private:
 		
-			size_t		_size;
-			allocator	_alloc;
-			value_type	*_arr;
-			bst<key_type, mapped_type, value_compare>	_tree;
+			size_t							_size;
+			allocator						_alloc;
+			value_type						*_arr;
+			bst<value_type, value_compare>	_tree;
 	};
 }
 

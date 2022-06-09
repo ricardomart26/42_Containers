@@ -1,6 +1,6 @@
 NAME = map_test 
 
-CC = c++ -Wall -Wextra -Werror -fsanitize=address 
+CC = c++ -Wall -Wextra -Werror -fsanitize=address -g
 
 SRC = map_test.cpp 
 
