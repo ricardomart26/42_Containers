@@ -9,6 +9,7 @@
 #include "binary_search_tree.hpp"
 #include "map_iterator.hpp"
 #include "map_reverse_it.hpp"
+#include <string>
 
 namespace ft {
 
@@ -25,21 +26,21 @@ namespace ft {
 	{
 		public:
 
-			typedef map_iterator<bst::iterator>					iterator;
-			typedef map_reverse_iterator<map <key, T> >			reverse_iterator;
-			// typedef reverse_iterator <map <const key, T> >		const_reverse_iterator;
-			typedef	key											key_type;
-			typedef T 											mapped_type;
-			typedef ft::pair<const key_type, mapped_type>		value_type;
-			typedef compare										value_compare;
-			typedef	std::allocator_traits<value_type>			alloc_traits;
-			typedef	std::allocator<value_type>					allocator_type;
-			typedef typename allocator_type::reference			reference;
-			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer			pointer;
-			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef map_iterator<bst::iterator>					const_iterator;
-			typedef typename allocator_type::difference_type	difference_type;
+			typedef map_reverse_iterator<map <key, T> >								reverse_iterator;
+			// typedef reverse_iterator <map <const key, T> >						const_reverse_iterator;
+			typedef	key																key_type;
+			typedef T 																mapped_type;
+			typedef compare															value_compare;
+			typedef	allocator														allocator_type;
+			typedef typename allocator_type::value_type								value_type;
+			typedef typename allocator_type::reference								reference;
+			typedef typename allocator_type::const_reference						const_reference;
+			typedef typename allocator_type::pointer								pointer;
+			typedef typename allocator_type::const_pointer							const_pointer;
+			typedef	std::allocator_traits<value_type>								alloc_traits;
+			typedef map_iterator<typename bst<value_type, value_compare>::iterator>	const_iterator;
+			typedef map_iterator<typename bst<value_type, value_compare>::iterator>	iterator;
+			typedef typename allocator_type::difference_type						difference_type;
 		
 			/**
 			 *		Contructores
@@ -50,10 +51,8 @@ namespace ft {
 			explicit map(const compare &comp = compare(), const allocator &alloc = allocator_type())
 			: _size(0), _alloc(alloc), _tree(comp) {}
 	
-			template <typename InputIterator>
-			map(InputIterator first, InputIterator last,
-			const compare &comp = compare(),
-			const allocator &alloc = allocator_type());
+			template <typename inputIt>
+			map(inputIt first, inputIt last, const compare &comp = compare(), const allocator &alloc = allocator_type());
 
 			map(const map &x);
 
@@ -68,7 +67,10 @@ namespace ft {
 			 */
 			
 			// https://www.cplusplus.com/reference/map/map/begin/
-			iterator begin();
+			iterator begin()
+			{
+				return (iterator(_tree.find_min()));
+			}
 			const_iterator begin() const;
 
 			// https://www.cplusplus.com/reference/map/map/end/
@@ -120,8 +122,7 @@ namespace ft {
 			// value = <vector, int>
 			ft::pair<iterator, bool>	insert(const value_type &val)
 			{
-				_tree.add_node(val);
-				ft::pair <iterator, ft::true_type> ret;
+				iterator ret = _tree.add_node(val);
 				return (ft::make_pair(ret, true));
 			};
 

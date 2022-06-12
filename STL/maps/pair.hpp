@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include "../utils/type_traits.hpp"
+#include "map.hpp"
+#include <string>
+
 namespace ft 
 {
 	template <typename T1, typename T2>
@@ -17,16 +20,17 @@ namespace ft
 		pair() : first(), second() {}
 
 		template <class U, class V>
-		pair(const pair<U,V> &obj) : first(obj.first), second(obj.second) {std::cout << "Sou eu \n";}
+		pair(const pair<U,V> &obj) : first(obj.first), second(obj.second) {}
         
 		pair(const first_type &arg1, const second_type &arg2) : first(arg1), second(arg2) {}
 		
-		pair &operator=(const pair& rhs)
+		pair &operator=(const pair& rhs) 
 		{
-			if (this == &rhs)
-				return (*this);
-			first = rhs.first;
-			second = rhs.second;
+			if (this != &rhs)
+			{
+				first = rhs.first;
+				second = rhs.second;
+			}
 			return (*this);
 		}
 

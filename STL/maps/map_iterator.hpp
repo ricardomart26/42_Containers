@@ -5,19 +5,20 @@
 
 namespace ft
 {
-    template <typename bst> // map é o objeto map<T>, e a partir do parametro do 
+    template <typename bst_it> // map é o objeto map<T>, e a partir do parametro do 
     // do template conseguimos usar as variaveis que declaramos na classe do map
     class map_iterator
     {
         public:
 
-            typedef typename bst::value_type            value_type;
-            typedef typename bst::allocator_type        allocator_type;
-            typedef typename bst::key_type              key_type;
-            typedef typename bst::mapped_type           mapped_type;
-            typedef typename value_type*                pointer;
-            typedef typename value_type&                reference;
-            typedef typename bst::difference_type       difference_type;
+            typedef typename bst_it::value_type             value_type;
+            // typedef typename bst_it::allocator_type         allocator_type;
+            typedef typename bst_it::key_type               key_type;
+            typedef typename bst_it::mapped_type            mapped_type;
+            typedef typename bst_it::node*                  pointer;
+            // typedef typename value_type*                 pointer;
+            typedef value_type&                             reference;
+            typedef typename bst_it::difference_type        difference_type;
 
             map_iterator() : _ptr(NULL) {}
 

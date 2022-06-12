@@ -8,6 +8,8 @@
 int main( void )
 {
     ft::map<std::string, int> map_test;
+
+    map_test.insert(ft::make_pair(std::string("random"), 3));
     // map_test.insert(ft::make_pair("random",  2));    
     // ft::map<std::string, int> t;
     // ft::bst<std::string, int> ret;
